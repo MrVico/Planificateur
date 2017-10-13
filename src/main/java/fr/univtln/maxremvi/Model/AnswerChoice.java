@@ -5,26 +5,23 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
-@DatabaseTable(tableName = "Message")
-public class Message {
-    @DatabaseField(columnName = "idMessage", id = true)
+@DatabaseTable(tableName = "AnswerChoice")
+public class AnswerChoice {
+    @DatabaseField(columnName = "idAnswerChoice", id = true)
     private int id;
-    @DatabaseField(canBeNull = false)
-    private Person sender;
     @DatabaseField(canBeNull = false)
     private Poll poll;
     @DatabaseField(canBeNull = false)
-    private String content;
+    private String description;
     @DatabaseField(canBeNull = false)
     private Date creationDate;
 
-    public Message(){}
+    public AnswerChoice(){}
 
-    public Message(int id, Person sender, Poll poll, String content, Date creationDate) {
+    public AnswerChoice(int id, Poll poll, String description, Date creationDate) {
         this.id = id;
-        this.sender = sender;
         this.poll = poll;
-        this.content = content;
+        this.description = description;
         this.creationDate = creationDate;
     }
 
@@ -36,14 +33,6 @@ public class Message {
         this.id = id;
     }
 
-    public Person getSender() {
-        return sender;
-    }
-
-    public void setSender(Person sender) {
-        this.sender = sender;
-    }
-
     public Poll getPoll() {
         return poll;
     }
@@ -52,12 +41,12 @@ public class Message {
         this.poll = poll;
     }
 
-    public String getContent() {
-        return content;
+    public String getDescription() {
+        return description;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreationDate() {
