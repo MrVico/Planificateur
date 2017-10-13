@@ -10,7 +10,7 @@ public class AnswerChoice {
     @DatabaseField(columnName = "idAnswerChoice", id = true)
     private int id;
     @DatabaseField(canBeNull = false)
-    private Poll poll;
+    private fr.univtln.maxremvi.Model.Poll poll;
     @DatabaseField(canBeNull = false)
     private String description;
     @DatabaseField(canBeNull = false)
