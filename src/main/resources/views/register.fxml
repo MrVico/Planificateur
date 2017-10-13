@@ -44,7 +44,7 @@
         </GridPane>
         <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
             <children>
-                <Button mnemonicParsing="false" text="S'inscrire" StackPane.alignment="CENTER_RIGHT" onAction="#button_register_OnAction"/>
+                <Button mnemonicParsing="false" text="S'inscrire" StackPane.alignment="CENTER_RIGHT" onAction="#handleButtonRegisterClick"/>
             </children>
         </StackPane>
     </children>
