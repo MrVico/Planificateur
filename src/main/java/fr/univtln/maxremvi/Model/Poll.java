@@ -7,7 +7,8 @@ import java.util.Date;
 
 @DatabaseTable(tableName = "Poll")
 public class Poll {
-
+    //utile ?
+    private static int ID = 0;
     @DatabaseField(columnName = "idPoll",id = true, generatedId = true)
     private int id;
     @DatabaseField(canBeNull = false)
@@ -18,11 +19,12 @@ public class Poll {
     private String location;
     @DatabaseField
     private Date closingDate;
-    @DatabaseField(defaultValue = false)
+    @DatabaseField
     private boolean closed;
 
-    public Poll(int id, String title, String description, String location, Date closingDate, boolean closed) {
-        this.id = id;
+    public Poll(){}
+
+    public Poll(String title, String description, String location, Date closingDate, boolean closed) {
         this.title = title;
         this.description = description;
         this.location = location;
