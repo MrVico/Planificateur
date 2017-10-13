@@ -21,5 +21,13 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core -->
+    <dependency>
+      <groupId>com.j256.ormlite</groupId>
+      <artifactId>ormlite-core</artifactId>
+      <version>5.0</version>
+    </dependency>
+
   </dependencies>
 </project>
