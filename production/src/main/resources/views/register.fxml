@@ -9,8 +9,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.PasswordField?>
 
+<?import javafx.scene.control.PasswordField?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.Controller.RegisterController">
     <children>
@@ -44,7 +44,7 @@
         </GridPane>
         <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
             <children>
-                <Button mnemonicParsing="false" text="S'inscrire" StackPane.alignment="CENTER_RIGHT" onAction="#handleButtonRegisterClick"/>
+                <Button mnemonicParsing="false" text="S'inscrire" StackPane.alignment="CENTER_RIGHT" onAction="#button_register_OnAction"/>
             </children>
         </StackPane>
     </children>
