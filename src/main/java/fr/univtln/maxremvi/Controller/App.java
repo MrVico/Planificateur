@@ -13,6 +13,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        //PersonController personController=new PersonController();
+       // personController.addPerson("mguil","mguil","max","guil","max@guil");
         Parent root = FXMLLoader.load(getClass().getResource("/views/register.fxml"));
 
         Scene scene = new Scene(root, 300, 275);
