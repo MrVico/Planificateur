@@ -7,7 +7,7 @@ import java.util.Date;
 
 @DatabaseTable(tableName = "Message")
 public class Message {
-    @DatabaseField(columnName = "idMessage", id = true)
+    @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField(canBeNull = false)
     private Person sender;

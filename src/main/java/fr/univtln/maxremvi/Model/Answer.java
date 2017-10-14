@@ -11,7 +11,7 @@ import java.util.Date;
 public class Answer {
     @DatabaseField(foreign = true)
     private Person person;
-    @DatabaseField(foreign = true)
+    //@DatabaseField(foreign = true)
     private Poll poll;
     @DatabaseField(canBeNull = false)
     private Date creationDate;

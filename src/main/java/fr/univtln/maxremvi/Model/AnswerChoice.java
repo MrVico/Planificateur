@@ -7,10 +7,10 @@ import java.util.Date;
 
 @DatabaseTable(tableName = "AnswerChoice")
 public class AnswerChoice {
-    @DatabaseField(columnName = "idAnswerChoice", id = true)
+    @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField(canBeNull = false)
-    private fr.univtln.maxremvi.Model.Poll poll;
+    private Poll poll;
     @DatabaseField(canBeNull = false)
     private String description;
     @DatabaseField(canBeNull = false)

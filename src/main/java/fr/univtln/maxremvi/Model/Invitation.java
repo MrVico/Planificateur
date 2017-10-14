@@ -12,7 +12,7 @@ public class Invitation {
     private Person person;
     @DatabaseField(foreign = true)
     private Poll poll;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(foreign = true)
     private Person inviter;
     @DatabaseField(canBeNull = false)
     private boolean seen;

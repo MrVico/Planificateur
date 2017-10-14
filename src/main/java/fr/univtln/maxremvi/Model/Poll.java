@@ -9,7 +9,7 @@ import java.util.Date;
 public class Poll {
     //utile ?
     private static int ID = 0;
-    @DatabaseField(columnName = "idPoll",id = true, generatedId = true)
+    @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField(canBeNull = false)
     private String title;
@@ -21,15 +21,18 @@ public class Poll {
     private Date closingDate;
     @DatabaseField
     private boolean closed;
+    @DatabaseField(foreign = true)
+    private Person promoter;
 
     public Poll(){}
 
-    public Poll(String title, String description, String location, Date closingDate, boolean closed) {
+    public Poll(String title, String description, String location, Date closingDate, boolean closed, Person promoter) {
         this.title = title;
         this.description = description;
         this.location = location;
         this.closingDate = closingDate;
         this.closed = closed;
+        this.promoter = promoter;
     }
 
     public int getId() {
@@ -78,5 +81,13 @@ public class Poll {
 
     public void setClosed(boolean closed) {
         this.closed = closed;
+    }
+
+    public Person getPromoter() {
+        return promoter;
+    }
+
+    public void setPromoter(Person promoter) {
+        this.promoter = promoter;
     }
 }
