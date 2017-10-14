@@ -13,28 +13,17 @@ public class PersonController {
 
     }
 
-    public Person addPerson(String login, String password, String firstname, String lastname, String email) {
+    public Person addPerson(String login, String password, String firstname, String lastname, String email) throws IOException, SQLException {
         Dao<Person, String> personDao = null;
         Person person = null;
 
-        try {
-            personDao = DatabaseDao.getPersonDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        personDao = DatabaseDao.getPersonDao();
+        person = new Person(login, password, firstname, lastname, email);
 
-        try {
-            person = new Person(login, password, firstname, lastname, email);
+        if (person != null)
+            personDao.create(person);
 
-            if (person != null)
-                personDao.create(person);
-
-            DatabaseUtil.closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DatabaseUtil.closeConnection();
 
         return person;
     }
