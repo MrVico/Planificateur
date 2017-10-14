@@ -22,7 +22,7 @@ public class Poll {
     @DatabaseField
     private boolean closed;
     @DatabaseField(foreign = true)
-    private Person promoter;
+    private Person idPerson;
 
     public Poll(){}
 
@@ -32,7 +32,7 @@ public class Poll {
         this.location = location;
         this.closingDate = closingDate;
         this.closed = closed;
-        this.promoter = promoter;
+        this.idPerson = promoter;
     }
 
     public int getId() {
@@ -84,10 +84,10 @@ public class Poll {
     }
 
     public Person getPromoter() {
-        return promoter;
+        return idPerson;
     }
 
     public void setPromoter(Person promoter) {
-        this.promoter = promoter;
+        this.idPerson = promoter;
     }
 }

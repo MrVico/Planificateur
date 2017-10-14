@@ -1,4 +1,4 @@
-package fr.univtln.maxremvi.Model;
+package fr.univtln.maxremvi.Utils;
 
 import fr.univtln.maxremvi.Controller.App;
 import javafx.fxml.FXMLLoader;

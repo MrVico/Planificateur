@@ -4,7 +4,7 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 public class PasswordManager {
 
-    public static String salt = "r0a959adz9azd590az";
+    private static final String salt = "r0a959adz9azd590az";
 
     public static String encrypt(String password){
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
