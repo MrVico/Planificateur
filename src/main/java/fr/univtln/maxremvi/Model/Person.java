@@ -7,11 +7,11 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Person {
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, unique = true)
     private String login;
     @DatabaseField(canBeNull = false)
     private String password;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, unique = true)
     private String email;
     @DatabaseField
     private String firstname;

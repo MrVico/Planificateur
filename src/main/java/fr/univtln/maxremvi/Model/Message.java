@@ -9,9 +9,9 @@ import java.util.Date;
 public class Message {
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, foreign = true)
     private Person sender;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, foreign = true)
     private Poll poll;
     @DatabaseField(canBeNull = false)
     private String content;

@@ -9,12 +9,14 @@ import java.util.Date;
 public class AnswerChoice {
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, foreign = true)
     private Poll poll;
     @DatabaseField(canBeNull = false)
     private String description;
     @DatabaseField(canBeNull = false)
     private Date creationDate;
+    @DatabaseField(foreign = true)
+    private Answer answer;
 
     public AnswerChoice(){}
 

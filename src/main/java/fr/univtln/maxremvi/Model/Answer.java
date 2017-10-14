@@ -9,9 +9,9 @@ import java.util.Date;
 
 @DatabaseTable(tableName = "Answer")
 public class Answer {
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, uniqueCombo = true, id = true)
     private Person person;
-    //@DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, uniqueCombo = true, id = true)
     private Poll poll;
     @DatabaseField(canBeNull = false)
     private Date creationDate;
