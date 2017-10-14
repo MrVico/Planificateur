@@ -3,9 +3,10 @@ package fr.univtln.maxremvi.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.*;
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 
 public class SignInController {
+
     @FXML
     public void handleSignInButtonClick(ActionEvent event){
         Alert alert = new Alert(AlertType.INFORMATION);

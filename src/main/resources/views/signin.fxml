@@ -27,7 +27,7 @@
             <Label text="Mot de passe" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button layoutX="400.0" layoutY="172.0" mnemonicParsing="false" text="Se connecter" onAction="#handleSignInButtonClick" />
-      <Button layoutX="248.0" layoutY="223.0" mnemonicParsing="false" text="Créer un compte" onAction="#handleRegisterButtonClick"/>
+      <Button layoutX="400.0" layoutY="172.0" mnemonicParsing="false" onAction="#handleSignInButtonClick" text="Se connecter" />
+      <Button layoutX="248.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleRegisterButtonClick" text="Créer un compte" />
    </children>
 </AnchorPane>
