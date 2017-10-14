@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.Controller.HomeController">
+<?import javafx.scene.control.Button?>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.View.HomeController">
    <children>
-      <Button layoutX="269.0" layoutY="136.0" mnemonicParsing="false" text="Button" onAction="#handleClick"/>
+      <Button text="Click me!" onAction="#handleClick"/>
+      <ListView layoutX="95.0" layoutY="195.0" prefHeight="200.0" prefWidth="600.0">
+         <HBox>
+            <Label prefWidth="200" text="Réunion du 25 oct." />
+            <Label prefWidth="200" text="Jacques Martin" />
+            <Label prefWidth="100" text="10/10/2017" />
+         </HBox>
+         <HBox>
+            <Label prefWidth="200" text="Réunion du 30 oct." />
+            <Label prefWidth="200" text="Michel Detour" />
+            <Label prefWidth="100" text="13/10/2017" />
+         </HBox>
+         <HBox>
+            <Label prefWidth="200" text="Réunion de nouvel an" />
+            <Label prefWidth="200" text="Jacques Martin" />
+            <Label prefWidth="100" text="13/10/2017" />
+         </HBox>
+      </ListView>
+      <Pane fx:id="Panel" layoutX="195.0" layoutY="2.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
