@@ -1,10 +1,8 @@
 package fr.univtln.maxremvi.Controller;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
+import fr.univtln.maxremvi.Database.DatabaseDao;
+import fr.univtln.maxremvi.Database.DatabaseUtil;
 import fr.univtln.maxremvi.Model.Person;
 
 import java.io.IOException;
@@ -15,37 +13,30 @@ public class PersonController {
 
     }
 
-    public Person addPerson(String login, String password, String firstname, String lastname,String email) {
-        String databaseUrl = "jdbc:h2:tcp://localhost/~/planificateur";
-        ConnectionSource connectionSource=null;
+    public Person addPerson(String login, String password, String firstname, String lastname, String email) {
+        Dao<Person, String> personDao = null;
+        Person person = null;
+
         try {
-            connectionSource = new JdbcConnectionSource(databaseUrl,"sa","");
+            personDao = DatabaseDao.getPersonDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Dao<Person, String> personDao;
-        Person person;
-
-        /*try {
-            TableUtils.createTable(connectionSource, Person.class);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
 
         try {
-            personDao = DaoManager.createDao(connectionSource, Person.class);
-            person = new Person(login, password, firstname, lastname,email);
+            person = new Person(login, password, firstname, lastname, email);
 
-            personDao.create(person);
-            connectionSource.close();
-            return person;
+            if (person != null)
+                personDao.create(person);
+
+            DatabaseUtil.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return person;
     }
 
 }
