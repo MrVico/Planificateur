@@ -1,6 +1,7 @@
 package fr.univtln.maxremvi.View;
 
 import fr.univtln.maxremvi.Controller.App;
+import fr.univtln.maxremvi.Model.ViewUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,15 +25,14 @@ public class SignInViewController {
     @FXML
     public void handleRegisterButtonClick(ActionEvent event){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/register.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = App.getStage();
-            stage.setTitle("ABC");
-            stage.setScene(new Scene(root1, 800, 600));
-            stage.show();
+            ViewUtil.switchView("register");
         }
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void handleCreatePollButtonClick(ActionEvent actionEvent) {
+
     }
 }
