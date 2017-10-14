@@ -13,15 +13,15 @@ public class PersonController {
 
     }
 
-    public Person addPerson(String login, String password, String firstname, String lastname, String email) throws IOException, SQLException {
+    public Person addPerson(String login, String password, String email, String firstname, String lastname) throws IOException, SQLException {
         Dao<Person, String> personDao = null;
         Person person = null;
 
         personDao = DatabaseDao.getPersonDao();
-        person = new Person(login, password, firstname, lastname, email);
+        person = new Person(login, password, email, firstname, lastname);
 
         if (person != null)
-            personDao.create(person);
+                personDao.create(person);
 
         DatabaseUtil.closeConnection();
 

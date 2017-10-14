@@ -10,7 +10,7 @@ import javafx.scene.control.Alert.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
-public class SignInController {
+public class SignInViewController {
 
     @FXML
     public void handleSignInButtonClick(ActionEvent event){

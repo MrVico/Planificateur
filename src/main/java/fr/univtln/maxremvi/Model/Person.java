@@ -20,12 +20,12 @@ public class Person {
 
     public Person(){}
 
-    public Person(String login, String password, String firstname, String lastname, String email) {
+    public Person(String login, String password, String email, String firstname, String lastname) {
         this.login = login;
         this.password = password;
+        this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.email = email;
     }
 
     public int getId() {

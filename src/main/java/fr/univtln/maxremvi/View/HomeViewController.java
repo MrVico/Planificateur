@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 
 import javax.swing.text.html.ListView;
 
-public class HomeController {
+public class HomeViewController {
     @FXML
     private ListView pollList;
     @FXML
