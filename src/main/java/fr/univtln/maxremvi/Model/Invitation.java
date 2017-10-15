@@ -1,22 +1,13 @@
 package fr.univtln.maxremvi.Model;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
-
 import java.util.Date;
 
-@DatabaseTable(tableName = "Invitation")
 public class Invitation {
 
-    @DatabaseField(foreign = true)
     private Person person;
-    @DatabaseField(foreign = true)
     private Poll poll;
-    @DatabaseField(foreign = true)
     private Person inviter;
-    @DatabaseField(canBeNull = false)
     private boolean seen;
-    @DatabaseField(canBeNull = false)
     private Date sendingDate;
 
     public Invitation(){}

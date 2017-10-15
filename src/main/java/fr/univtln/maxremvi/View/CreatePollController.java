@@ -66,8 +66,6 @@ public class CreatePollController {
                 pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, null);
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
 

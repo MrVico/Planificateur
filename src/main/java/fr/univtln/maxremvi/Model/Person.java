@@ -1,26 +1,18 @@
 package fr.univtln.maxremvi.Model;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-@DatabaseTable(tableName = "Person")
 public class Person {
-    @DatabaseField(generatedId = true)
-    private int id;
-    @DatabaseField(canBeNull = false, unique = true)
+    private Integer id;
     private String login;
-    @DatabaseField(canBeNull = false)
     private String password;
-    @DatabaseField(canBeNull = false, unique = true)
     private String email;
-    @DatabaseField
     private String firstname;
-    @DatabaseField
     private String lastname;
 
-    public Person(){}
-
-    public Person(String login, String password, String email, String firstname, String lastname) {
+    public Person(Integer id, String login, String password, String email, String firstname, String lastname) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
@@ -74,5 +66,28 @@ public class Person {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public static Person fromResultSet(ResultSet rs) throws SQLException {
+        return new Person(
+                rs.getInt("ID"),
+                rs.getString("LOGIN"),
+                rs.getString("PASSWORD"),
+                rs.getString("EMAIL"),
+                rs.getString("FIRSTNAME"),
+                rs.getString("LASTNAME")
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
     }
 }

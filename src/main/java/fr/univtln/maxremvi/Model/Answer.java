@@ -1,22 +1,13 @@
 package fr.univtln.maxremvi.Model;
 
-import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.table.DatabaseTable;
-
 import java.util.Date;
+import java.util.List;
 
-@DatabaseTable(tableName = "Answer")
 public class Answer {
-    @DatabaseField(foreign = true, uniqueCombo = true, id = true)
     private Person person;
-    @DatabaseField(foreign = true, uniqueCombo = true, id = true)
     private Poll poll;
-    @DatabaseField(canBeNull = false)
     private Date creationDate;
-    @ForeignCollectionField(eager = false)
-    ForeignCollection<AnswerChoice> answerChoices;
+    private List<AnswerChoice> answerChoices;
 
     public Answer(){}
 

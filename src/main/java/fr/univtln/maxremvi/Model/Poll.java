@@ -1,27 +1,14 @@
 package fr.univtln.maxremvi.Model;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
-
 import java.util.Date;
 
-@DatabaseTable(tableName = "Poll")
 public class Poll {
-    //utile ?
-    private static int ID = 0;
-    @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField(canBeNull = false)
     private String title;
-    @DatabaseField
     private String description;
-    @DatabaseField
     private String location;
-    @DatabaseField
     private Date closingDate;
-    @DatabaseField
     private boolean closed;
-    @DatabaseField(foreign = true)
     private Person idPerson;
 
     public static enum type {

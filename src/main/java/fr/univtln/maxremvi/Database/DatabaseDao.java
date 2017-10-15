@@ -1,18 +1,13 @@
 package fr.univtln.maxremvi.Database;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import fr.univtln.maxremvi.Model.Person;
-import fr.univtln.maxremvi.Model.Poll;
-
 import java.sql.SQLException;
 
 public class DatabaseDao {
-    public static Dao<Person, String> getPersonDao() throws SQLException {
-        return DaoManager.createDao(DatabaseUtil.getConnectionSource(), Person.class);
+    public static PersonDao getPersonDao() throws SQLException {
+        return (PersonDao) new PersonDao().getInstance();
     }
 
-    public static Dao<Poll, String> getPollDoa() throws SQLException {
-        return DaoManager.createDao(DatabaseUtil.getConnectionSource(), Poll.class);
+    public static PollDao getPollDao() throws SQLException {
+        return (PollDao) new PollDao().getInstance();
     }
 }
