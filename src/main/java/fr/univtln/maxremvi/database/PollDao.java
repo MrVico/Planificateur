@@ -2,9 +2,11 @@ package fr.univtln.maxremvi.database;
 
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
+import fr.univtln.maxremvi.utils.TimeUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -45,7 +47,19 @@ public class PollDao extends AbstractDao<Poll> {
 
     @Override
     public Poll add(Poll object) throws SQLException {
-        return null;
+        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        int pollId = DatabaseUtil.executeInsert(
+                query,
+                object.getPromoter().getId(),
+                object.getTitle(),
+                object.getDescription(),
+                object.getLocation(),
+                TimeUtil.timeToSqlFormat(Calendar.getInstance().getTime()),
+                null,
+                TimeUtil.timeToSqlFormat(object.getClosingDate()),
+                object.isClosed()
+        );
+        return ((PollDao) getInstance()).get(pollId);
     }
 
     @Override

@@ -1,13 +1,16 @@
 package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.PollController;
+import fr.univtln.maxremvi.database.PersonDao;
+import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.AlertManager;
+import fr.univtln.maxremvi.utils.TimeUtil;
+import fr.univtln.maxremvi.utils.ViewUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import jfxtras.scene.control.CalendarPicker;
-import jfxtras.scene.control.CalendarTextField;
+import jfxtras.scene.control.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,7 +30,7 @@ public class CreatePollController {
     @FXML
     private CheckBox possibility_add_dates_checkbox;
     @FXML
-    private CalendarTextField end_date;
+    private LocalDateTimeTextField end_date;
     @FXML
     private RadioButton radio_public;
     @FXML
@@ -51,7 +54,7 @@ public class CreatePollController {
     public void handleCreatePollButton(ActionEvent event) {
         Poll.type pollType = null;
 
-        if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || end_date.getCalendar() != null) {
+        if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || end_date.getText().isEmpty()) {
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
         } else {
             if (radio_public.isSelected())
@@ -61,10 +64,17 @@ public class CreatePollController {
             else
                 pollType = Poll.type.PRIVATE_SHARABLE;
 
-            Date endDate = end_date.getCalendar().getTime();
+            Date endDate = TimeUtil.localDateToDate(end_date.getLocalDateTime().toLocalDate());
+
+            PersonDao personDao = new PersonDao();
+            Person promoter = personDao.get(1);
+
             try {
-                pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, null);
+                pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, promoter);
+                ViewUtil.switchView("home");
             } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
