@@ -1,9 +1,9 @@
-package fr.univtln.maxremvi.Database;
+package fr.univtln.maxremvi.database;
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import fr.univtln.maxremvi.Controller.PersonController;
-import fr.univtln.maxremvi.Model.*;
+import fr.univtln.maxremvi.controller.PersonController;
+import fr.univtln.maxremvi.model.*;
 
 import java.io.IOException;
 import java.sql.SQLException;

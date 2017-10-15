@@ -1,4 +1,4 @@
-package fr.univtln.maxremvi.Utils;
+package fr.univtln.maxremvi.utils;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;

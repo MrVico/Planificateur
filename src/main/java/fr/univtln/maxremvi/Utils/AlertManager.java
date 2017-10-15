@@ -1,4 +1,4 @@
-package fr.univtln.maxremvi.Utils;
+package fr.univtln.maxremvi.utils;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

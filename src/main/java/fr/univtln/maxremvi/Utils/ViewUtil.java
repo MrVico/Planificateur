@@ -1,6 +1,6 @@
-package fr.univtln.maxremvi.Utils;
+package fr.univtln.maxremvi.utils;
 
-import fr.univtln.maxremvi.Controller.App;
+import fr.univtln.maxremvi.controller.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

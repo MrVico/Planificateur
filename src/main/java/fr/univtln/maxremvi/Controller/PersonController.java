@@ -1,9 +1,9 @@
-package fr.univtln.maxremvi.Controller;
+package fr.univtln.maxremvi.controller;
 
 import com.j256.ormlite.dao.Dao;
-import fr.univtln.maxremvi.Database.DatabaseDao;
-import fr.univtln.maxremvi.Database.DatabaseUtil;
-import fr.univtln.maxremvi.Model.Person;
+import fr.univtln.maxremvi.database.DatabaseDao;
+import fr.univtln.maxremvi.database.DatabaseUtil;
+import fr.univtln.maxremvi.model.Person;
 
 import java.io.IOException;
 import java.sql.SQLException;

@@ -1,10 +1,10 @@
-package fr.univtln.maxremvi.View;
+package fr.univtln.maxremvi.view;
 
-import fr.univtln.maxremvi.Controller.PersonController;
-import fr.univtln.maxremvi.Utils.AlertManager;
-import fr.univtln.maxremvi.Utils.EmailManager;
-import fr.univtln.maxremvi.Model.Person;
-import fr.univtln.maxremvi.Utils.PasswordManager;
+import fr.univtln.maxremvi.controller.PersonController;
+import fr.univtln.maxremvi.utils.AlertManager;
+import fr.univtln.maxremvi.utils.EmailManager;
+import fr.univtln.maxremvi.model.Person;
+import fr.univtln.maxremvi.utils.PasswordManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.*;

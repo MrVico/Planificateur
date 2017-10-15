@@ -49,6 +49,25 @@
       <artifactId>jasypt</artifactId>
       <version>1.9.2</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jfxtras/jfxtras-fxml -->
+    <dependency>
+      <groupId>org.jfxtras</groupId>
+      <artifactId>jfxtras-fxml</artifactId>
+      <version>8.0-r5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jfxtras/jfxtras-common -->
+    <dependency>
+      <groupId>org.jfxtras</groupId>
+      <artifactId>jfxtras-common</artifactId>
+      <version>8.0-r5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jfxtras/jfxtras-controls -->
+    <dependency>
+      <groupId>org.jfxtras</groupId>
+      <artifactId>jfxtras-controls</artifactId>
+      <version>8.0-r5</version>
+    </dependency>
+
 
 
   </dependencies>

@@ -1,19 +1,15 @@
-package fr.univtln.maxremvi.View;
+package fr.univtln.maxremvi.view;
 
-import fr.univtln.maxremvi.Controller.PersonController;
-import fr.univtln.maxremvi.Controller.PollController;
-import fr.univtln.maxremvi.Model.Poll;
+import fr.univtln.maxremvi.controller.PollController;
+import fr.univtln.maxremvi.model.Poll;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
-import javax.swing.text.html.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +44,7 @@ public class HomeViewController {
     }
 
     @FXML
-    public void handleClick(ActionEvent actionEvent){
-        System.out.println("CLICK");
-        //panel.getChildren().add(new TextField("Please fill in..."));
+    public void handleCreatePollButtonClick(ActionEvent actionEvent) {
+        System.out.println("Switch view --> Create Poll");
     }
 }

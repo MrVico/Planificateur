@@ -1,10 +1,12 @@
-package fr.univtln.maxremvi.View;
+package fr.univtln.maxremvi.view;
 
-import fr.univtln.maxremvi.Utils.ViewUtil;
+import fr.univtln.maxremvi.utils.ViewUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.*;
 import javafx.event.ActionEvent;
+
+import java.io.IOException;
 
 public class SignInViewController {
 
@@ -27,7 +29,12 @@ public class SignInViewController {
         }
     }
 
-    public void handleCreatePollButtonClick(ActionEvent actionEvent) {
-
+    @FXML
+    public void handleHomeButtonClick(ActionEvent event){
+        try {
+            ViewUtil.switchView("home");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

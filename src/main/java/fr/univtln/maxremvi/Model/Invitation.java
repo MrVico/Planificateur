@@ -1,4 +1,4 @@
-package fr.univtln.maxremvi.Model;
+package fr.univtln.maxremvi.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

@@ -1,4 +1,4 @@
-package fr.univtln.maxremvi.Database;
+package fr.univtln.maxremvi.database;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;

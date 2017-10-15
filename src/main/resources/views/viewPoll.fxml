@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import fr.univtln.maxremvi.model.PollDate?>
+
+<?import javafx.scene.control.DatePicker?>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.ViewPollViewController">
+   <children>
+      <Label layoutX="141.0" layoutY="70.0" text="Titre" />
+      <Label layoutX="141.0" layoutY="118.0" text="Description" />
+      <Label layoutX="112.0" layoutY="237.0" text="Lieu de l'évènement" />
+      <TextField layoutX="225.0" layoutY="66.0" prefHeight="25.0" prefWidth="411.0" />
+      <TextField layoutX="225.0" layoutY="233.0" />
+      <TextArea layoutX="225.0" layoutY="118.0" prefHeight="88.0" prefWidth="411.0" />
+      <TableView fx:id="pollDateTable" layoutX="226.0" layoutY="280.0" prefHeight="200.0" prefWidth="411.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Date" >
+            <cellValueFactory><PropertyValueFactory property="datum" />
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn prefWidth="75.0" text="Heure 1" >
+            <cellValueFactory><PropertyValueFactory property="hour1" />
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn prefWidth="75.0" text="Heure 2" >
+            <cellValueFactory><PropertyValueFactory property="hour2" />
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn prefWidth="75.0" text="Heure 3" >
+            <cellValueFactory><PropertyValueFactory property="hour3" />
+            </cellValueFactory>
+          </TableColumn>
+        </columns>
+          <items>
+              <FXCollections fx:factory="observableArrayList">
+                  <PollDate datum="Jacob" hour1="Smith" hour2="jacob.smith@example.com" hour3="123"/>
+              </FXCollections>
+          </items>
+      </TableView>
+       <DatePicker></DatePicker>
+   </children>
+</AnchorPane>

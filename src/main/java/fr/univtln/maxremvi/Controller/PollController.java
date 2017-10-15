@@ -1,12 +1,7 @@
-package fr.univtln.maxremvi.Controller;
+package fr.univtln.maxremvi.controller;
 
-import com.j256.ormlite.dao.Dao;
-import fr.univtln.maxremvi.Database.DatabaseDao;
-import fr.univtln.maxremvi.Database.DatabaseUtil;
-import fr.univtln.maxremvi.Model.Person;
-import fr.univtln.maxremvi.Model.Poll;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
+import fr.univtln.maxremvi.model.Person;
+import fr.univtln.maxremvi.model.Poll;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,6 +16,7 @@ public class PollController {
 
     public List<Poll> getPolls(){
         try {
+            //faudrait mettre la connexion + statement dans un controller parent
             Connection conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/planificateur","sa","");
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM POLL";
