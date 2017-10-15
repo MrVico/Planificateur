@@ -24,6 +24,10 @@ public class Poll {
     @DatabaseField(foreign = true)
     private Person promoter;
 
+    public static enum type {
+      PUBLIC, PRIVATE_SHARABLE, PRIVATE
+    };
+
     public Poll(){}
 
     public Poll(String title, String description, String location, Date closingDate, boolean closed, Person promoter) {

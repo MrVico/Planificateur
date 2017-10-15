@@ -32,7 +32,13 @@ public class SignInViewController {
         }
     }
 
-    public void handleCreatePollButtonClick(ActionEvent actionEvent) {
-
+    @FXML
+    public void handleCreatePollButtonClick(ActionEvent event) {
+        try{
+            ViewUtil.switchView("create_poll");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
