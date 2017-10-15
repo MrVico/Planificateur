@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.scene.control.PasswordField?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.View.SignInViewController">
    <children>
       <GridPane layoutX="200.0" layoutY="82.0">
@@ -21,8 +22,8 @@
           <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField GridPane.columnIndex="1" />
-            <TextField accessibleRole="PASSWORD_FIELD" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="login" GridPane.columnIndex="1" />
+            <PasswordField fx:id="password" accessibleRole="PASSWORD_FIELD" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Login" />
             <Label text="Mot de passe" GridPane.rowIndex="1" />
          </children>
