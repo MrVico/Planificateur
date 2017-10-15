@@ -25,16 +25,7 @@ public class HomeViewController {
     private PollController pollController;
 
     public void initialize(){
-        PersonController personController = new PersonController();
-        Person promoter = personController.getPerson("ddzdzd");
-
         pollController = new PollController();
-        try {
-            pollController.addPoll("test", "desc", "bordeaux", Calendar.getInstance().getTime(), false, promoter);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         try {
             List<Poll> pollList = pollController.getPolls();
             List<HBox> hBoxes = new ArrayList<>();
