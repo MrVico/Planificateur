@@ -21,6 +21,8 @@
 <?import jfxtras.scene.control.CalendarTimePicker?>
 <?import jfxtras.scene.control.CalendarPicker?>
 <?import jfxtras.scene.control.CalendarTextField?>
+<?import jfxtras.scene.control.CalendarTimeTextField?>
+<?import jfxtras.scene.control.LocalDateTimeTextField?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.CreatePollController">
     <children>
@@ -68,7 +70,7 @@
                 </CheckBox>
                 <Label contentDisplay="RIGHT" text="Date de fin de sondage">
                     <graphic>
-                        <CalendarTextField fx:id="end_date"></CalendarTextField>
+                        <LocalDateTimeTextField fx:id="end_date"></LocalDateTimeTextField>
                     </graphic>
                 </Label>
                 <HBox>
