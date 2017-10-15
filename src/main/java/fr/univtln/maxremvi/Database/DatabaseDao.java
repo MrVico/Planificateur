@@ -12,7 +12,7 @@ public class DatabaseDao {
         return DaoManager.createDao(DatabaseUtil.getConnectionSource(), Person.class);
     }
 
-    public static Dao<Poll, String> getPollDao() throws SQLException {
+    public static Dao<Poll, String> getPollDoa() throws SQLException {
         return DaoManager.createDao(DatabaseUtil.getConnectionSource(), Poll.class);
     }
 }
