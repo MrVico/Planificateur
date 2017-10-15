@@ -1,9 +1,7 @@
 package fr.univtln.maxremvi.controller;
 
+import fr.univtln.maxremvi.utils.ViewUtil;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -21,11 +19,7 @@ public class App extends Application {
         personController.addPerson("mguil", "mguil", "max", "guil", "max@guil");
         */
         App.setStage(stage);
-        Parent root = FXMLLoader.load(getClass().getResource("/views/viewPoll.fxml"));
-        Scene scene = new Scene(root, 800, 600);
-        stage.setTitle("Planificateur");
-        stage.setScene(scene);
-        stage.show();
+        ViewUtil.switchView("signin");
     }
 
     public static Stage getStage() {

@@ -1,7 +1,10 @@
 package fr.univtln.maxremvi.view;
 
+import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.controller.PollController;
+import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
+import fr.univtln.maxremvi.utils.ViewUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+import javax.swing.text.html.ListView;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeViewController {
@@ -18,7 +25,16 @@ public class HomeViewController {
     private PollController pollController;
 
     public void initialize(){
+        PersonController personController = new PersonController();
+        Person promoter = personController.getPerson("ddzdzd");
+
         pollController = new PollController();
+        try {
+            pollController.addPoll("test", "desc", "bordeaux", Calendar.getInstance().getTime(), false, promoter);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         try {
             List<Poll> pollList = pollController.getPolls();
             List<HBox> hBoxes = new ArrayList<>();
@@ -45,6 +61,10 @@ public class HomeViewController {
 
     @FXML
     public void handleCreatePollButtonClick(ActionEvent actionEvent) {
-        System.out.println("Switch view --> Create Poll");
+        try {
+            ViewUtil.switchView("create_poll");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
