@@ -21,7 +21,7 @@ public class App extends Application {
         personController.addPerson("mguil", "mguil", "max", "guil", "max@guil");
         */
         App.setStage(stage);
-        Parent root = FXMLLoader.load(getClass().getResource("/views/signin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/home.fxml"));
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("Planificateur");
         stage.setScene(scene);
