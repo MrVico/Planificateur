@@ -45,14 +45,14 @@ public class PollDao extends AbstractDao<Poll> {
 
     public Poll add(Poll object) throws SQLException {
         String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        int pollId = DatabaseUtil.executeInsert(
+        int pollId = DatabaseUtil.executeInsertOrUpdate(
                 query,
                 object.getPromoter().getId(),
                 object.getTitle(),
                 object.getDescription(),
                 object.getLocation(),
                 TimeUtil.timeToSqlFormat(Calendar.getInstance().getTime()),
-                null,
+                TimeUtil.timeToSqlFormat(Calendar.getInstance().getTime()),
                 TimeUtil.timeToSqlFormat(object.getClosingDate()),
                 object.isClosed()
         );
@@ -60,18 +60,33 @@ public class PollDao extends AbstractDao<Poll> {
     }
 
     public List<Poll> addAll(List<Poll> objects) throws SQLException {
-        return null;
+        ArrayList<Poll> insertedPolls = new ArrayList<>();
+        for (Poll poll : objects) {
+            insertedPolls.add(this.add(poll));
+        }
+        return insertedPolls;
     }
 
-    public boolean update(Poll object) throws SQLException {
-        return false;
+    public Poll update(Poll object) throws SQLException {
+        String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSINGDATE = ?, CLOSED = ? WHERE ID = ?";
+        DatabaseUtil.executeInsertOrUpdate(query,
+                object.getPromoter().getId(),
+                object.getTitle(),
+                object.getDescription(),
+                object.getLocation(),
+                TimeUtil.timeToSqlFormat(Calendar.getInstance().getTime()),
+                TimeUtil.timeToSqlFormat(object.getClosingDate()),
+                object.isClosed());
+        return object;
     }
 
-    public boolean remove(int id) {
-        return false;
+    public boolean remove(int id) throws SQLException {
+        String query = "DELETE FROM POLL WHERE ID = ?";
+        DatabaseUtil.executeInsertOrUpdate(query, id);
+        return true;
     }
 
-    public boolean remove(Poll object) {
-        return false;
+    public boolean remove(Poll object) throws SQLException {
+        return remove(object.getId());
     }
 }

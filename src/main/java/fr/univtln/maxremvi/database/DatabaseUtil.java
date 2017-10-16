@@ -32,19 +32,13 @@ public class DatabaseUtil {
         return stmt;
     }
 
-    public static int executeInsert(String query, Object... parameters) throws SQLException {
+    public static int executeInsertOrUpdate(String query, Object... parameters) throws SQLException {
         PreparedStatement stmt = createStatement(query, parameters);
         stmt.executeUpdate();
         ResultSet generatedKeys = stmt.getGeneratedKeys();
 
         generatedKeys.next();
         return generatedKeys.getInt(1);
-    }
-
-    // TODO : A fusionner avec le executeInsert ?
-    public static void executeUpdate(String query, Object... parameters) throws SQLException {
-        PreparedStatement stmt = createStatement(query, parameters);
-        stmt.executeUpdate();
     }
 
     public static ResultSet executeQuery(String query, Object... parameters) throws SQLException {
