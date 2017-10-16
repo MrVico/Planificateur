@@ -41,6 +41,12 @@ public class DatabaseUtil {
         return generatedKeys.getInt(1);
     }
 
+    // TODO : A fusionner avec le executeInsert ?
+    public static void executeUpdate(String query, Object... parameters) throws SQLException {
+        PreparedStatement stmt = createStatement(query, parameters);
+        stmt.executeUpdate();
+    }
+
     public static ResultSet executeQuery(String query, Object... parameters) throws SQLException {
         PreparedStatement stmt = createStatement(query, parameters);
         ResultSet rs = stmt.executeQuery();

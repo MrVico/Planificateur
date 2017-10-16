@@ -58,4 +58,12 @@ public class HomeViewController {
             e.printStackTrace();
         }
     }
+
+    public void handleViewProfilButtonClick(ActionEvent actionEvent) {
+        try {
+            ViewUtil.switchView("viewProfil");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

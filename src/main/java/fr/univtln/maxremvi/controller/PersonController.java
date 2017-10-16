@@ -33,6 +33,10 @@ public class PersonController {
         return personDao.add(new Person(null, login, password, email, firstname, lastname));
     }
 
+    public boolean updatePerson(Person p) throws SQLException{
+        return personDao.update(p);
+    }
+
     public Person getPerson(String login) {
         return personDao.get(login);
     }

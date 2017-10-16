@@ -13,19 +13,17 @@ import java.util.List;
  * Created by remi on 15/10/2017.
  */
 public class PollDao extends AbstractDao<Poll> {
-    @Override
+
     public AbstractDao getInstance() {
         if (instance == null)
             instance = new PollDao();
         return instance;
     }
 
-    @Override
     public Poll get(int id) {
         return null;
     }
 
-    @Override
     public List<Poll> getAll() {
         try {
             String query = "SELECT * FROM POLL";
@@ -45,7 +43,6 @@ public class PollDao extends AbstractDao<Poll> {
         return null;
     }
 
-    @Override
     public Poll add(Poll object) throws SQLException {
         String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         int pollId = DatabaseUtil.executeInsert(
@@ -62,17 +59,18 @@ public class PollDao extends AbstractDao<Poll> {
         return ((PollDao) getInstance()).get(pollId);
     }
 
-    @Override
     public List<Poll> addAll(List<Poll> objects) throws SQLException {
         return null;
     }
 
-    @Override
+    public boolean update(Poll object) throws SQLException {
+        return false;
+    }
+
     public boolean remove(int id) {
         return false;
     }
 
-    @Override
     public boolean remove(Poll object) {
         return false;
     }
