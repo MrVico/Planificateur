@@ -1,68 +1,34 @@
 package fr.univtln.maxremvi.model;
 
+import fr.univtln.maxremvi.utils.TimeUtil;
 import javafx.beans.property.SimpleStringProperty;
 
-/*
-    INUTILE POUR LE MOMENT, A SUPPRIME SI INUTILE POUR TOUJOURS !!!
-*/
+import java.util.Date;
+
 public class PollDate {
-    private final SimpleStringProperty datum = new SimpleStringProperty("");
-    private final SimpleStringProperty hour1 = new SimpleStringProperty("");
-    private final SimpleStringProperty hour2 = new SimpleStringProperty("");
-    private final SimpleStringProperty hour3 = new SimpleStringProperty("");
+    private Date date;
+    private SimpleStringProperty dateProperty;
+    private SimpleStringProperty hourProperty;
 
-    public PollDate() {
-        setDatum("15/10/2017");
-        setHour1("12:00");
-        setHour2("13:00");
-        setHour3("14:00");
+    public PollDate(Date date) {
+        this.date = date;
+        this.dateProperty = new SimpleStringProperty(TimeUtil.extractDateString(date));
+        this.hourProperty = new SimpleStringProperty(TimeUtil.extractHourMinutesString(date));
     }
 
-    public String getDatum() {
-        return datum.get();
+    public String getDateProperty() {
+        return dateProperty.get();
     }
 
-    public SimpleStringProperty datumProperty() {
-        return datum;
+    public void setDateProperty(String v) {
+        dateProperty.set(v);
     }
 
-    public void setDatum(String datum) {
-        this.datum.set(datum);
+    public String getHourProperty() {
+        return hourProperty.get();
     }
 
-    public String getHour1() {
-        return hour1.get();
-    }
-
-    public SimpleStringProperty hour1Property() {
-        return hour1;
-    }
-
-    public void setHour1(String hour1) {
-        this.hour1.set(hour1);
-    }
-
-    public String getHour2() {
-        return hour2.get();
-    }
-
-    public SimpleStringProperty hour2Property() {
-        return hour2;
-    }
-
-    public void setHour2(String hour2) {
-        this.hour2.set(hour2);
-    }
-
-    public String getHour3() {
-        return hour3.get();
-    }
-
-    public SimpleStringProperty hour3Property() {
-        return hour3;
-    }
-
-    public void setHour3(String hour3) {
-        this.hour3.set(hour3);
+    public void setHourProperty(String v) {
+        hourProperty.set(v);
     }
 }

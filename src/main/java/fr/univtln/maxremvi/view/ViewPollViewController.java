@@ -13,7 +13,7 @@ public class ViewPollViewController {
 
 
     public static void useless(){
-        PollDate useless = new PollDate();
+        //PollDate useless = new PollDate();
     }
 
     @FXML

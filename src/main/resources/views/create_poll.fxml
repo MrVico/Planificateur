@@ -74,15 +74,15 @@
                     </graphic>
                 </Label>
                 <HBox>
-                    <Label contentDisplay="RIGHT" text="Date de fin de sondage">
+                    <Label contentDisplay="RIGHT" text="Date de rendez-vous">
                         <graphic>
-                            <DatePicker/>
+                            <LocalDateTimeTextField fx:id="proposed_date"></LocalDateTimeTextField>
                         </graphic>
                     </Label>
-                    <Button text="Ajouter date"></Button>
+                    <Button text="Ajouter date" onAction="#handleAddDate"></Button>
                 </HBox>
                 <HBox>
-                    <TableView fx:id="table_dates"></TableView>
+                    <TableView fx:id="table_dates" prefHeight="150"></TableView>
                 </HBox>
                 <Button text="Créer le sondage" onAction="#handleCreatePollButton"></Button>
             </children>
