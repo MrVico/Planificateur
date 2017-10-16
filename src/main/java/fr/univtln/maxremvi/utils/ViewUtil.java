@@ -16,6 +16,7 @@ public class ViewUtil {
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = App.getStage();
         stage.setScene(new Scene(root1, 800, 600));
+        stage.setResizable(false);
         stage.show();
     }
 }

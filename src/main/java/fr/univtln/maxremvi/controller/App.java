@@ -14,10 +14,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        /*
-        PersonController personController = new PersonController();
-        personController.addPerson("mguil", "mguil", "max", "guil", "max@guil");
-        */
         App.setStage(stage);
         ViewUtil.switchView("signin");
     }

@@ -13,13 +13,20 @@ import java.util.List;
 
 public class PollController {
     private PollDao pollDao = null;
+    private static PollController pollController = null;
 
-    public PollController() {
+    private PollController() {
         try {
             this.pollDao = DatabaseDao.getPollDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static PollController getInstance(){
+        if (pollController == null)
+            pollController = new PollController();
+        return pollController;
     }
 
     public Poll addPoll(String title, String description, String location, Date closingDate, boolean closed, Person promoter) throws SQLException {

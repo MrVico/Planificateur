@@ -10,5 +10,6 @@
       <ListView items="${controller.lines}" layoutX="107.0" layoutY="97.0" prefWidth="600" />
       <Button layoutX="597.0" layoutY="64.0" mnemonicParsing="false" onAction="#handleCreatePollButtonClick" text="Créer un sondage" />
       <Label layoutX="107.0" layoutY="74.0" text="Liste des sondages" />
+      <Button layoutX="597.0" layoutY="25.0" mnemonicParsing="false" text="Profil" />
    </children>
 </AnchorPane>

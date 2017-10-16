@@ -25,7 +25,7 @@ public class HomeViewController {
     private PollController pollController;
 
     public void initialize(){
-        pollController = new PollController();
+        pollController = PollController.getInstance();
         try {
             List<Poll> pollList = pollController.getPolls();
             List<HBox> hBoxes = new ArrayList<>();

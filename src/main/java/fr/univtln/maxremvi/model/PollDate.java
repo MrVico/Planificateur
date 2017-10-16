@@ -2,6 +2,9 @@ package fr.univtln.maxremvi.model;
 
 import javafx.beans.property.SimpleStringProperty;
 
+/*
+    INUTILE POUR LE MOMENT, A SUPPRIME SI INUTILE POUR TOUJOURS !!!
+*/
 public class PollDate {
     private final SimpleStringProperty datum = new SimpleStringProperty("");
     private final SimpleStringProperty hour1 = new SimpleStringProperty("");

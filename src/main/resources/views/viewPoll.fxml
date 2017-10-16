@@ -12,6 +12,7 @@
 <?import fr.univtln.maxremvi.model.PollDate?>
 
 <?import javafx.scene.control.DatePicker?>
+<?import jfxtras.scene.control.LocalDateTimeTextField?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.ViewPollViewController">
    <children>
       <Label layoutX="141.0" layoutY="70.0" text="Titre" />
@@ -45,6 +46,6 @@
               </FXCollections>
           </items>
       </TableView>
-       <DatePicker></DatePicker>
+       <LocalDateTimeTextField></LocalDateTimeTextField>
    </children>
 </AnchorPane>

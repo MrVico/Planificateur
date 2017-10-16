@@ -31,7 +31,7 @@ public class RegisterViewController {
     private PersonController personController;
 
     public void initialize(){
-        personController = new PersonController();
+        personController = PersonController.getInstance();
     }
 
     @FXML

@@ -48,7 +48,7 @@ public class CreatePollController {
         TableColumn hourCol = new TableColumn("Heure");
         table_dates.getColumns().addAll(dateCol, hourCol);
 
-        pollController = new PollController();
+        pollController = PollController.getInstance();
     }
 
     public void handleCreatePollButton(ActionEvent event) {
