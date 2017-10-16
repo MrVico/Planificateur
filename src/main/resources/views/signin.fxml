@@ -23,7 +23,7 @@
         </rowConstraints>
          <children>
             <TextField fx:id="login" GridPane.columnIndex="1" />
-            <PasswordField fx:id="password" accessibleRole="PASSWORD_FIELD" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Login" />
             <Label text="Mot de passe" GridPane.rowIndex="1" />
          </children>

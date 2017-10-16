@@ -1,6 +1,7 @@
 package fr.univtln.maxremvi.database;
 
 import fr.univtln.maxremvi.model.Person;
+import fr.univtln.maxremvi.utils.PasswordManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,6 +36,21 @@ public class PersonDao extends AbstractDao<Person> {
         try {
             String query = "SELECT * FROM PERSON WHERE LOGIN = ?";
             ResultSet rs = DatabaseUtil.executeQuery(query, login);
+            rs.next();
+            Person person = Person.fromResultSet(rs);
+            rs.close();
+            return person;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Person get(String login,String password) {
+        System.out.println(password);
+        try {
+            String query = "SELECT * FROM PERSON WHERE LOGIN = ? and PASSWORD = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, login, password);
             rs.next();
             Person person = Person.fromResultSet(rs);
             rs.close();

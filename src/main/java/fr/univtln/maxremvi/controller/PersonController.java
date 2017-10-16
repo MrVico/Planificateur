@@ -36,4 +36,8 @@ public class PersonController {
     public Person getPerson(String login) {
         return personDao.get(login);
     }
+
+    public Person getPerson(String login,String password) {
+        return personDao.get(login,password);
+    }
 }
