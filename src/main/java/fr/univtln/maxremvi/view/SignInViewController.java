@@ -2,7 +2,7 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.model.Person;
-import fr.univtln.maxremvi.model.PersonConnected;
+import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.PasswordManager;
 import fr.univtln.maxremvi.utils.ViewManager;
@@ -31,12 +31,11 @@ public class SignInViewController {
         } else {
             Person person = personController.getPerson(login.getText(), PasswordManager.encrypt(password.getText().toString()));
             if (person != null) {
-                PersonConnected.setLogin(person.getLogin());
+                User.setUser(person);
                 ViewManager.switchView("home");
             } else {
                 AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Mauvais identifiants");
             }
-
         }
     }
 

@@ -2,6 +2,7 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.model.Person;
+import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +24,7 @@ public class ViewProfilViewController {
 
     public void initialize(){
         personController = PersonController.getInstance();
-        Person p = personController.getPerson("Login");
+        Person p = User.getUser();
         fillText(login, p.getLogin());
         fillText(email, p.getEmail());
         fillText(firstname, p.getFirstname());
