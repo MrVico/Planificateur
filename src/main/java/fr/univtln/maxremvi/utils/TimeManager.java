@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by remi on 15/10/2017.
  */
-public class TimeUtil {
+public class TimeManager {
     private static String format(String pattern, Date time) {
         return new SimpleDateFormat(pattern).format(time);
     }

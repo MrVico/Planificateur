@@ -5,6 +5,7 @@ import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.EmailManager;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.utils.PasswordManager;
+import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.*;
@@ -52,6 +53,7 @@ public class RegisterViewController {
                     try {
                         Person newPerson = personController.addPerson(login.getText(), PasswordManager.encrypt(password.getText()), email.getText(), firstname.getText(), lastname.getText());
                         AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Votre compte a bien été créé !");
+                        ViewManager.switchView("signin");
                     } catch (SQLException e) {
                         System.out.println(e.getMessage());
                         AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Un compte avec ce login ou cet email existe déjà.");

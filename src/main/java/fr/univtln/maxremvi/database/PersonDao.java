@@ -85,7 +85,7 @@ public class PersonDao extends AbstractDao<Person> {
             DatabaseUtil.executeInsertOrUpdate(query, object.getFirstname(), object.getLastname(), object.getId());
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         }
     }

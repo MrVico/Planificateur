@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by remi on 16/10/2017.
  */
-public class ListUtil {
+public class ListManager {
     public static ObservableList observableListFromList(List list) {
         return FXCollections.observableList(list);
     }

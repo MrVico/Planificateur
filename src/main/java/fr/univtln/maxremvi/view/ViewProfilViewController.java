@@ -2,16 +2,12 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.model.Person;
-import fr.univtln.maxremvi.utils.ViewUtil;
+import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
 
 public class ViewProfilViewController {
     @FXML
@@ -44,10 +40,6 @@ public class ViewProfilViewController {
     }
 
     public void handleUpdateProfilButtonClick(ActionEvent actionEvent) {
-        try {
-            ViewUtil.switchView("updateProfil");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewManager.switchView("updateProfil");
     }
 }

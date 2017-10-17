@@ -3,15 +3,13 @@ package fr.univtln.maxremvi.view;
 import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.utils.AlertManager;
-import fr.univtln.maxremvi.utils.ViewUtil;
+import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 
-import javax.swing.text.View;
-import java.io.IOException;
 import java.sql.SQLException;
 
 /*
@@ -45,11 +43,7 @@ public class UpdateProfilViewController {
             p.setLastname(lastname.getText());
             if(personController.updatePerson(p)) {
                 AlertManager.AlertBox(Alert.AlertType.INFORMATION, "ed", null, "Profil mis à jour avec succès.");
-                try {
-                    ViewUtil.switchView("viewProfil");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                ViewManager.switchView("viewProfil");
             }
         } catch (SQLException e) {
             e.printStackTrace();
