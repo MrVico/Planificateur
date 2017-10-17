@@ -3,7 +3,7 @@ package fr.univtln.maxremvi.model;
 import java.util.Date;
 
 public class Poll {
-    private int id;
+    private Integer id;
     private String title;
     private String description;
     private String location;
@@ -17,7 +17,8 @@ public class Poll {
 
     public Poll(){}
 
-    public Poll(String title, String description, String location, Date closingDate, boolean closed, Person promoter) {
+    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, Person promoter) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -30,7 +31,7 @@ public class Poll {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

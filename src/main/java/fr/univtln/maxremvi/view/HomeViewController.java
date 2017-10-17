@@ -62,7 +62,7 @@ public class HomeViewController {
 
     @FXML
     public void handleCreatePollButtonClick(ActionEvent actionEvent) {
-        ViewManager.switchView("create_poll");
+        ViewManager.switchView("createPoll");
     }
 
     public void handleViewProfilButtonClick(ActionEvent actionEvent) {
