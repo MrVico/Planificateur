@@ -23,7 +23,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     @Override
     public AnswerChoice get(int id) {
         try {
-            String query = "SELECT * FROM ANSWERCHOICE WHERE ID = ?";
+            String query = "SELECT * FROM ANSWERCHOICE WHERE IDANSWERCHOICE = ?";
             ResultSet rs = DatabaseUtil.executeQuery(query, id);
             rs.next();
             AnswerChoice answerChoice = AnswerChoice.fromResultSet(rs);
