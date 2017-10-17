@@ -30,6 +30,5 @@
       </GridPane>
       <Button layoutX="400.0" layoutY="172.0" mnemonicParsing="false" onAction="#handleSignInButtonClick" text="Se connecter" />
       <Button layoutX="248.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleRegisterButtonClick" text="Créer un compte" />
-       <Button layoutX="400.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleHomeButtonClick" text="Accueil" />
    </children>
 </AnchorPane>

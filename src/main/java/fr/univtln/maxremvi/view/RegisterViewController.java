@@ -36,12 +36,11 @@ public class RegisterViewController {
     }
 
     @FXML
-    public void handleButtonRegisterClick(ActionEvent event) {
+    public void handleRegisterButtonClick(ActionEvent event) {
         signUp();
     }
 
-    // renvoie une personne, du coup la vue connait le modèle :-/
-    public Person signUp(){
+    public void signUp(){
         if(login.getText().isEmpty() || password.getText().isEmpty() || conf_password.getText().isEmpty() || email.getText().isEmpty()){
             AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
         }
@@ -65,6 +64,10 @@ public class RegisterViewController {
                 }
             }
         }
-        return null;
+    }
+
+    @FXML
+    public void handleCancelButtonClick(ActionEvent actionEvent) {
+        ViewManager.switchView("signin");
     }
 }

@@ -5,10 +5,13 @@ import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
@@ -16,12 +19,23 @@ import java.util.List;
 
 public class HomeViewController {
     private final ObservableList<HBox> lines = FXCollections.observableArrayList();
+    private List<Poll> pollList;
     private PollController pollController;
+    @FXML
+    private ListView listView;
 
     public void initialize(){
+        listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getClickCount()==2){
+                    System.out.println(pollList.get(listView.getSelectionModel().getSelectedIndex()));
+                }
+            }
+        });
         pollController = PollController.getInstance();
         try {
-            List<Poll> pollList = pollController.getPolls();
+            pollList = pollController.getPolls();
             List<HBox> hBoxes = new ArrayList<>();
             if(pollList != null){
                 for(Poll poll : pollList){
