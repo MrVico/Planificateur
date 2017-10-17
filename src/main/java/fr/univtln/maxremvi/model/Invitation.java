@@ -59,4 +59,15 @@ public class Invitation {
     public void setSendingDate(Date sendingDate) {
         this.sendingDate = sendingDate;
     }
+
+    @Override
+    public String toString() {
+        return "Invitation{" +
+                "person=" + person +
+                ", poll=" + poll +
+                ", inviter=" + inviter +
+                ", seen=" + seen +
+                ", sendingDate=" + sendingDate +
+                '}';
+    }
 }

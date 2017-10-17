@@ -33,6 +33,10 @@ public class PersonController {
         return personDao.update(p);
     }
 
+    public Person getPerson(int id) {
+        return personDao.get(id);
+    }
+
     public Person getPerson(String login) {
         return personDao.get(login);
     }

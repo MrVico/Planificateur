@@ -24,18 +24,18 @@
 <?import jfxtras.scene.control.CalendarTimeTextField?>
 <?import jfxtras.scene.control.LocalDateTimeTextField?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.CreatePollController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.CreatePollViewController">
     <children>
         <VBox layoutX="200.0">
             <children>
                 <GridPane hgap="10" vgap="10">
                     <children>
                         <TextField GridPane.columnIndex="1" fx:id="title"/>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="location_poll"/>
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="location_poll"/>
                         <Label text="Titre"/>
-                        <Label text="Lieu" GridPane.rowIndex="1"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="2"/>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="description_poll"/>
+                        <Label text="Lieu" GridPane.rowIndex="2"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1"/>
+                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="description_poll"/>
 
                         <VBox fillWidth="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <RadioButton fx:id="radio_public" selected="true" styleClass="custom-jfx-radio-button"

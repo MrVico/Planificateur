@@ -17,6 +17,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import jfxtras.scene.control.*;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,7 +27,7 @@ import java.util.Date;
 /**
  * Created by remi on 14/10/2017.
  */
-public class CreatePollController {
+public class CreatePollViewController {
     @FXML
     private TextField title;
     @FXML

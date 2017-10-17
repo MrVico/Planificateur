@@ -47,7 +47,6 @@ public class PersonDao extends AbstractDao<Person> {
     }
 
     public Person get(String login,String password) {
-        System.out.println(password);
         try {
             String query = "SELECT * FROM PERSON WHERE LOGIN = ? and PASSWORD = ?";
             ResultSet rs = DatabaseUtil.executeQuery(query, login, password);
@@ -67,7 +66,7 @@ public class PersonDao extends AbstractDao<Person> {
 
     public Person add(Person object) throws SQLException {
         String query = "INSERT INTO PERSON(LOGIN, PASSWORD, EMAIL, FIRSTNAME, LASTNAME) VALUES(?, ?, ?, ?, ?)";
-        int personId = DatabaseUtil.executeInsertOrUpdate(query, object.getLogin(), object.getPassword(), object.getEmail(), object.getFirstname(), object.getLastname());
+        int personId = DatabaseUtil.executeInsert(query, object.getLogin(), object.getPassword(), object.getEmail(), object.getFirstname(), object.getLastname());
         return ((PersonDao) getInstance()).get(personId);
     }
 
@@ -82,17 +81,17 @@ public class PersonDao extends AbstractDao<Person> {
     public boolean update(Person object) {
         try {
             String query = "UPDATE PERSON SET FIRSTNAME = ?, LASTNAME = ? WHERE ID = ?";
-            DatabaseUtil.executeInsertOrUpdate(query, object.getFirstname(), object.getLastname(), object.getId());
+            DatabaseUtil.executeUpdate(query, object.getFirstname(), object.getLastname(), object.getId());
             return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("PersonDao Update : "+e.getMessage());
             return false;
         }
     }
 
     public boolean remove(int id) throws SQLException {
         String query = "DELETE FROM PERSON WHERE ID = ?";
-        DatabaseUtil.executeInsertOrUpdate(query, id);
+        DatabaseUtil.executeInsert(query, id);
         return true;
     }
 

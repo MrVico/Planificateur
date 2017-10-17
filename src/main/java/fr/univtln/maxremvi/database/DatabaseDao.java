@@ -10,4 +10,8 @@ public class DatabaseDao {
     public static PollDao getPollDao() throws SQLException {
         return (PollDao) new PollDao().getInstance();
     }
+
+    public static AnswerChoiceDao getAnswerChoiceDao() throws SQLException {
+        return (AnswerChoiceDao) new AnswerChoiceDao().getInstance();
+    }
 }

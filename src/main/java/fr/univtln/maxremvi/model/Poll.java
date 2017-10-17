@@ -17,7 +17,8 @@ public class Poll {
 
     public Poll(){}
 
-    public Poll(String title, String description, String location, Date closingDate, boolean closed, Person promoter) {
+    public Poll(int id, String title, String description, String location, Date closingDate, boolean closed, Person promoter) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -80,5 +81,18 @@ public class Poll {
 
     public void setPromoter(Person promoter) {
         this.idPerson = promoter;
+    }
+
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                ", closingDate=" + closingDate +
+                ", closed=" + closed +
+                ", idPerson=" + idPerson +
+                '}';
     }
 }
