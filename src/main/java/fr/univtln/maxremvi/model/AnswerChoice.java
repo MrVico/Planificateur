@@ -1,23 +1,27 @@
 package fr.univtln.maxremvi.model;
 
-import fr.univtln.maxremvi.utils.TimeUtil;
+import fr.univtln.maxremvi.utils.TimeManager;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class AnswerChoice {
-    private int id;
+    private Integer id;
+    private Integer idPoll;
     private Date creationDate;
     private Date dateChoice;
     private SimpleStringProperty dateProperty;
     private SimpleStringProperty hourProperty;
 
-    public AnswerChoice(int id, Date creationDate, Date dateChoice) {
+    public AnswerChoice(Integer id, Date creationDate, Date dateChoice, Integer idPoll) {
         this.id = id;
         this.creationDate = creationDate;
         this.dateChoice = dateChoice;
-        this.dateProperty = new SimpleStringProperty(TimeUtil.extractDateString(dateChoice));
-        this.hourProperty = new SimpleStringProperty(TimeUtil.extractHourMinutesString(dateChoice));
+        this.dateProperty = new SimpleStringProperty(TimeManager.extractDateString(dateChoice));
+        this.hourProperty = new SimpleStringProperty(TimeManager.extractHourMinutesString(dateChoice));
+        this.idPoll = idPoll;
     }
 
     public int getId() {
@@ -58,5 +62,14 @@ public class AnswerChoice {
 
     public void setHourProperty(String v) {
         hourProperty.set(v);
+    }
+
+    public static AnswerChoice fromResultSet(ResultSet rs) throws SQLException {
+        return new AnswerChoice(
+                rs.getInt("IDANSWERCHOICE"),
+                rs.getDate("CREATIONDATE"),
+                rs.getDate("DATECHOICE"),
+                rs.getInt("IDPOLL")
+        );
     }
 }

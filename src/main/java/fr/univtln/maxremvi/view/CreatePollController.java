@@ -2,10 +2,10 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.database.PersonDao;
+import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
-import fr.univtln.maxremvi.model.PollDate;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
@@ -18,6 +18,7 @@ import jfxtras.scene.control.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -47,21 +48,21 @@ public class CreatePollController {
 
     private PollController pollController;
 
-    private ObservableList<PollDate> proposedDates;
+    private ObservableList<AnswerChoice> proposedDates;
 
     public void initialize() {
         table_dates.setEditable(true);
         TableColumn dateCol = new TableColumn("Date");
         TableColumn hourCol = new TableColumn("Heure");
         dateCol.setCellValueFactory(
-                new PropertyValueFactory<PollDate, String>("dateProperty"));
+                new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
 
         hourCol.setCellValueFactory(
-                new PropertyValueFactory<PollDate, String>("hourProperty"));
+                new PropertyValueFactory<AnswerChoice, String>("hourProperty"));
         table_dates.getColumns().addAll(dateCol, hourCol);
 
         pollController = PollController.getInstance();
-        proposedDates = ListManager.observableListFromList(new ArrayList<PollDate>());
+        proposedDates = ListManager.observableListFromList(new ArrayList<AnswerChoice>());
         table_dates.setItems(proposedDates);
     }
 
@@ -85,6 +86,7 @@ public class CreatePollController {
 
             try {
                 Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, promoter);
+                /// TODO: Changer l'id du poll dans les AnswerChoice avant leur insertion
                 ViewManager.switchView("home");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -95,7 +97,7 @@ public class CreatePollController {
 
     public void handleAddDate(ActionEvent event) {
         if (!proposed_date.getText().isEmpty()) {
-            proposedDates.add(new PollDate(TimeManager.localDateToDate(proposed_date.getLocalDateTime())));
+            proposedDates.add(new AnswerChoice(null, Calendar.getInstance().getTime(), TimeManager.localDateToDate(proposed_date.getLocalDateTime()), null));
             proposed_date.setText("");
         }
     }
