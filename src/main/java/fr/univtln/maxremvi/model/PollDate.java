@@ -1,6 +1,6 @@
 package fr.univtln.maxremvi.model;
 
-import fr.univtln.maxremvi.utils.TimeUtil;
+import fr.univtln.maxremvi.utils.TimeManager;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Date;
@@ -12,8 +12,8 @@ public class PollDate {
 
     public PollDate(Date date) {
         this.date = date;
-        this.dateProperty = new SimpleStringProperty(TimeUtil.extractDateString(date));
-        this.hourProperty = new SimpleStringProperty(TimeUtil.extractHourMinutesString(date));
+        this.dateProperty = new SimpleStringProperty(TimeManager.extractDateString(date));
+        this.hourProperty = new SimpleStringProperty(TimeManager.extractHourMinutesString(date));
     }
 
     public String getDateProperty() {

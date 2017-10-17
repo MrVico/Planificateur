@@ -79,10 +79,15 @@ public class PersonDao extends AbstractDao<Person> {
         return insertedPersons;
     }
 
-    public Person update(Person object) throws SQLException {
-        String query = "UPDATE PERSON SET FIRSTNAME = ?, LASTNAME = ? WHERE ID = ?";
-        DatabaseUtil.executeInsertOrUpdate(query, object.getFirstname(), object.getLastname(), object.getId());
-        return object;
+    public boolean update(Person object) {
+        try {
+            String query = "UPDATE PERSON SET FIRSTNAME = ?, LASTNAME = ? WHERE ID = ?";
+            DatabaseUtil.executeInsertOrUpdate(query, object.getFirstname(), object.getLastname(), object.getId());
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public boolean remove(int id) throws SQLException {

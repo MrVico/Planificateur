@@ -2,7 +2,7 @@ package fr.univtln.maxremvi.database;
 
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
-import fr.univtln.maxremvi.utils.TimeUtil;
+import fr.univtln.maxremvi.utils.TimeManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -51,9 +51,9 @@ public class PollDao extends AbstractDao<Poll> {
                 object.getTitle(),
                 object.getDescription(),
                 object.getLocation(),
-                TimeUtil.timeToSqlFormat(Calendar.getInstance().getTime()),
-                TimeUtil.timeToSqlFormat(Calendar.getInstance().getTime()),
-                TimeUtil.timeToSqlFormat(object.getClosingDate()),
+                TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
+                TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
+                TimeManager.timeToSqlFormat(object.getClosingDate()),
                 object.isClosed()
         );
         return ((PollDao) getInstance()).get(pollId);
@@ -67,17 +67,22 @@ public class PollDao extends AbstractDao<Poll> {
         return insertedPolls;
     }
 
-    public Poll update(Poll object) throws SQLException {
-        String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSINGDATE = ?, CLOSED = ? WHERE ID = ?";
-        DatabaseUtil.executeInsertOrUpdate(query,
-                object.getPromoter().getId(),
-                object.getTitle(),
-                object.getDescription(),
-                object.getLocation(),
-                TimeUtil.timeToSqlFormat(Calendar.getInstance().getTime()),
-                TimeUtil.timeToSqlFormat(object.getClosingDate()),
-                object.isClosed());
-        return object;
+    public boolean update(Poll object){
+        try {
+            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSINGDATE = ?, CLOSED = ? WHERE ID = ?";
+            DatabaseUtil.executeInsertOrUpdate(query,
+                    object.getPromoter().getId(),
+                    object.getTitle(),
+                    object.getDescription(),
+                    object.getLocation(),
+                    TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
+                    TimeManager.timeToSqlFormat(object.getClosingDate()),
+                    object.isClosed());
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public boolean remove(int id) throws SQLException {
