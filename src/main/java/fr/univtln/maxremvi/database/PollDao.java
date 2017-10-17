@@ -1,5 +1,6 @@
 package fr.univtln.maxremvi.database;
 
+import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.TimeManager;
@@ -56,7 +57,7 @@ public class PollDao extends AbstractDao<Poll> {
 
     public Poll add(Poll object) throws SQLException {
         String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        int pollId = DatabaseUtil.executeInsertOrUpdate(
+        int pollId = DatabaseUtil.executeInsert(
                 query,
                 object.getPromoter().getId(),
                 object.getTitle(),

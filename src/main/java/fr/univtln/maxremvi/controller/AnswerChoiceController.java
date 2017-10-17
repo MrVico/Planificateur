@@ -34,9 +34,6 @@ public class AnswerChoiceController {
 
     public List<AnswerChoice> getPollAnswerChoices(int idPoll){
         return answerChoiceDao.getAnswerChoices(idPoll);
-        if (answerChoiceController == null)
-            answerChoiceController = new AnswerChoiceController();
-        return answerChoiceController;
     }
 
     public AnswerChoice addAnswerChoice(Date creationDate, Date dateChoice, Integer idPoll)  throws SQLException, IOException {

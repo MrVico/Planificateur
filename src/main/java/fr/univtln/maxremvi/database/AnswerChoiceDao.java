@@ -3,9 +3,12 @@ package fr.univtln.maxremvi.database;
 import fr.univtln.maxremvi.model.Answer;
 import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Person;
+import fr.univtln.maxremvi.utils.TimeManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
@@ -55,7 +58,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     @Override
     public AnswerChoice add(AnswerChoice object) throws SQLException {
         String query = "INSERT INTO ANSWERCHOICE(DATECHOICE, CREATIONDATE, IDPOLL) VALUES(?, ?, ?)";
-        int answerChoiceId = DatabaseUtil.executeInsertOrUpdate(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getIdPoll());
+        int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getIdPoll());
         return ((AnswerChoiceDao) getInstance()).get(answerChoiceId);
     }
 
