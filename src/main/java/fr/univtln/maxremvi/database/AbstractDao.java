@@ -14,7 +14,7 @@ public abstract class AbstractDao<T> {
     public abstract List<T> getAll();
     public abstract T add(T object) throws SQLException;
     public abstract List<T> addAll(List<T> objects) throws SQLException;
-    public abstract T update(T object) throws SQLException;
+    public abstract boolean update(T object);
     public abstract boolean remove(int id) throws SQLException;
     public abstract boolean remove(T object) throws SQLException;
 }

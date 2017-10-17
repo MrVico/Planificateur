@@ -1,21 +1,23 @@
 package fr.univtln.maxremvi.model;
 
+import fr.univtln.maxremvi.utils.TimeUtil;
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.Date;
 
 public class AnswerChoice {
     private int id;
-    private Poll poll;
-    private String description;
     private Date creationDate;
-    private Answer answer;
+    private Date dateChoice;
+    private SimpleStringProperty dateProperty;
+    private SimpleStringProperty hourProperty;
 
-    public AnswerChoice(){}
-
-    public AnswerChoice(int id, Poll poll, String description, Date creationDate) {
+    public AnswerChoice(int id, Date creationDate, Date dateChoice) {
         this.id = id;
-        this.poll = poll;
-        this.description = description;
         this.creationDate = creationDate;
+        this.dateChoice = dateChoice;
+        this.dateProperty = new SimpleStringProperty(TimeUtil.extractDateString(dateChoice));
+        this.hourProperty = new SimpleStringProperty(TimeUtil.extractHourMinutesString(dateChoice));
     }
 
     public int getId() {
@@ -26,27 +28,35 @@ public class AnswerChoice {
         this.id = id;
     }
 
-    public Poll getPoll() {
-        return poll;
-    }
-
-    public void setPoll(Poll poll) {
-        this.poll = poll;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Date getDateChoice() {
+        return dateChoice;
+    }
+
+    public void setDateChoice(Date dateChoice) {
+        this.dateChoice = dateChoice;
+    }
+
+    public String getDateProperty() {
+        return dateProperty.get();
+    }
+
+    public void setDateProperty(String v) {
+        dateProperty.set(v);
+    }
+
+    public String getHourProperty() {
+        return hourProperty.get();
+    }
+
+    public void setHourProperty(String v) {
+        hourProperty.set(v);
     }
 }

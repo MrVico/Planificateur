@@ -1,6 +1,5 @@
 package fr.univtln.maxremvi.utils;
 
-import fr.univtln.maxremvi.model.PollDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

@@ -1,7 +1,6 @@
 package fr.univtln.maxremvi.view;
 
-import fr.univtln.maxremvi.model.PollDate;
-import javafx.collections.ObservableList;
+import fr.univtln.maxremvi.model.AnswerChoice;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
@@ -9,7 +8,7 @@ import javafx.scene.control.TableView;
 public class ViewPollViewController {
 
     @FXML
-    private TableView<PollDate> pollDateTable;
+    private TableView<AnswerChoice> pollDateTable;
 
 
     public static void useless(){
