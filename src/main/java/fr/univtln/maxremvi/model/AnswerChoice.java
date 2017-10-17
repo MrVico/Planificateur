@@ -80,4 +80,16 @@ public class AnswerChoice {
                 rs.getInt("IDPOLL")
         );
     }
+
+    @Override
+    public String toString() {
+        return "AnswerChoice{" +
+                "id=" + id +
+                ", idPoll=" + idPoll +
+                ", creationDate=" + creationDate +
+                ", dateChoice=" + dateChoice +
+                ", dateProperty=" + dateProperty +
+                ", hourProperty=" + hourProperty +
+                '}';
+    }
 }

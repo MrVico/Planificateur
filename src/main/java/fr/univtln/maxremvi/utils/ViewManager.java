@@ -15,11 +15,12 @@ import java.io.IOException;
  */
 public class ViewManager {
     public static void switchView(String viewName){
+        /*
         if(viewName != "signin" && viewName != "register" && !User.isLogged()){
             ViewManager.switchView("signin");
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Utilisateur non identifié", null, "Veuillez vous connectez !");
         }
-        else{
+        else{*/
             String viewUrl = "/views/" + viewName + ".fxml";
             FXMLLoader fxmlLoader = new FXMLLoader(viewUrl.getClass().getResource(viewUrl));
             Parent root1 = null;
@@ -32,6 +33,6 @@ public class ViewManager {
             stage.setScene(new Scene(root1, 800, 600));
             stage.setResizable(false);
             stage.show();
-        }
+        //}
     }
 }

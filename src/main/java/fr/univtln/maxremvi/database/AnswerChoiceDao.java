@@ -3,12 +3,9 @@ package fr.univtln.maxremvi.database;
 import fr.univtln.maxremvi.model.Answer;
 import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Person;
-import fr.univtln.maxremvi.utils.TimeManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
@@ -29,6 +26,21 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
             AnswerChoice answerChoice = AnswerChoice.fromResultSet(rs);
             rs.close();
             return answerChoice;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<AnswerChoice> getAnswerChoices(int idPoll){
+        try {
+            String query = "SELECT * FROM ANSwERCHOICE WHERE IDPOLL = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
+            List<AnswerChoice> answerChoices = new ArrayList<>();
+            while(rs.next()){
+                answerChoices.add(new AnswerChoice(rs.getInt("IDANSWERCHOICE"), rs.getTimestamp("CREATIONDATE"), rs.getTimestamp("DATECHOICE"), rs.getInt("IDPOLL")));
+            }
+            return answerChoices;
         } catch (SQLException e) {
             e.printStackTrace();
         }

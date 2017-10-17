@@ -43,8 +43,8 @@
         </GridPane>
         <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
             <children>
-                <Button mnemonicParsing="false" onAction="#handleRegisterButtonClick" text="S'inscrire" StackPane.alignment="CENTER_RIGHT" />
-            <Button mnemonicParsing="false" text="Annuler" onAction="#handleCancelButtonClick" />
+                <Button mnemonicParsing="false" onAction="#handleRegisterButtonClick" text="S'inscrire" StackPane.alignment="CENTER" />
+                <Button mnemonicParsing="false" text="Annuler" onAction="#handleCancelButtonClick" StackPane.alignment="CENTER_RIGHT" />
             </children>
         </StackPane>
     </children>

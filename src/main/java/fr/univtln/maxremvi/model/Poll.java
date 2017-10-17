@@ -82,4 +82,17 @@ public class Poll {
     public void setPromoter(Person promoter) {
         this.idPerson = promoter;
     }
+
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                ", closingDate=" + closingDate +
+                ", closed=" + closed +
+                ", idPerson=" + idPerson +
+                '}';
+    }
 }

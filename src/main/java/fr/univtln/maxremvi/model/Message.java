@@ -56,4 +56,15 @@ public class Message {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", sender=" + sender +
+                ", poll=" + poll +
+                ", content='" + content + '\'' +
+                ", creationDate=" + creationDate +
+                '}';
+    }
 }

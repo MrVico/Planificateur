@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
-<?import javafx.collections.FXCollections?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import fr.univtln.maxremvi.model.PollDate?>
-
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <?import jfxtras.scene.control.LocalDateTimeTextField?>
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.ViewPollViewController">
-   <children>
-      <Label layoutX="141.0" layoutY="70.0" text="Titre" />
-      <Label layoutX="141.0" layoutY="118.0" text="Description" />
-      <Label layoutX="112.0" layoutY="237.0" text="Lieu de l'évènement" />
-      <TextField layoutX="225.0" layoutY="66.0" prefHeight="25.0" prefWidth="411.0" />
-      <TextField layoutX="225.0" layoutY="233.0" />
-      <TextArea layoutX="225.0" layoutY="118.0" prefHeight="88.0" prefWidth="411.0" />
-      <TableView fx:id="pollDateTable" layoutX="226.0" layoutY="280.0" prefHeight="200.0" prefWidth="411.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="Date" >
-            <cellValueFactory><PropertyValueFactory property="datum" />
-            </cellValueFactory>
-          </TableColumn>
-          <TableColumn prefWidth="75.0" text="Heure 1" >
-            <cellValueFactory><PropertyValueFactory property="hour1" />
-            </cellValueFactory>
-          </TableColumn>
-          <TableColumn prefWidth="75.0" text="Heure 2" >
-            <cellValueFactory><PropertyValueFactory property="hour2" />
-            </cellValueFactory>
-          </TableColumn>
-          <TableColumn prefWidth="75.0" text="Heure 3" >
-            <cellValueFactory><PropertyValueFactory property="hour3" />
-            </cellValueFactory>
-          </TableColumn>
-        </columns>
-          <items>
-              <FXCollections fx:factory="observableArrayList">
-                  <PollDate datum="Jacob" hour1="Smith" hour2="jacob.smith@example.com" hour3="123"/>
-              </FXCollections>
-          </items>
-      </TableView>
-       <LocalDateTimeTextField></LocalDateTimeTextField>
-   </children>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.ViewPollViewController">
+    <children>
+        <VBox layoutX="200.0">
+            <children>
+                <GridPane hgap="10" vgap="10">
+                    <children>
+                        <TextField fx:id="title" GridPane.columnIndex="1" />
+                        <TextField fx:id="place" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Titre" />
+                        <Label text="Lieu" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1" />
+                        <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    </children>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                    <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                    </columnConstraints>
+                </GridPane>
+                <HBox>
+                    <Label contentDisplay="RIGHT" text="Date de rendez-vous">
+                        <graphic>
+                            <LocalDateTimeTextField fx:id="proposed_date" />
+                        </graphic>
+                    </Label>
+                    <Button text="Ajouter date" />
+                </HBox>
+                <HBox>
+                    <TableView fx:id="table_dates" prefHeight="150" />
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>

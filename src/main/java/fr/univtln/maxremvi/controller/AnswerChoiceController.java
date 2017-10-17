@@ -26,6 +26,14 @@ public class AnswerChoiceController {
     }
 
     public static AnswerChoiceController getInstance(){
+        if(answerChoiceController == null)
+            return new AnswerChoiceController();
+        else
+            return answerChoiceController;
+    }
+
+    public List<AnswerChoice> getPollAnswerChoices(int idPoll){
+        return answerChoiceDao.getAnswerChoices(idPoll);
         if (answerChoiceController == null)
             answerChoiceController = new AnswerChoiceController();
         return answerChoiceController;

@@ -1,7 +1,5 @@
 package fr.univtln.maxremvi.model;
 
-import fr.univtln.maxremvi.controller.PersonController;
-
 public class User {
     private static Person user = null;
 

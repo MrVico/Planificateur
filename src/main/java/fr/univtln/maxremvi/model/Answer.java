@@ -40,4 +40,14 @@ public class Answer {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "person=" + person +
+                ", poll=" + poll +
+                ", creationDate=" + creationDate +
+                ", answerChoices=" + answerChoices +
+                '}';
+    }
 }
