@@ -42,11 +42,10 @@ public class PollDao extends AbstractDao<Poll> {
             ResultSet rs = DatabaseUtil.executeQuery(query);
 
             List<Poll> pollList = new ArrayList<>();
-            // TODO : A CHANGER !!!
-            Person pers = new Person(null, "Login", "Password", "email@gmail.com", null, null);
             while (rs.next()) {
+                Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
                 //System.out.println(rs.getString("TITLE")+" "+rs.getString("DESCRIPTION")+" "+rs.getString("LOCATION")+" "+rs.getDate("CLOSINGDATE")+" "+rs.getString("CLOSED"));
-                pollList.add(new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getTimestamp("CLOSINGDATE"),
+                pollList.add(new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
                         rs.getBoolean("CLOSED"), pers));
             }
             return pollList;

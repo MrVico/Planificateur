@@ -1,8 +1,10 @@
 package fr.univtln.maxremvi.view;
 
+import fr.univtln.maxremvi.controller.AnswerChoiceController;
 import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.database.PersonDao;
 import fr.univtln.maxremvi.model.AnswerChoice;
+import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
@@ -23,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.function.Consumer;
 
 /**
  * Created by remi on 14/10/2017.
@@ -50,6 +53,7 @@ public class CreatePollViewController {
     private TableView table_dates;
 
     private PollController pollController;
+    private AnswerChoiceController answerChoiceController;
 
     private ObservableList<AnswerChoice> proposedDates;
 
@@ -65,6 +69,8 @@ public class CreatePollViewController {
         table_dates.getColumns().addAll(dateCol, hourCol);
 
         pollController = PollController.getInstance();
+        answerChoiceController = AnswerChoiceController.getInstance();
+
         proposedDates = ListManager.observableListFromList(new ArrayList<AnswerChoice>());
         table_dates.setItems(proposedDates);
     }
@@ -72,7 +78,7 @@ public class CreatePollViewController {
     public void handleCreatePollButton(ActionEvent event) {
         Poll.type pollType = null;
 
-        if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || end_date.getText().isEmpty()) {
+        if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || end_date.getText().isEmpty() || proposedDates.isEmpty()) {
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
         } else {
             if (radio_public.isSelected())
@@ -85,11 +91,16 @@ public class CreatePollViewController {
             Date endDate = TimeManager.localDateToDate(end_date.getLocalDateTime());
 
             PersonDao personDao = new PersonDao();
-            Person promoter = personDao.get(1);
+            Person promoter = User.getUser();
 
             try {
                 Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, promoter);
-                /// TODO: Changer l'id du poll dans les AnswerChoice avant leur insertion
+
+                if (proposedDates != null) {
+                    proposedDates.forEach(answerChoice -> answerChoice.setIdPoll(savedPoll.getId()));
+                    answerChoiceController.addAll(proposedDates);
+                }
+
                 ViewManager.switchView("home");
             } catch (SQLException e) {
                 e.printStackTrace();

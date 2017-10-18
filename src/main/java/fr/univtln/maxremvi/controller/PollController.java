@@ -30,11 +30,10 @@ public class PollController {
     }
 
     public Poll addPoll(String title, String description, String location, Date closingDate, boolean closed, Person promoter) throws SQLException {
-        // TODO : -1 --> crade ?
-        return pollDao.add(new Poll(-1, title, description, location, closingDate, closed, promoter));
+        return pollDao.add(new Poll(null, title, description, location, closingDate, closed, promoter));
     }
 
-    public Poll getPoll(int id){
+    public Poll getPoll(int id) {
         return pollDao.get(id);
     }
 

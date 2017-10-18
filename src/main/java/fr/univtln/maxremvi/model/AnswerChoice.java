@@ -65,6 +65,14 @@ public class AnswerChoice {
         hourProperty.set(v);
     }
 
+    public int getIdPoll() {
+        return idPoll;
+    }
+
+    public void setIdPoll(int idPoll) {
+        this.idPoll = idPoll;
+    }
+
     public static AnswerChoice fromResultSet(ResultSet rs) throws SQLException {
         return new AnswerChoice(
                 rs.getInt("IDANSWERCHOICE"),
