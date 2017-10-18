@@ -97,7 +97,7 @@ public class CreatePollViewController implements ViewControllerInterface {
                     answerChoiceController.addAll(proposedDates);
                 }
 
-                ViewManager.switchView("home");
+                ViewManager.switchView(ViewManager.viewsEnum.HOME);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

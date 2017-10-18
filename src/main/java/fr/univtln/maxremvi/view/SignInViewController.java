@@ -32,7 +32,7 @@ public class SignInViewController implements ViewControllerInterface {
             Person person = personController.getPerson(login.getText(), PasswordManager.encrypt(password.getText().toString()));
             if (person != null) {
                 User.setUser(person);
-                ViewManager.switchView("home");
+                ViewManager.switchView(ViewManager.viewsEnum.HOME);
             } else {
                 AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Mauvais identifiants");
             }
@@ -41,18 +41,18 @@ public class SignInViewController implements ViewControllerInterface {
 
     @FXML
     public void handleRegisterButtonClick(ActionEvent event) {
-        ViewManager.switchView("register");
+        ViewManager.switchView(ViewManager.viewsEnum.REGISTER);
 
     }
 
     @FXML
     public void handleHomeButtonClick(ActionEvent event) {
-        ViewManager.switchView("home");
+        ViewManager.switchView(ViewManager.viewsEnum.HOME);
     }
 
     @FXML
     public void handleCreatePollButtonClick(ActionEvent event) {
-        ViewManager.switchView("create_poll");
+        ViewManager.switchView(ViewManager.viewsEnum.CREATE_POLL);
     }
 
     @Override

@@ -30,7 +30,7 @@ public class HomeViewController implements ViewControllerInterface {
             public void handle(MouseEvent event) {
                 if(event.getClickCount()==2){
                     Poll selectedPoll = pollList.get(listView.getSelectionModel().getSelectedIndex());
-                    ViewManager.switchView("viewPoll", selectedPoll);
+                    ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, selectedPoll);
                 }
             }
         });
@@ -63,11 +63,11 @@ public class HomeViewController implements ViewControllerInterface {
 
     @FXML
     public void handleCreatePollButtonClick(ActionEvent actionEvent) {
-        ViewManager.switchView("createPoll");
+        ViewManager.switchView(ViewManager.viewsEnum.CREATE_POLL);
     }
 
     public void handleViewProfilButtonClick(ActionEvent actionEvent) {
-        ViewManager.switchView("viewProfil");
+        ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
     }
 
     @Override

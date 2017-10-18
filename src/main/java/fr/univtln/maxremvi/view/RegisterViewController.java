@@ -52,7 +52,7 @@ public class RegisterViewController implements ViewControllerInterface {
                     try {
                         Person newPerson = personController.addPerson(login.getText(), PasswordManager.encrypt(password.getText()), email.getText(), firstname.getText(), lastname.getText());
                         AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Votre compte a bien été créé !");
-                        ViewManager.switchView("signin");
+                        ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
                     } catch (SQLException e) {
                         System.out.println(e.getMessage());
                         AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Un compte avec ce login ou cet email existe déjà.");
@@ -68,7 +68,7 @@ public class RegisterViewController implements ViewControllerInterface {
 
     @FXML
     public void handleCancelButtonClick(ActionEvent actionEvent) {
-        ViewManager.switchView("signin");
+        ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
     }
 
     @Override

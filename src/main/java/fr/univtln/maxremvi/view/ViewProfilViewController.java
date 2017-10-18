@@ -41,7 +41,7 @@ public class ViewProfilViewController implements ViewControllerInterface {
     }
 
     public void handleUpdateProfilButtonClick(ActionEvent actionEvent) {
-        ViewManager.switchView("updateProfil");
+        ViewManager.switchView(ViewManager.viewsEnum.UPDATE_PROFIL);
     }
 
     @Override

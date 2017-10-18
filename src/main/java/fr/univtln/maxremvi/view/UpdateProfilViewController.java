@@ -43,7 +43,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
             p.setLastname(lastname.getText());
             if(personController.updatePerson(p)) {
                 AlertManager.AlertBox(Alert.AlertType.INFORMATION, "ed", null, "Profil mis à jour avec succès.");
-                ViewManager.switchView("viewProfil");
+                ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                                 p.setPassword(newPassword);
                                 if(personController.updatePerson(p)) {
                                     AlertManager.AlertBox(Alert.AlertType.INFORMATION, "ed", null, "Profil mis à jour avec succès.");
-                                    ViewManager.switchView("viewProfil");
+                                    ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
                                 }
                                 System.out.println("yes");
                             }catch (SQLException e){

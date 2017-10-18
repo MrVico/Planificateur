@@ -13,14 +13,36 @@ import java.io.IOException;
  * Created by remi on 14/10/2017.
  */
 public class ViewManager {
-    public static void switchView(String viewName, Object... data) {
+    public static enum viewsEnum {
+        CREATE_POLL("createPoll"),
+        HOME("home"),
+        REGISTER("register"),
+        SIGNIN("signin"),
+        UPDATE_PROFIL("updateProfil"),
+        VIEW_POLL("viewPoll"),
+        VIEW_PROFIL("viewProfil");
+
+        String filename;
+
+        private viewsEnum(String filename) {
+            this.filename = filename;
+        }
+
+        public String getFilename() {
+            return this.filename;
+        }
+    }
+
+    ;
+
+    public static void switchView(viewsEnum viewName, Object... data) {
         /*
         if(viewName != "signin" && viewName != "register" && !User.isLogged()){
             ViewManager.switchView("signin");
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Utilisateur non identifié", null, "Veuillez vous connectez !");
         }
         else{*/
-        String viewUrl = "/views/" + viewName + ".fxml";
+        String viewUrl = "/views/" + viewName.getFilename() + ".fxml";
         FXMLLoader fxmlLoader = new FXMLLoader(viewUrl.getClass().getResource(viewUrl));
 
         Parent root1 = null;
