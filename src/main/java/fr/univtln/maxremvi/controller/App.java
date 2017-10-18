@@ -17,7 +17,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         App.setStage(stage);
-        ViewManager.switchView(ViewManager.viewsEnum.HOME);
+        ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
     }
 
     public static Stage getStage() {
