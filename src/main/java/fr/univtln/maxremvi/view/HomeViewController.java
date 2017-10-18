@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeViewController {
+public class HomeViewController implements ViewControllerInterface {
     private final ObservableList<HBox> lines = FXCollections.observableArrayList();
     private List<Poll> pollList;
     private PollController pollController;
@@ -29,7 +29,8 @@ public class HomeViewController {
             @Override
             public void handle(MouseEvent event) {
                 if(event.getClickCount()==2){
-                    System.out.println(pollList.get(listView.getSelectionModel().getSelectedIndex()));
+                    Poll selectedPoll = pollList.get(listView.getSelectionModel().getSelectedIndex());
+                    ViewManager.switchView("viewPoll", selectedPoll);
                 }
             }
         });
@@ -67,5 +68,10 @@ public class HomeViewController {
 
     public void handleViewProfilButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView("viewProfil");
+    }
+
+    @Override
+    public void initData(Object... arguments) {
+
     }
 }

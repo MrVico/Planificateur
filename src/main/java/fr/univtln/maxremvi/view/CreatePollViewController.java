@@ -19,18 +19,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import jfxtras.scene.control.*;
 
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.function.Consumer;
 
 /**
  * Created by remi on 14/10/2017.
  */
-public class CreatePollViewController {
+public class CreatePollViewController implements ViewControllerInterface {
     @FXML
     private TextField title;
     @FXML
@@ -78,7 +74,7 @@ public class CreatePollViewController {
     public void handleCreatePollButton(ActionEvent event) {
         Poll.type pollType = null;
 
-        if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || end_date.getText().isEmpty() || proposedDates.isEmpty()) {
+        if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || proposedDates.isEmpty()) {
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
         } else {
             if (radio_public.isSelected())
@@ -114,5 +110,10 @@ public class CreatePollViewController {
             proposedDates.add(new AnswerChoice(null, Calendar.getInstance().getTime(), TimeManager.localDateToDate(proposed_date.getLocalDateTime()), null));
             proposed_date.setText("");
         }
+    }
+
+    @Override
+    public void initData(Object... arguments) {
+
     }
 }

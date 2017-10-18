@@ -12,7 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class SignInViewController {
+public class SignInViewController implements ViewControllerInterface {
     @FXML
     private TextField login;
     @FXML
@@ -53,5 +53,10 @@ public class SignInViewController {
     @FXML
     public void handleCreatePollButtonClick(ActionEvent event) {
         ViewManager.switchView("create_poll");
+    }
+
+    @Override
+    public void initData(Object... arguments) {
+
     }
 }

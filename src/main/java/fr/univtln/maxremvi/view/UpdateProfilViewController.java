@@ -11,15 +11,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
-import jdk.nashorn.internal.scripts.JO;
-import sun.nio.cs.US_ASCII;
 
 import javax.swing.*;
-import javax.swing.text.View;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class UpdateProfilViewController {
+public class UpdateProfilViewController implements ViewControllerInterface {
     @FXML
     private Text login;
     @FXML
@@ -92,18 +88,16 @@ public class UpdateProfilViewController {
 
                     }
                 }
-
-
-
             }
             else{
                 System.out.println("no");
             }
-
         }
-
     }
 
 
+    @Override
+    public void initData(Object... arguments) {
 
+    }
 }

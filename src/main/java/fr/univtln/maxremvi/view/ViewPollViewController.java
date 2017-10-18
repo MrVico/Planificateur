@@ -5,10 +5,6 @@ import fr.univtln.maxremvi.controller.AnswerController;
 import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.ListManager;
-import fr.univtln.maxremvi.utils.TimeManager;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,16 +15,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import javax.xml.soap.Text;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
-public class ViewPollViewController {
+public class ViewPollViewController implements ViewControllerInterface {
     @FXML
     private TextField title;
     @FXML
@@ -39,28 +31,30 @@ public class ViewPollViewController {
     private TableView table_dates;
     private ObservableList<AnswerChoice> proposedDates;
 
+    private Poll poll;
+
 
     public void initialize(){
-        Poll p = PollController.getInstance().getPoll(666);
-        title.setText(p.getTitle());
-        place.setText(p.getLocation());
-        description.setText(p.getDescription());
-        List<AnswerChoice> answerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(p.getId());
-        proposedDates = ListManager.observableListFromList(answerChoices);
-        table_dates.setEditable(true);
-        TableColumn dateCol = new TableColumn("Date");
-        dateCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
-        TableColumn hourCol = new TableColumn("Heure");
-        hourCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("hourProperty"));
-        TableColumn<AnswerChoice,Boolean> checkCol = new TableColumn<>();
-        checkCol.setCellValueFactory(new PropertyValueFactory<>("checkProperty"));
-        checkCol.setCellFactory(column -> new CheckBoxTableCell());
+        if (poll != null) {
+            title.setText(poll.getTitle());
+            place.setText(poll.getLocation());
+            description.setText(poll.getDescription());
+            List<AnswerChoice> answerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getId());
+            proposedDates = ListManager.observableListFromList(answerChoices);
+            table_dates.setEditable(true);
+            TableColumn dateCol = new TableColumn("Date");
+            dateCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
+            TableColumn hourCol = new TableColumn("Heure");
+            hourCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("hourProperty"));
+            TableColumn<AnswerChoice, Boolean> checkCol = new TableColumn<>();
+            checkCol.setCellValueFactory(new PropertyValueFactory<>("checkProperty"));
+            checkCol.setCellFactory(column -> new CheckBoxTableCell());
 
-        table_dates.getColumns().add(dateCol);
-        table_dates.getColumns().add(hourCol);
-        table_dates.getColumns().add(checkCol);
-        table_dates.setItems(proposedDates);
-
+            table_dates.getColumns().add(dateCol);
+            table_dates.getColumns().add(hourCol);
+            table_dates.getColumns().add(checkCol);
+            table_dates.setItems(proposedDates);
+        }
 
         // NE PAS SUPPRIMER
         /*
@@ -122,11 +116,17 @@ public class ViewPollViewController {
             }
         }
         try {
-            AnswerController.getInstance().addAnswer(1, 666, answerChoices);
+            AnswerController.getInstance().addAnswer(User.getUser().getId(), poll.getId(), answerChoices);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initData(Object... arguments) {
+        this.poll = (Poll) arguments[0];
+        initialize();
     }
 }

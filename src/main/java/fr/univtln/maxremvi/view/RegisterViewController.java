@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class RegisterViewController {
+public class RegisterViewController implements ViewControllerInterface {
     @FXML
     private TextField login;
     @FXML
@@ -69,5 +69,10 @@ public class RegisterViewController {
     @FXML
     public void handleCancelButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView("signin");
+    }
+
+    @Override
+    public void initData(Object... arguments) {
+
     }
 }

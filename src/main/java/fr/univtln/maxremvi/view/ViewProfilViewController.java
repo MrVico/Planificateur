@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 
-public class ViewProfilViewController {
+public class ViewProfilViewController implements ViewControllerInterface {
     @FXML
     private Text login;
     @FXML
@@ -42,5 +42,10 @@ public class ViewProfilViewController {
 
     public void handleUpdateProfilButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView("updateProfil");
+    }
+
+    @Override
+    public void initData(Object... arguments) {
+
     }
 }
