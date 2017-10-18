@@ -1,10 +1,9 @@
 package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.AnswerChoiceController;
+import fr.univtln.maxremvi.controller.AnswerController;
 import fr.univtln.maxremvi.controller.PollController;
-import fr.univtln.maxremvi.model.AnswerChoice;
-import fr.univtln.maxremvi.model.AnswerChoiceFormatted;
-import fr.univtln.maxremvi.model.Poll;
+import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.TimeManager;
 import javafx.beans.property.ListProperty;
@@ -17,12 +16,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.xml.soap.Text;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class ViewPollViewController {
@@ -32,8 +35,6 @@ public class ViewPollViewController {
     private TextField place;
     @FXML
     private TextArea description;
-    @FXML
-    private TableView<AnswerChoice> pollDateTable;
     @FXML
     private TableView table_dates;
     private ObservableList<AnswerChoice> proposedDates;
@@ -48,9 +49,21 @@ public class ViewPollViewController {
         proposedDates = ListManager.observableListFromList(answerChoices);
         table_dates.setEditable(true);
         TableColumn dateCol = new TableColumn("Date");
-        dateCol.setCellValueFactory(new PropertyValueFactory<AnswerChoiceFormatted, String>("dateProperty"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
+        TableColumn hourCol = new TableColumn("Heure");
+        hourCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("hourProperty"));
+        TableColumn<AnswerChoice,Boolean> checkCol = new TableColumn<>();
+        checkCol.setCellValueFactory(new PropertyValueFactory<>("checkProperty"));
+        checkCol.setCellFactory(column -> new CheckBoxTableCell());
+
+        table_dates.getColumns().add(dateCol);
+        table_dates.getColumns().add(hourCol);
+        table_dates.getColumns().add(checkCol);
+        table_dates.setItems(proposedDates);
 
 
+        // NE PAS SUPPRIMER
+        /*
         List<AnswerChoiceFormatted> answerChoiceFormatteds = new ArrayList<>();
 
         ObservableList<SimpleStringProperty> hours_1 = ListManager.observableListFromList(Arrays.asList(new SimpleStringProperty(answerChoices.get(0).getHourProperty())));
@@ -61,9 +74,9 @@ public class ViewPollViewController {
         ListProperty<SimpleStringProperty> hours2_2 = new SimpleListProperty<>(hours_2);
         AnswerChoiceFormatted answerChoiceFormatted_2 = new AnswerChoiceFormatted(new SimpleStringProperty(answerChoices.get(1).getDateProperty()), hours2_2);
 
-        ObservableList<SimpleStringProperty> hours_3 = ListManager.observableListFromList(Arrays.asList(new SimpleStringProperty(answerChoices.get(2).getHourProperty())));
+        ObservableList<SimpleStringProperty> hours_3 = ListManager.observableListFromList(Arrays.asList(new SimpleStringProperty(answerChoices.get(3).getHourProperty())));
         ListProperty<SimpleStringProperty> hours2_3 = new SimpleListProperty<>(hours_3);
-        AnswerChoiceFormatted answerChoiceFormatted_3 = new AnswerChoiceFormatted(new SimpleStringProperty(answerChoices.get(2).getDateProperty()), hours2_3);
+        AnswerChoiceFormatted answerChoiceFormatted_3 = new AnswerChoiceFormatted(new SimpleStringProperty(answerChoices.get(3).getDateProperty()), hours2_3);
 
         answerChoiceFormatteds.add(answerChoiceFormatted_1);
         answerChoiceFormatteds.add(answerChoiceFormatted_2);
@@ -91,12 +104,29 @@ public class ViewPollViewController {
 
         for(int i=0; i<highestAmountOfHoursPerDay; i++){
             TableColumn hourCol = new TableColumn("Heure "+(i+1));
-            hourCol.setCellValueFactory(new PropertyValueFactory<AnswerChoiceFormatted, String>("hourProperty"));
+            hourCol.setCellValueFactory(new PropertyValueFactory<AnswerChoiceFormatted, String>("hourProperties"));
             hourCols.add(hourCol);
         }
+        */
+    }
 
-        table_dates.getColumns().add(dateCol);
-        table_dates.getColumns().addAll(hourCols);
-        table_dates.setItems(list);
+    @FXML
+    public void handleValidateAnswerButtonClick(ActionEvent actionEvent) {
+        List<AnswerChoice> answerChoices = new ArrayList<>();
+        for(Object obj : table_dates.getItems()){
+            AnswerChoice answerChoice = null;
+            if(obj instanceof AnswerChoice) {
+                answerChoice = (AnswerChoice) obj;
+                if(answerChoice.isCheckProperty())
+                    answerChoices.add(answerChoice);
+            }
+        }
+        try {
+            AnswerController.getInstance().addAnswer(1, 666, answerChoices);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

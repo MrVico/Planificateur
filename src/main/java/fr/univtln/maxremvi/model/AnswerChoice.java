@@ -1,6 +1,7 @@
 package fr.univtln.maxremvi.model;
 
 import fr.univtln.maxremvi.utils.TimeManager;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ public class AnswerChoice {
     private Date dateChoice;
     private SimpleStringProperty dateProperty;
     private SimpleStringProperty hourProperty;
+    private SimpleBooleanProperty checkProperty;
 
     public AnswerChoice(Integer id, Date creationDate, Date dateChoice, Integer idPoll) {
         this.id = id;
@@ -22,6 +24,7 @@ public class AnswerChoice {
         this.dateChoice = dateChoice;
         this.dateProperty = new SimpleStringProperty(TimeManager.extractDateString(dateChoice));
         this.hourProperty = new SimpleStringProperty(TimeManager.extractHourMinutesString(dateChoice));
+        this.checkProperty = new SimpleBooleanProperty(false);
         this.idPoll = idPoll;
     }
 
@@ -65,6 +68,18 @@ public class AnswerChoice {
         hourProperty.set(v);
     }
 
+    public boolean isCheckProperty() {
+        return checkProperty.get();
+    }
+
+    public SimpleBooleanProperty checkPropertyProperty() {
+        return checkProperty;
+    }
+
+    public void setCheckProperty(boolean checkProperty) {
+        this.checkProperty.set(checkProperty);
+    }
+
     public int getIdPoll() {
         return idPoll;
     }
@@ -91,6 +106,7 @@ public class AnswerChoice {
                 ", dateChoice=" + dateChoice +
                 ", dateProperty=" + dateProperty +
                 ", hourProperty=" + hourProperty +
+                ", checkProperty=" + checkProperty +
                 '}';
     }
 }

@@ -14,4 +14,8 @@ public class DatabaseDao {
     public static AnswerChoiceDao getAnswerChoiceDao() throws SQLException {
         return (AnswerChoiceDao) new AnswerChoiceDao().getInstance();
     }
+
+    public static AnswerDao getAnswerDao() throws SQLException {
+        return (AnswerDao) new AnswerDao().getInstance();
+    }
 }

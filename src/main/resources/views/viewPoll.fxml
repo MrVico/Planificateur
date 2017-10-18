@@ -14,6 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import jfxtras.scene.control.LocalDateTimeTextField?>
 
+<?import javafx.scene.layout.StackPane?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.ViewPollViewController">
     <children>
         <VBox layoutX="200.0">
@@ -49,6 +50,11 @@
                 <HBox>
                     <TableView fx:id="table_dates" prefHeight="150" />
                 </HBox>
+            <StackPane prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleValidateAnswerButtonClick" text="Valider réponse" />
+               </children>
+            </StackPane>
             </children>
         </VBox>
     </children>
