@@ -98,6 +98,25 @@ public class AnswerChoice {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AnswerChoice that = (AnswerChoice) o;
+
+        if (!dateProperty.toString().equals(that.dateProperty.toString())) return false;
+        return hourProperty.toString().equals(that.hourProperty.toString());
+    }
+
+    //ça sert à quoi ce bidule encore ?
+    @Override
+    public int hashCode() {
+        int result = dateProperty.hashCode();
+        result = 31 * result + hourProperty.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "AnswerChoice{" +
                 "id=" + id +

@@ -3,7 +3,6 @@ package fr.univtln.maxremvi.controller;
 import fr.univtln.maxremvi.database.AnswerChoiceDao;
 import fr.univtln.maxremvi.database.DatabaseDao;
 import fr.univtln.maxremvi.model.AnswerChoice;
-import fr.univtln.maxremvi.model.Person;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,7 +32,11 @@ public class AnswerChoiceController {
     }
 
     public List<AnswerChoice> getPollAnswerChoices(int idPoll){
-        return answerChoiceDao.getAnswerChoices(idPoll);
+        return answerChoiceDao.getPollAnswerChoices(idPoll);
+    }
+
+    public List<AnswerChoice> getPollAnswerChoicesForPerson(int idPoll, int idPerson) {
+        return answerChoiceDao.getPollAnswerChoicesForPerson(idPoll, idPerson);
     }
 
     public AnswerChoice addAnswerChoice(Date creationDate, Date dateChoice, Integer idPoll)  throws SQLException, IOException {
