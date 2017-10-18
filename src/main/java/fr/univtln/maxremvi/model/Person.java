@@ -75,8 +75,8 @@ public class Person {
                 rs.getString("PASSWORD"),
                 rs.getString("EMAIL"),
                 rs.getString("FIRSTNAME"),
-                rs.getString("LASTNAME")
-        );
+                rs.getString("LASTNAME"));
+
     }
 
     @Override

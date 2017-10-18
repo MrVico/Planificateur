@@ -50,10 +50,11 @@ public class PersonDao extends AbstractDao<Person> {
         try {
             String query = "SELECT * FROM PERSON WHERE LOGIN = ? and PASSWORD = ?";
             ResultSet rs = DatabaseUtil.executeQuery(query, login, password);
-            rs.next();
-            Person person = Person.fromResultSet(rs);
-            rs.close();
-            return person;
+            if(rs.next()) {
+                Person person = Person.fromResultSet(rs);
+                rs.close();
+                return person;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
