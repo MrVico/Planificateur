@@ -35,7 +35,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
 
     public List<AnswerChoice> getAnswerChoices(int idPoll){
         try {
-            String query = "SELECT * FROM ANSwERCHOICE WHERE IDPOLL = ?";
+            String query = "SELECT * FROM ANSwERCHOICE WHERE IDPOLL = ? ORDER BY DATECHOICE ASC";
             ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
             List<AnswerChoice> answerChoices = new ArrayList<>();
             while(rs.next()){
