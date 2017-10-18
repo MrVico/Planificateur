@@ -61,6 +61,18 @@ public class ViewPollViewController {
         table_dates.getColumns().add(checkCol);
         table_dates.setItems(proposedDates);
 
+        List<AnswerChoice> myAnswers = AnswerChoiceController.getInstance().getPollAnswerChoicesForPerson(666, 1);
+        System.out.println(myAnswers);
+        for(AnswerChoice myAnswer : myAnswers){
+            for(AnswerChoice answerChoice : answerChoices){
+                if(myAnswer.equals(answerChoice)){
+                    //TODO : A changer, passer par le controleur etc ???
+                    System.out.println("HELLO");
+                    answerChoice.setCheckProperty(true);
+                }
+            }
+        }
+
 
         // NE PAS SUPPRIMER
         /*

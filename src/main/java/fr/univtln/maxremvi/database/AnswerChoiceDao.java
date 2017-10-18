@@ -35,10 +35,25 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
         return null;
     }
 
-    public List<AnswerChoice> getAnswerChoices(int idPoll){
+    public List<AnswerChoice> getPollAnswerChoices(int idPoll){
         try {
             String query = "SELECT * FROM ANSwERCHOICE WHERE IDPOLL = ? ORDER BY DATECHOICE ASC";
             ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
+            List<AnswerChoice> answerChoices = new ArrayList<>();
+            while(rs.next()){
+                answerChoices.add(new AnswerChoice(rs.getInt("IDANSWERCHOICE"), rs.getTimestamp("CREATIONDATE"), rs.getTimestamp("DATECHOICE"), rs.getInt("IDPOLL")));
+            }
+            return answerChoices;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<AnswerChoice> getPollAnswerChoicesForPerson(int idPoll, int idPerson){
+        try {
+            String query = "SELECT a.* FROM ANSWER_ANSWERCHOICE aa JOIN ANSWERCHOICE a ON aa.IDANSWERCHOICE = a.IDANSWERCHOICE WHERE aa.IDPOLL = ? AND aa.IDPERSON = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, idPoll, idPerson);
             List<AnswerChoice> answerChoices = new ArrayList<>();
             while(rs.next()){
                 answerChoices.add(new AnswerChoice(rs.getInt("IDANSWERCHOICE"), rs.getTimestamp("CREATIONDATE"), rs.getTimestamp("DATECHOICE"), rs.getInt("IDPOLL")));
