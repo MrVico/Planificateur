@@ -19,8 +19,6 @@ public class PasswordManager {
                 if(hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
-            System.out.println(hexString);
-            System.out.println(hexString.toString());
             return hexString.toString();
         } catch(Exception ex){
             throw new RuntimeException(ex);

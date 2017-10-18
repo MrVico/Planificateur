@@ -4,6 +4,8 @@ import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.awt.*;
+
 public class App extends Application {
 
     private static Stage stage;

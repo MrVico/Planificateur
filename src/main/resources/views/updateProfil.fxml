@@ -38,6 +38,9 @@
         </GridPane>
         <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
             <children>
+                <Button mnemonicParsing="false" onAction="#handleChangePasswordButtonClick" text="Modifier mot de passe" StackPane.alignment="CENTER_LEFT" />
+            </children>
+            <children>
                 <Button mnemonicParsing="false" onAction="#handleUpdateProfilButtonClick" text="Valider les modifications" StackPane.alignment="CENTER_RIGHT" />
             </children>
         </StackPane>
