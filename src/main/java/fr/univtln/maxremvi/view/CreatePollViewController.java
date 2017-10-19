@@ -34,7 +34,11 @@ public class CreatePollViewController implements ViewControllerInterface {
     @FXML
     private TextArea description_poll;
     @FXML
-    private CheckBox possibility_add_dates_checkbox;
+    private CheckBox addDates;
+    @FXML
+    private CheckBox multipleChoice;
+    @FXML
+    private CheckBox hideAnswers;
     @FXML
     private LocalDateTimeTextField end_date;
     @FXML
@@ -90,7 +94,7 @@ public class CreatePollViewController implements ViewControllerInterface {
             Person promoter = User.getUser();
 
             try {
-                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, promoter);
+                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, promoter, multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected());
 
                 if (proposedDates != null) {
                     proposedDates.forEach(answerChoice -> answerChoice.setIdPoll(savedPoll.getId()));

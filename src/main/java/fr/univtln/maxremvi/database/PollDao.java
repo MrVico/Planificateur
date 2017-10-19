@@ -28,7 +28,7 @@ public class PollDao extends AbstractDao<Poll> {
             rs.next();
             Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
             Poll poll = new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
-                    rs.getBoolean("CLOSED"), pers);
+                    rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"));
             return poll;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,9 +44,8 @@ public class PollDao extends AbstractDao<Poll> {
             List<Poll> pollList = new ArrayList<>();
             while (rs.next()) {
                 Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
-                //System.out.println(rs.getString("TITLE")+" "+rs.getString("DESCRIPTION")+" "+rs.getString("LOCATION")+" "+rs.getDate("CLOSINGDATE")+" "+rs.getString("CLOSED"));
                 pollList.add(new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
-                        rs.getBoolean("CLOSED"), pers));
+                        rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES")));
             }
             return pollList;
         } catch (SQLException e) {
@@ -56,7 +55,7 @@ public class PollDao extends AbstractDao<Poll> {
     }
 
     public Poll add(Poll object) throws SQLException {
-        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         int pollId = DatabaseUtil.executeInsert(
                 query,
                 object.getPromoter().getId(),
@@ -66,7 +65,10 @@ public class PollDao extends AbstractDao<Poll> {
                 TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
                 TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
                 TimeManager.timeToSqlFormat(object.getClosingDate()),
-                object.isClosed()
+                object.isClosed(),
+                object.isMultipleChoice(),
+                object.isHideAnswers(),
+                object.isAddDates()
         );
         return ((PollDao) getInstance()).get(pollId);
     }

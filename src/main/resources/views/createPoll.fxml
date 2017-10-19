@@ -30,12 +30,12 @@
             <children>
                 <GridPane hgap="10" vgap="10">
                     <children>
-                        <TextField GridPane.columnIndex="1" fx:id="title"/>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="location_poll"/>
                         <Label text="Titre"/>
-                        <Label text="Lieu" GridPane.rowIndex="2"/>
+                        <TextField GridPane.columnIndex="1" fx:id="title"/>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1"/>
                         <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="description_poll"/>
+                        <Label text="Lieu" GridPane.rowIndex="2"/>
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="location_poll"/>
 
                         <VBox fillWidth="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <RadioButton fx:id="radio_public" selected="true" styleClass="custom-jfx-radio-button"
@@ -63,9 +63,19 @@
                         <ColumnConstraints/>
                     </columnConstraints>
                 </GridPane>
-                <CheckBox fx:id="possibility_add_dates_checkbox">
+                <CheckBox fx:id="addDates">
                     <graphic>
                         <Label text="Possibilité d'ajouter des dates"/>
+                    </graphic>
+                </CheckBox>
+                <CheckBox fx:id="multipleChoice">
+                    <graphic>
+                        <Label text="Autoriser le choix multiple"/>
+                    </graphic>
+                </CheckBox>
+                <CheckBox fx:id="hideAnswers">
+                    <graphic>
+                        <Label text="Cacher les réponses"/>
                     </graphic>
                 </CheckBox>
                 <Label contentDisplay="RIGHT" text="Date de fin de sondage">

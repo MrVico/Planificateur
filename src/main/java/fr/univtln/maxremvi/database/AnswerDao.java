@@ -22,6 +22,20 @@ public class AnswerDao extends AbstractDao<Answer>{
         return null;
     }
 
+    public boolean answerExists(int idPoll, int idPerson){
+        try {
+            String query = "SELECT * FROM ANSWER WHERE IDPOLL = ? AND IDPERSON = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, idPoll, idPerson);
+            if(!rs.next())
+                return false;
+            else
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @Override
     public List<Answer> getAll() {
         return null;
@@ -29,11 +43,14 @@ public class AnswerDao extends AbstractDao<Answer>{
 
     @Override
     public Answer add(Answer object) throws SQLException {
-        String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, CREATIONDATE) VALUES(?, ?, ?)";
-        DatabaseUtil.executeUpdate(query, object.getIdPoll(), object.getIdPerson(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
-        for(AnswerChoice answerChoice : object.getAnswerChoices()){
-            query = "INSERT INTO ANSWER_ANSWERCHOICE(IDPOLL, IDPERSON, IDANSWERCHOICE) VALUES(?, ?, ?)";
-            DatabaseUtil.executeUpdate(query, object.getIdPoll(), object.getIdPerson(), answerChoice.getId());
+        //TODO : Ajouter/Supprimer les réponses nouvelles
+        if(!answerExists(object.getIdPoll(), object.getIdPerson())){
+            String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, CREATIONDATE) VALUES(?, ?, ?)";
+            DatabaseUtil.executeUpdate(query, object.getIdPoll(), object.getIdPerson(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
+            for(AnswerChoice answerChoice : object.getAnswerChoices()){
+                query = "INSERT INTO ANSWER_ANSWERCHOICE(IDPOLL, IDPERSON, IDANSWERCHOICE) VALUES(?, ?, ?)";
+                DatabaseUtil.executeUpdate(query, object.getIdPoll(), object.getIdPerson(), answerChoice.getId());
+            }
         }
         return null;
     }
