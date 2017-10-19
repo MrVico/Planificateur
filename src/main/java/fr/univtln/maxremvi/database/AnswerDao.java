@@ -60,6 +60,25 @@ public class AnswerDao extends AbstractDao<Answer>{
         return null;
     }
 
+    public boolean delete(int idPoll, int idPerson, Integer id){
+        try {
+            String query = "DELETE FROM ANSWER WHERE IDPOLL = ? AND IDPERSON = ? AND IDANSWERCHOICE = ?";
+            DatabaseUtil.executeUpdate(query, idPoll, idPerson, id);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteAll(int idPoll, int idPerson, List<Integer> answerIDs) {
+        for(Integer id : answerIDs){
+            if(!delete(idPoll, idPerson, id))
+                return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean update(Answer object) {
         return false;

@@ -36,4 +36,8 @@ public class AnswerController {
     public List<Answer> addAll(List<Answer> answers) throws SQLException {
         return answerDao.addAll(answers);
     }
+
+    public boolean deleteAll(int idPoll, int idPerson, List<Integer> answerIDs) throws SQLException{
+        return answerDao.deleteAll(idPoll, idPerson, answerIDs);
+    }
 }
