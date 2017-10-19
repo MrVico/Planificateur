@@ -22,10 +22,10 @@ public class AnswerDao extends AbstractDao<Answer>{
         return null;
     }
 
-    public boolean answerExists(int idPoll, int idPerson){
+    public boolean answerExists(Answer answer){
         try {
-            String query = "SELECT * FROM ANSWER WHERE IDPOLL = ? AND IDPERSON = ?";
-            ResultSet rs = DatabaseUtil.executeQuery(query, idPoll, idPerson);
+            String query = "SELECT * FROM ANSWER WHERE IDPOLL = ? AND IDPERSON = ? AND IDANSWERCHOICE = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, answer.getIdPoll(), answer.getIdPerson(), answer.getIdAnswerChoice());
             if(!rs.next())
                 return false;
             else
@@ -44,19 +44,19 @@ public class AnswerDao extends AbstractDao<Answer>{
     @Override
     public Answer add(Answer object) throws SQLException {
         //TODO : Ajouter/Supprimer les réponses nouvelles
-        if(!answerExists(object.getIdPoll(), object.getIdPerson())){
-            String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, CREATIONDATE) VALUES(?, ?, ?)";
-            DatabaseUtil.executeUpdate(query, object.getIdPoll(), object.getIdPerson(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
-            for(AnswerChoice answerChoice : object.getAnswerChoices()){
-                query = "INSERT INTO ANSWER_ANSWERCHOICE(IDPOLL, IDPERSON, IDANSWERCHOICE) VALUES(?, ?, ?)";
-                DatabaseUtil.executeUpdate(query, object.getIdPoll(), object.getIdPerson(), answerChoice.getId());
-            }
+        if(!answerExists(object)){
+            String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, IDANSWERCHOICE, CREATIONDATE) VALUES(?, ?, ?, ?)";
+            DatabaseUtil.executeUpdate(query, object.getIdPoll(), object.getIdPerson(), object.getIdAnswerChoice(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
         }
         return null;
     }
 
     @Override
     public List<Answer> addAll(List<Answer> objects) throws SQLException {
+        for(Answer answer : objects){
+            add(answer);
+        }
+        // tous les returns sont inutiles IMO
         return null;
     }
 

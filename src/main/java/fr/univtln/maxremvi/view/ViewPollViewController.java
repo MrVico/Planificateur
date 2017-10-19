@@ -6,6 +6,7 @@ import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ListManager;
+import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javax.swing.plaf.ViewportUI;
+import javax.swing.text.View;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -115,21 +118,21 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     @FXML
     public void handleValidateAnswerButtonClick(ActionEvent actionEvent) {
-        List<AnswerChoice> answerChoices = new ArrayList<>();
+        List<Answer> answers = new ArrayList<>();
         for(Object obj : table_dates.getItems()){
             AnswerChoice answerChoice = null;
             if(obj instanceof AnswerChoice) {
                 answerChoice = (AnswerChoice) obj;
                 if(answerChoice.isCheckProperty())
-                    answerChoices.add(answerChoice);
+                    answers.add(new Answer(poll.getId(), User.getUser().getId(), answerChoice.getId()));
             }
         }
         try {
-            AnswerController.getInstance().addAnswer(User.getUser().getId(), poll.getId(), answerChoices);
+            System.out.println("New answers : "+answers);
+            AnswerController.getInstance().addAll(answers);
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
+            ViewManager.switchView(ViewManager.viewsEnum.HOME);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
