@@ -27,8 +27,7 @@ public class PollDao extends AbstractDao<Poll> {
             ResultSet rs = DatabaseUtil.executeQuery(query, id);
             rs.next();
             Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
-            Poll poll = new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
-                    rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.type.valueOf(rs.getString("TYPE")));
+            Poll poll = Poll.fromResultSet(rs, pers);
             return poll;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,8 +43,7 @@ public class PollDao extends AbstractDao<Poll> {
             List<Poll> pollList = new ArrayList<>();
             while (rs.next()) {
                 Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
-                pollList.add(new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
-                        rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.type.valueOf(rs.getString("TYPE"))));
+                pollList.add(Poll.fromResultSet(rs, pers));
             }
             return pollList;
         } catch (SQLException e) {

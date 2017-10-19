@@ -11,13 +11,18 @@ import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import jfxtras.scene.control.*;
 
+import javax.swing.event.ChangeListener;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,6 +56,8 @@ public class CreatePollViewController implements ViewControllerInterface {
     private RadioButton radio_private;
     @FXML
     private TableView table_dates;
+    @FXML
+    private Button remove_date_button;
 
     private PollController pollController;
     private AnswerChoiceController answerChoiceController;
@@ -73,20 +80,32 @@ public class CreatePollViewController implements ViewControllerInterface {
 
         proposedDates = ListManager.observableListFromList(new ArrayList<AnswerChoice>());
         table_dates.setItems(proposedDates);
+
+        table_dates.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                if (table_dates.getSelectionModel().getSelectedItem() != null) {
+                    remove_date_button.setDisable(false);
+                }
+                else {
+                    remove_date_button.setDisable(true);
+                }
+            }
+        });
     }
 
     public void handleCreatePollButton(ActionEvent event) {
-        Poll.type pollType = null;
+        Poll.pollType pollType = null;
 
         if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || proposedDates.isEmpty()) {
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
         } else {
             if (radio_public.isSelected())
-                pollType = Poll.type.PUBLIC;
+                pollType = Poll.pollType.PUBLIC;
             else if (radio_private.isSelected())
-                pollType = Poll.type.PRIVATE;
+                pollType = Poll.pollType.PRIVATE;
             else
-                pollType = Poll.type.PRIVATE_SHARABLE;
+                pollType = Poll.pollType.PRIVATE_SHARABLE;
 
             Date endDate = TimeManager.localDateToDate(end_date.getLocalDateTime());
 
@@ -114,6 +133,12 @@ public class CreatePollViewController implements ViewControllerInterface {
             proposedDates.add(new AnswerChoice(null, Calendar.getInstance().getTime(), TimeManager.localDateToDate(proposed_date.getLocalDateTime()), null));
             proposed_date.setText("");
         }
+    }
+
+    public void handleRemoveDateButtonClick(ActionEvent event) {
+        int focusedIndex = table_dates.getSelectionModel().getFocusedIndex();
+        if (focusedIndex != -1)
+            table_dates.getItems().remove(focusedIndex);
     }
 
     @Override

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -14,15 +16,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TableView?>
-<?import jfxtras.scene.control.CalendarTimePicker?>
-<?import jfxtras.scene.control.CalendarPicker?>
-<?import jfxtras.scene.control.CalendarTextField?>
-<?import jfxtras.scene.control.CalendarTimeTextField?>
 <?import jfxtras.scene.control.LocalDateTimeTextField?>
+
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.CreatePollViewController">
     <children>
@@ -31,11 +26,12 @@
                 <GridPane hgap="10" vgap="10">
                     <children>
                         <Label text="Titre"/>
-                        <TextField GridPane.columnIndex="1" fx:id="title"/>
+                        <TextField fx:id="title" GridPane.columnIndex="1"/>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1"/>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="description_poll"/>
+                        <TextArea fx:id="description_poll" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1"
+                                  GridPane.rowIndex="1"/>
                         <Label text="Lieu" GridPane.rowIndex="2"/>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="location_poll"/>
+                        <TextField fx:id="location_poll" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
                         <VBox fillWidth="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <RadioButton fx:id="radio_public" selected="true" styleClass="custom-jfx-radio-button"
@@ -78,23 +74,47 @@
                         <Label text="Cacher les réponses"/>
                     </graphic>
                 </CheckBox>
-                <Label contentDisplay="RIGHT" text="Date de fin de sondage">
-                    <graphic>
-                        <LocalDateTimeTextField fx:id="end_date"></LocalDateTimeTextField>
-                    </graphic>
-                </Label>
+                <GridPane hgap="10" vgap="10">
+                    <children>
+                        <Label contentDisplay="RIGHT" text="Date de fin de sondage" GridPane.columnIndex="1"
+                               GridPane.rowIndex="1"/>
+                        <LocalDateTimeTextField fx:id="end_date" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <Label contentDisplay="RIGHT" text="Date de rendez-vous" GridPane.columnIndex="1"
+                               GridPane.rowIndex="2"/>
+                        <VBox GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                            <LocalDateTimeTextField fx:id="proposed_date">
+                                <VBox.margin>
+                                    <Insets bottom="5.0"/>
+                                </VBox.margin>
+                            </LocalDateTimeTextField>
+                            <Button onAction="#handleAddDate" text="Ajouter date">
+                                <VBox.margin>
+                                    <Insets top="5.0"/>
+                                </VBox.margin>
+                            </Button>
+                        </VBox>
+                    </children>
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0"/>
+                    </VBox.margin>
+                </GridPane>
                 <HBox>
-                    <Label contentDisplay="RIGHT" text="Date de rendez-vous">
-                        <graphic>
-                            <LocalDateTimeTextField fx:id="proposed_date"></LocalDateTimeTextField>
-                        </graphic>
-                    </Label>
-                    <Button text="Ajouter date" onAction="#handleAddDate"></Button>
+                    <TableView fx:id="table_dates" maxWidth="-Infinity" prefHeight="130.0" prefWidth="282.0"/>
                 </HBox>
                 <HBox>
-                    <TableView fx:id="table_dates" prefHeight="150"></TableView>
+                    <Button onAction="#handleCreatePollButton" text="Créer le sondage"/>
+                    <Button onAction="#handleRemoveDateButtonClick" text="Supprimer la date" fx:id="remove_date_button" disable="true"/>
                 </HBox>
-                <Button text="Créer le sondage" onAction="#handleCreatePollButton"></Button>
             </children>
         </VBox>
     </children>

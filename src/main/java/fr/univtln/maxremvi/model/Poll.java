@@ -1,5 +1,7 @@
 package fr.univtln.maxremvi.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Poll {
@@ -13,14 +15,14 @@ public class Poll {
     private boolean multipleChoice;
     private boolean hideAnswers;
     private boolean addDates;
-    private type type;
+    private pollType type;
 
-    public static enum type {
+    public enum pollType {
       PUBLIC, PRIVATE_SHARABLE, PRIVATE;
     };
     public Poll(){}
 
-    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, Person promoter, boolean multipleChoice, boolean hideAnswers, boolean addDates, type pollType) {
+    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, Person promoter, boolean multipleChoice, boolean hideAnswers, boolean addDates, pollType pollType) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -114,12 +116,17 @@ public class Poll {
         this.addDates = addDates;
     }
 
-    public Poll.type getType() {
+    public pollType getType() {
         return type;
     }
 
-    public void setType(Poll.type type) {
+    public void setType(pollType type) {
         this.type = type;
+    }
+
+    public static Poll fromResultSet(ResultSet rs, Person pers) throws SQLException {
+        return new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
+                rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.pollType.valueOf(rs.getString("TYPE")));
     }
 
     @Override
