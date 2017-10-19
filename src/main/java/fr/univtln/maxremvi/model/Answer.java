@@ -8,14 +8,14 @@ public class Answer {
     //private Poll poll;
     private int idPerson;
     private int idPoll;
-    private List<AnswerChoice> answerChoices;
+    private int idAnswerChoice;
 
     public Answer(){}
 
-    public Answer(int idPerson, int idPoll, List<AnswerChoice> answerChoices) {
+    public Answer(int idPerson, int idPoll, int idAnswerChoice) {
         this.idPerson = idPerson;
         this.idPoll = idPoll;
-        this.answerChoices = answerChoices;
+        this.idAnswerChoice = idAnswerChoice;
     }
 
     public int getIdPerson() {
@@ -34,12 +34,12 @@ public class Answer {
         this.idPoll = idPoll;
     }
 
-    public List<AnswerChoice> getAnswerChoices() {
-        return answerChoices;
+    public int getIdAnswerChoice() {
+        return idAnswerChoice;
     }
 
-    public void setAnswerChoices(List<AnswerChoice> answerChoices) {
-        this.answerChoices = answerChoices;
+    public void setIdAnswerChoice(int idAnswerChoice) {
+        this.idAnswerChoice = idAnswerChoice;
     }
 
     /*
@@ -63,9 +63,9 @@ public class Answer {
     @Override
     public String toString() {
         return "Answer{" +
-                "person=" + idPerson +
-                ", poll=" + idPoll +
-                ", answerChoices=" + answerChoices +
+                "idPerson=" + idPerson +
+                ", idPoll=" + idPoll +
+                ", idAnswerChoice=" + idAnswerChoice +
                 '}';
     }
 }

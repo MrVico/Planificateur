@@ -31,6 +31,10 @@ public class PollController {
         return pollDao.add(new Poll(null, title, description, location, closingDate, closed, promoter, multipleChoice, hideAnswers, addDates, pollType));
     }
 
+    public int getPollPromoterID(int idPoll){
+        return pollDao.getPollPromoterID(idPoll);
+    }
+
     public Poll getPoll(int id) {
         return pollDao.get(id);
     }

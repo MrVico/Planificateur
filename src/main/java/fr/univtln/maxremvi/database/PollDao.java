@@ -52,6 +52,19 @@ public class PollDao extends AbstractDao<Poll> {
         return null;
     }
 
+    public int getPollPromoterID(int idPoll){
+        try {
+            String query = "SELECT IDPERSON FROM POLL WHERE ID = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
+            if(rs.next()){
+                return rs.getInt("IDPERSON");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public Poll add(Poll object) throws SQLException {
         String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         int pollId = DatabaseUtil.executeInsert(

@@ -52,7 +52,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
 
     public List<AnswerChoice> getPollAnswerChoicesForPerson(int idPoll, int idPerson){
         try {
-            String query = "SELECT a.* FROM ANSWER_ANSWERCHOICE aa JOIN ANSWERCHOICE a ON aa.IDANSWERCHOICE = a.IDANSWERCHOICE WHERE aa.IDPOLL = ? AND aa.IDPERSON = ?";
+            String query = "SELECT ac.* FROM ANSWER a JOIN ANSWERCHOICE ac ON a.IDANSWERCHOICE = ac.IDANSWERCHOICE WHERE a.IDPOLL = ? AND a.IDPERSON = ?";
             ResultSet rs = DatabaseUtil.executeQuery(query, idPoll, idPerson);
             List<AnswerChoice> answerChoices = new ArrayList<>();
             while(rs.next()){

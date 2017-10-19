@@ -6,30 +6,40 @@ import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ListManager;
+import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
+import javax.swing.plaf.ViewportUI;
+import javax.swing.text.View;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewPollViewController implements ViewControllerInterface {
     @FXML
-    private TextField title;
+    private Text title;
     @FXML
-    private TextField place;
+    private Text place;
     @FXML
-    private TextArea description;
+    private Text description;
     @FXML
     private TableView table_dates;
+    @FXML
+    private Button updatePoll;
     private ObservableList<AnswerChoice> proposedDates;
 
     private Poll poll;
+    //stocke l'état des réponses du sondage pour un utilisateur pour y accèder lors de la validation
+    private Map<Integer, List<Integer>> onLoad = new HashMap<>();
 
 
     public void initialize(){
@@ -55,7 +65,9 @@ public class ViewPollViewController implements ViewControllerInterface {
             table_dates.setItems(proposedDates);
 
             List<AnswerChoice> myAnswers = AnswerChoiceController.getInstance().getPollAnswerChoicesForPerson(poll.getId(), User.getUser().getId());
+            List<Integer> myAnswersIDs = new ArrayList<>();
             for(AnswerChoice myAnswer : myAnswers){
+                myAnswersIDs.add(myAnswer.getId());
                 for(AnswerChoice answerChoice : answerChoices){
                     if(myAnswer.equals(answerChoice)){
                         //TODO : A changer, passer par le controleur etc ???
@@ -63,6 +75,10 @@ public class ViewPollViewController implements ViewControllerInterface {
                     }
                 }
             }
+            onLoad.put(User.getUser().getId(), myAnswersIDs);
+
+            if(PollController.getInstance().getPollPromoterID(poll.getId()) == User.getUser().getId())
+                updatePoll.setVisible(true);
         }
 
         // NE PAS SUPPRIMER
@@ -115,21 +131,38 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     @FXML
     public void handleValidateAnswerButtonClick(ActionEvent actionEvent) {
-        List<AnswerChoice> answerChoices = new ArrayList<>();
+        List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getId());
+        List<Integer> newAnswersIDs = new ArrayList<>();
+
+        //récupèration des réponses sélectionnées par l'utilisateur
+        List<Answer> answers = new ArrayList<>();
         for(Object obj : table_dates.getItems()){
             AnswerChoice answerChoice = null;
             if(obj instanceof AnswerChoice) {
                 answerChoice = (AnswerChoice) obj;
-                if(answerChoice.isCheckProperty())
-                    answerChoices.add(answerChoice);
+                if(answerChoice.isCheckProperty()) {
+                    newAnswersIDs.add(answerChoice.getId());
+                    answers.add(new Answer(poll.getId(), User.getUser().getId(), answerChoice.getId()));
+                }
             }
         }
+
+        //récupèration des réponses désélectionnées par l'utilisateur
+        List<Integer> unselectedAnswers = new ArrayList<>();
+        for(Integer id : previousAnswersIDs){
+            if(!newAnswersIDs.contains(id)){
+                unselectedAnswers.add(id);
+            }
+        }
+
         try {
-            AnswerController.getInstance().addAnswer(User.getUser().getId(), poll.getId(), answerChoices);
+            System.out.println("Unselected answers : "+unselectedAnswers);
+            AnswerController.getInstance().deleteAll(poll.getId(), User.getUser().getId(), unselectedAnswers);
+            System.out.println("New answers : "+answers);
+            AnswerController.getInstance().addAll(answers);
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
+            ViewManager.switchView(ViewManager.viewsEnum.HOME);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -138,5 +171,9 @@ public class ViewPollViewController implements ViewControllerInterface {
     public void initData(Object... arguments) {
         this.poll = (Poll) arguments[0];
         initialize();
+    }
+
+    public void handleUpdatePollButtonClick(ActionEvent actionEvent) {
+        AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "TODO !!!");
     }
 }
