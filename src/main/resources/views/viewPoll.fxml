@@ -10,23 +10,23 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import jfxtras.scene.control.LocalDateTimeTextField?>
 
-<?import javafx.scene.layout.StackPane?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.ViewPollViewController">
     <children>
         <VBox layoutX="200.0">
             <children>
                 <GridPane hgap="10" vgap="10">
                     <children>
-                        <TextField fx:id="title" GridPane.columnIndex="1" />
-                        <TextField fx:id="place" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Text fx:id="title" GridPane.columnIndex="1" />
+                        <Text fx:id="place" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Titre" />
                         <Label text="Lieu" GridPane.rowIndex="2" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1" />
-                        <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Text fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                     </children>
                     <rowConstraints>
                         <RowConstraints />
@@ -53,6 +53,7 @@
             <StackPane prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleValidateAnswerButtonClick" text="Valider réponse" />
+                  <Button fx:id="updatePoll" onAction="#handleUpdatePollButtonClick" visible="false" mnemonicParsing="false" text="Modifier le sondage" StackPane.alignment="BOTTOM_LEFT"/>
                </children>
             </StackPane>
             </children>

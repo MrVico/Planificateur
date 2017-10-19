@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
 import javax.swing.plaf.ViewportUI;
 import javax.swing.text.View;
@@ -25,13 +26,15 @@ import java.util.Map;
 
 public class ViewPollViewController implements ViewControllerInterface {
     @FXML
-    private TextField title;
+    private Text title;
     @FXML
-    private TextField place;
+    private Text place;
     @FXML
-    private TextArea description;
+    private Text description;
     @FXML
     private TableView table_dates;
+    @FXML
+    private Button updatePoll;
     private ObservableList<AnswerChoice> proposedDates;
 
     private Poll poll;
@@ -73,6 +76,9 @@ public class ViewPollViewController implements ViewControllerInterface {
                 }
             }
             onLoad.put(User.getUser().getId(), myAnswersIDs);
+
+            if(PollController.getInstance().getPollPromoterID(poll.getId()) == User.getUser().getId())
+                updatePoll.setVisible(true);
         }
 
         // NE PAS SUPPRIMER
@@ -165,5 +171,9 @@ public class ViewPollViewController implements ViewControllerInterface {
     public void initData(Object... arguments) {
         this.poll = (Poll) arguments[0];
         initialize();
+    }
+
+    public void handleUpdatePollButtonClick(ActionEvent actionEvent) {
+        AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "TODO !!!");
     }
 }
