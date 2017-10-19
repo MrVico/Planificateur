@@ -20,10 +20,7 @@ public class ViewProfilViewController implements ViewControllerInterface {
     @FXML
     private Text lastname;
 
-    private PersonController personController;
-
     public void initialize(){
-        personController = PersonController.getInstance();
         Person p = User.getUser();
         fillText(login, p.getLogin());
         fillText(email, p.getEmail());

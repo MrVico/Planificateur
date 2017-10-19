@@ -62,6 +62,19 @@ public class PersonDao extends AbstractDao<Person> {
     }
 
     public List<Person> getAll() {
+        try {
+            String query = "SELECT * FROM PERSON";
+            ResultSet rs = DatabaseUtil.executeQuery(query);
+
+            List<Person> personList = new ArrayList<>();
+            while (rs.next()) {
+                personList.add(new Person(rs.getInt("ID"), rs.getString("LOGIN"), rs.getString("PASSWORD"),
+                        rs.getString("EMAIL"), rs.getString("FIRSTNAME"), rs.getString("LASTNAME")));
+            }
+            return personList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
