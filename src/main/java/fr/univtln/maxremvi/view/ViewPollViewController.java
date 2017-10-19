@@ -4,14 +4,12 @@ import fr.univtln.maxremvi.controller.AnswerChoiceController;
 import fr.univtln.maxremvi.controller.AnswerController;
 import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.*;
+import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ListManager;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -49,11 +47,22 @@ public class ViewPollViewController implements ViewControllerInterface {
             TableColumn<AnswerChoice, Boolean> checkCol = new TableColumn<>();
             checkCol.setCellValueFactory(new PropertyValueFactory<>("checkProperty"));
             checkCol.setCellFactory(column -> new CheckBoxTableCell());
+            checkCol.setSortable(false);
 
             table_dates.getColumns().add(dateCol);
             table_dates.getColumns().add(hourCol);
             table_dates.getColumns().add(checkCol);
             table_dates.setItems(proposedDates);
+
+            List<AnswerChoice> myAnswers = AnswerChoiceController.getInstance().getPollAnswerChoicesForPerson(poll.getId(), User.getUser().getId());
+            for(AnswerChoice myAnswer : myAnswers){
+                for(AnswerChoice answerChoice : answerChoices){
+                    if(myAnswer.equals(answerChoice)){
+                        //TODO : A changer, passer par le controleur etc ???
+                        answerChoice.setCheckProperty(true);
+                    }
+                }
+            }
         }
 
         // NE PAS SUPPRIMER
@@ -117,6 +126,7 @@ public class ViewPollViewController implements ViewControllerInterface {
         }
         try {
             AnswerController.getInstance().addAnswer(User.getUser().getId(), poll.getId(), answerChoices);
+            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {

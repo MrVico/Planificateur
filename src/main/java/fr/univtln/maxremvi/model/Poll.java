@@ -4,12 +4,15 @@ import java.util.Date;
 
 public class Poll {
     private Integer id;
+    private Person idPerson;
     private String title;
     private String description;
     private String location;
     private Date closingDate;
     private boolean closed;
-    private Person idPerson;
+    private boolean multipleChoice;
+    private boolean hideAnswers;
+    private boolean addDates;
 
     public static enum type {
       PUBLIC, PRIVATE_SHARABLE, PRIVATE
@@ -17,7 +20,7 @@ public class Poll {
 
     public Poll(){}
 
-    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, Person promoter) {
+    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, Person promoter, boolean multipleChoice, boolean hideAnswers, boolean addDates) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -25,6 +28,9 @@ public class Poll {
         this.closingDate = closingDate;
         this.closed = closed;
         this.idPerson = promoter;
+        this.multipleChoice = multipleChoice;
+        this.hideAnswers = hideAnswers;
+        this.addDates = addDates;
     }
 
     public int getId() {
@@ -81,6 +87,30 @@ public class Poll {
 
     public void setPromoter(Person promoter) {
         this.idPerson = promoter;
+    }
+
+    public boolean isMultipleChoice() {
+        return multipleChoice;
+    }
+
+    public void setMultipleChoice(boolean multipleChoice) {
+        this.multipleChoice = multipleChoice;
+    }
+
+    public boolean isHideAnswers() {
+        return hideAnswers;
+    }
+
+    public void setHideAnswers(boolean hideAnswers) {
+        this.hideAnswers = hideAnswers;
+    }
+
+    public boolean isAddDates() {
+        return addDates;
+    }
+
+    public void setAddDates(boolean addDates) {
+        this.addDates = addDates;
     }
 
     @Override
