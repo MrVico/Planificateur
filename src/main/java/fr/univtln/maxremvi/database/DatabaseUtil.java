@@ -3,7 +3,10 @@ package fr.univtln.maxremvi.database;
 import java.sql.*;
 
 public class DatabaseUtil {
-    private static String databaseUrl = "jdbc:h2:tcp://localhost/~/planificateur";
+    private static String[] databaseUrl = {
+            "jdbc:h2:tcp://localhost/~/planificateur",
+            "jdbc:postgresql://ec2-174-129-218-106.compute-1.amazonaws.com:5432/d1apm2n6n77at5?user=vicsjcjeheltzp&password=5dcd50d5b272e8c5e623a25b12d2d16655f72719c9b09d9aec05a1caf7e4709a&sslmode=require"
+    };
     private static String username = "sa";
     private static String password = "";
 
@@ -12,7 +15,7 @@ public class DatabaseUtil {
     // Java SQL
     public static Connection getConnection() throws SQLException {
         if (connection == null)
-            connection = DriverManager.getConnection(databaseUrl, username, password);
+            connection = DriverManager.getConnection(databaseUrl[0], username, password);
         return connection;
     }
 
