@@ -42,4 +42,8 @@ public class PollController {
     public List<Poll> getPolls() {
         return pollDao.getAll();
     }
+
+    public List<Poll> getVisiblePollsForPerson(Person person) {
+        return pollDao.getVisiblePollsForPerson(person);
+    }
 }

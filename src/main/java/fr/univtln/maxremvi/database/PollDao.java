@@ -52,17 +52,39 @@ public class PollDao extends AbstractDao<Poll> {
         return null;
     }
 
-    public int getPollPromoterID(int idPoll){
+    public int getPollPromoterID(int idPoll) {
         try {
             String query = "SELECT IDPERSON FROM POLL WHERE ID = ?";
             ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("IDPERSON");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public List<Poll> getVisiblePollsForPerson(Person person) {
+        int personId = person.getId();
+        try {
+            String query =
+                    "(SELECT * FROM POLL WHERE TYPE='PUBLIC')" +
+                            "UNION" +
+                            " (SELECT POLL.* FROM POLL INNER JOIN INVITATION ON POLL.ID = INVITATION.IDPOLL WHERE INVITATION.IDPERSON = ?)" +
+                            "UNION" +
+                            "(SELECT * FROM POLL WHERE IDPERSON = ?)";
+            ResultSet rs = DatabaseUtil.executeQuery(query, personId, personId);
+
+            List<Poll> pollList = new ArrayList<>();
+            while (rs.next()) {
+                pollList.add(Poll.fromResultSet(rs, person));
+            }
+            return pollList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Poll add(Poll object) throws SQLException {
@@ -93,7 +115,7 @@ public class PollDao extends AbstractDao<Poll> {
         return insertedPolls;
     }
 
-    public boolean update(Poll object){
+    public boolean update(Poll object) {
         try {
             String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSINGDATE = ?, CLOSED = ?, TYPE = ? WHERE ID = ?";
             DatabaseUtil.executeUpdate(query,

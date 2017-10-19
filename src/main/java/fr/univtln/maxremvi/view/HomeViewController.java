@@ -2,6 +2,7 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.Poll;
+import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +37,7 @@ public class HomeViewController implements ViewControllerInterface {
         });
         pollController = PollController.getInstance();
         try {
-            pollList = pollController.getPolls();
+            pollList = pollController.getVisiblePollsForPerson(User.getUser());
             List<HBox> hBoxes = new ArrayList<>();
             if(pollList != null){
                 for(Poll poll : pollList){
