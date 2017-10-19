@@ -25,10 +25,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
     @FXML
     private TextField lastname;
 
-    private PersonController personController;
-
     public void initialize(){
-        personController = PersonController.getInstance();
         Person p = User.getUser();
         login.setText(p.getLogin());
         email.setText(p.getEmail());
@@ -41,7 +38,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
             Person p = User.getUser();
             p.setFirstname(firstname.getText());
             p.setLastname(lastname.getText());
-            if(personController.updatePerson(p)) {
+            if(PersonController.getInstance().updatePerson(p)) {
                 AlertManager.AlertBox(Alert.AlertType.INFORMATION, "ed", null, "Profil mis à jour avec succès.");
                 ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
             }
@@ -72,7 +69,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                             try{
                                 Person p = User.getUser();
                                 p.setPassword(newPassword);
-                                if(personController.updatePerson(p)) {
+                                if(PersonController.getInstance().updatePerson(p)) {
                                     AlertManager.AlertBox(Alert.AlertType.INFORMATION, "ed", null, "Profil mis à jour avec succès.");
                                     ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
                                 }

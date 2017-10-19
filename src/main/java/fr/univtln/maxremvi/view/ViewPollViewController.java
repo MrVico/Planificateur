@@ -35,6 +35,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     private TableView table_dates;
     @FXML
     private Button updatePoll;
+    @FXML
+    private Button sharePoll;
     private ObservableList<AnswerChoice> proposedDates;
 
     private Poll poll;
@@ -79,6 +81,7 @@ public class ViewPollViewController implements ViewControllerInterface {
 
             if(PollController.getInstance().getPollPromoterID(poll.getId()) == User.getUser().getId())
                 updatePoll.setVisible(true);
+            //TODO : sharePoll button only visible if public or private + sharable.
         }
 
         // NE PAS SUPPRIMER
@@ -175,5 +178,9 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     public void handleUpdatePollButtonClick(ActionEvent actionEvent) {
         AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "TODO !!!");
+    }
+
+    public void handleSharePollButtonClick(ActionEvent actionEvent) {
+        ViewManager.openModal(ViewManager.viewsEnum.SHARE_POLL);
     }
 }

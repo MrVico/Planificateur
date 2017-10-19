@@ -21,7 +21,6 @@ import java.util.List;
 public class HomeViewController implements ViewControllerInterface {
     private final ObservableList<HBox> lines = FXCollections.observableArrayList();
     private List<Poll> pollList;
-    private PollController pollController;
     @FXML
     private ListView listView;
 
@@ -35,9 +34,9 @@ public class HomeViewController implements ViewControllerInterface {
                 }
             }
         });
-        pollController = PollController.getInstance();
+
         try {
-            pollList = pollController.getVisiblePollsForPerson(User.getUser());
+            pollList = PollController.getInstance().getVisiblePollsForPerson(User.getUser());
             List<HBox> hBoxes = new ArrayList<>();
             if(pollList != null){
                 for(Poll poll : pollList){

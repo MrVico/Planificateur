@@ -29,12 +29,6 @@ public class RegisterViewController implements ViewControllerInterface {
     @FXML
     private TextField lastname;
 
-    private PersonController personController;
-
-    public void initialize(){
-        personController = PersonController.getInstance();
-    }
-
     @FXML
     public void handleRegisterButtonClick(ActionEvent event) {
         signUp();
@@ -50,7 +44,7 @@ public class RegisterViewController implements ViewControllerInterface {
             } else {
                 if (EmailManager.emailValidator(email.getText())) {
                     try {
-                        Person newPerson = personController.addPerson(login.getText(), PasswordManager.encrypt(password.getText()), email.getText(), firstname.getText(), lastname.getText());
+                        Person newPerson = PersonController.getInstance().addPerson(login.getText(), PasswordManager.encrypt(password.getText()), email.getText(), firstname.getText(), lastname.getText());
                         AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Votre compte a bien été créé !");
                         ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
                     } catch (SQLException e) {

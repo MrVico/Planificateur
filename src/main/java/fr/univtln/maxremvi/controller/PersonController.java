@@ -6,6 +6,7 @@ import fr.univtln.maxremvi.model.Person;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class PersonController {
     private PersonDao personDao = null;
@@ -31,6 +32,10 @@ public class PersonController {
 
     public boolean updatePerson(Person p) throws SQLException {
         return personDao.update(p);
+    }
+
+    public List<Person> getPersons(){
+        return personDao.getAll();
     }
 
     public Person getPerson(int id) {

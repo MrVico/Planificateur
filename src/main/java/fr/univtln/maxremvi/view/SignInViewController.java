@@ -18,18 +18,12 @@ public class SignInViewController implements ViewControllerInterface {
     @FXML
     private PasswordField password;
 
-    private PersonController personController;
-
-    public void initialize() {
-        personController = PersonController.getInstance();
-    }
-
     @FXML
     public void handleSignInButtonClick(ActionEvent event) {
         if (login.getText().isEmpty() || password.getText().isEmpty()) {
             AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Veuillez renseigner les champs !");
         } else {
-            Person person = personController.getPerson(login.getText(), PasswordManager.encrypt(password.getText().toString()));
+            Person person = PersonController.getInstance().getPerson(login.getText(), PasswordManager.encrypt(password.getText().toString()));
             if (person != null) {
                 User.setUser(person);
                 ViewManager.switchView(ViewManager.viewsEnum.HOME);

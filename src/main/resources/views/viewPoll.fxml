@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -17,8 +16,11 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.ViewPollViewController">
     <children>
-        <VBox layoutX="200.0">
+        <VBox layoutX="200.0" spacing="15">
             <children>
+                <StackPane>
+                    <Button fx:id="sharePoll" onAction="#handleSharePollButtonClick" mnemonicParsing="false" text="Partager" StackPane.alignment="TOP_RIGHT" />
+                </StackPane>
                 <GridPane hgap="10" vgap="10">
                     <children>
                         <Text fx:id="title" GridPane.columnIndex="1" />
@@ -53,10 +55,13 @@
             <StackPane prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleValidateAnswerButtonClick" text="Valider réponse" />
-                  <Button fx:id="updatePoll" onAction="#handleUpdatePollButtonClick" visible="false" mnemonicParsing="false" text="Modifier le sondage" StackPane.alignment="BOTTOM_LEFT"/>
+                  <Button fx:id="updatePoll" mnemonicParsing="false" onAction="#handleUpdatePollButtonClick" text="Modifier le sondage" visible="false" StackPane.alignment="BOTTOM_LEFT" />
                </children>
             </StackPane>
             </children>
+         <opaqueInsets>
+            <Insets top="100.0" />
+         </opaqueInsets>
         </VBox>
     </children>
 </AnchorPane>

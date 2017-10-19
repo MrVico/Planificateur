@@ -13,14 +13,15 @@ import java.io.IOException;
  * Created by remi on 14/10/2017.
  */
 public class ViewManager {
-    public static enum viewsEnum {
+    public enum viewsEnum {
         CREATE_POLL("createPoll"),
         HOME("home"),
         REGISTER("register"),
         SIGNIN("signin"),
         UPDATE_PROFIL("updateProfil"),
         VIEW_POLL("viewPoll"),
-        VIEW_PROFIL("viewProfil");
+        VIEW_PROFIL("viewProfil"),
+        SHARE_POLL("sharePoll");
 
         String filename;
 
@@ -59,5 +60,23 @@ public class ViewManager {
         stage.setResizable(false);
         stage.show();
         //}
+    }
+
+    //TODO : Superposition !
+    public static void openModal(viewsEnum viewName){
+        String viewUrl = "/views/" + viewName.getFilename() + ".fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader(viewUrl.getClass().getResource(viewUrl));
+
+        Parent root1 = null;
+        try {
+            root1 = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Stage stage = App.getStage();
+        stage.setScene(new Scene(root1, 600, 400));
+        stage.setResizable(false);
+        stage.show();
     }
 }
