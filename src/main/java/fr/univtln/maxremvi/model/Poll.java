@@ -13,14 +13,14 @@ public class Poll {
     private boolean multipleChoice;
     private boolean hideAnswers;
     private boolean addDates;
+    private type type;
 
     public static enum type {
-      PUBLIC, PRIVATE_SHARABLE, PRIVATE
+      PUBLIC, PRIVATE_SHARABLE, PRIVATE;
     };
-
     public Poll(){}
 
-    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, Person promoter, boolean multipleChoice, boolean hideAnswers, boolean addDates) {
+    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, Person promoter, boolean multipleChoice, boolean hideAnswers, boolean addDates, type pollType) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,6 +31,7 @@ public class Poll {
         this.multipleChoice = multipleChoice;
         this.hideAnswers = hideAnswers;
         this.addDates = addDates;
+        this.type = pollType;
     }
 
     public int getId() {
@@ -111,6 +112,14 @@ public class Poll {
 
     public void setAddDates(boolean addDates) {
         this.addDates = addDates;
+    }
+
+    public Poll.type getType() {
+        return type;
+    }
+
+    public void setType(Poll.type type) {
+        this.type = type;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class PollDao extends AbstractDao<Poll> {
             rs.next();
             Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
             Poll poll = new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
-                    rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"));
+                    rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.type.valueOf(rs.getString("TYPE")));
             return poll;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class PollDao extends AbstractDao<Poll> {
             while (rs.next()) {
                 Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
                 pollList.add(new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
-                        rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES")));
+                        rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.type.valueOf(rs.getString("TYPE"))));
             }
             return pollList;
         } catch (SQLException e) {
@@ -55,7 +55,7 @@ public class PollDao extends AbstractDao<Poll> {
     }
 
     public Poll add(Poll object) throws SQLException {
-        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         int pollId = DatabaseUtil.executeInsert(
                 query,
                 object.getPromoter().getId(),
@@ -68,7 +68,8 @@ public class PollDao extends AbstractDao<Poll> {
                 object.isClosed(),
                 object.isMultipleChoice(),
                 object.isHideAnswers(),
-                object.isAddDates()
+                object.isAddDates(),
+                object.getType().toString()
         );
         return ((PollDao) getInstance()).get(pollId);
     }
@@ -83,7 +84,7 @@ public class PollDao extends AbstractDao<Poll> {
 
     public boolean update(Poll object){
         try {
-            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSINGDATE = ?, CLOSED = ? WHERE ID = ?";
+            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSINGDATE = ?, CLOSED = ?, TYPE = ? WHERE ID = ?";
             DatabaseUtil.executeUpdate(query,
                     object.getPromoter().getId(),
                     object.getTitle(),
@@ -91,7 +92,8 @@ public class PollDao extends AbstractDao<Poll> {
                     object.getLocation(),
                     TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
                     TimeManager.timeToSqlFormat(object.getClosingDate()),
-                    object.isClosed());
+                    object.isClosed(),
+                    object.getType().toString());
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

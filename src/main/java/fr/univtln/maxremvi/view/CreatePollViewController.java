@@ -94,7 +94,7 @@ public class CreatePollViewController implements ViewControllerInterface {
             Person promoter = User.getUser();
 
             try {
-                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, promoter, multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected());
+                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, promoter, multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), pollType);
 
                 if (proposedDates != null) {
                     proposedDates.forEach(answerChoice -> answerChoice.setIdPoll(savedPoll.getId()));
