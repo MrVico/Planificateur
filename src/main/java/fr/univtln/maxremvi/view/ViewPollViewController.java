@@ -6,6 +6,7 @@ import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ListManager;
+import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,15 +15,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import jfxtras.scene.control.LocalDateTimeTextField;
 
 import javax.swing.plaf.ViewportUI;
 import javax.swing.text.View;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ViewPollViewController implements ViewControllerInterface {
     @FXML
@@ -37,6 +36,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     private Button updatePoll;
     @FXML
     private Button sharePoll;
+    @FXML
+    private LocalDateTimeTextField proposed_date;
     private ObservableList<AnswerChoice> proposedDates;
 
     private Poll poll;
@@ -86,54 +87,14 @@ public class ViewPollViewController implements ViewControllerInterface {
             if(PollController.getInstance().getPollPromoterID(poll.getId()) == User.getUser().getId())
                 updatePoll.setVisible(true);
             //TODO : sharePoll button only visible if public or private + sharable.
+
+            proposed_date.localDateTimeProperty().addListener((observable, oldValue, newValue) -> {
+                if (proposed_date.localDateTimeProperty().getValue() != null) {
+                    proposedDates.add(new AnswerChoice(null, Calendar.getInstance().getTime(), TimeManager.localDateToDate(proposed_date.getLocalDateTime()), null));
+                    proposed_date.setLocalDateTime(null);
+                }
+            });
         }
-
-        // NE PAS SUPPRIMER
-        /*
-        List<AnswerChoiceFormatted> answerChoiceFormatteds = new ArrayList<>();
-
-        ObservableList<SimpleStringProperty> hours_1 = ListManager.observableListFromList(Arrays.asList(new SimpleStringProperty(answerChoices.get(0).getHourProperty())));
-        ListProperty<SimpleStringProperty> hours2_1 = new SimpleListProperty<>(hours_1);
-        AnswerChoiceFormatted answerChoiceFormatted_1 = new AnswerChoiceFormatted(new SimpleStringProperty(answerChoices.get(0).getDateProperty()), hours2_1);
-
-        ObservableList<SimpleStringProperty> hours_2 = ListManager.observableListFromList(Arrays.asList(new SimpleStringProperty(answerChoices.get(1).getHourProperty()), new SimpleStringProperty(answerChoices.get(2).getHourProperty())));
-        ListProperty<SimpleStringProperty> hours2_2 = new SimpleListProperty<>(hours_2);
-        AnswerChoiceFormatted answerChoiceFormatted_2 = new AnswerChoiceFormatted(new SimpleStringProperty(answerChoices.get(1).getDateProperty()), hours2_2);
-
-        ObservableList<SimpleStringProperty> hours_3 = ListManager.observableListFromList(Arrays.asList(new SimpleStringProperty(answerChoices.get(3).getHourProperty())));
-        ListProperty<SimpleStringProperty> hours2_3 = new SimpleListProperty<>(hours_3);
-        AnswerChoiceFormatted answerChoiceFormatted_3 = new AnswerChoiceFormatted(new SimpleStringProperty(answerChoices.get(3).getDateProperty()), hours2_3);
-
-        answerChoiceFormatteds.add(answerChoiceFormatted_1);
-        answerChoiceFormatteds.add(answerChoiceFormatted_2);
-        answerChoiceFormatteds.add(answerChoiceFormatted_3);
-
-        System.out.println(answerChoiceFormatteds);
-        ObservableList<AnswerChoiceFormatted> list = ListManager.observableListFromList(answerChoiceFormatteds);
-
-        List<TableColumn> hourCols = new ArrayList<>();
-        int highestAmountOfHoursPerDay = 0;
-        for(int i=0; i<answerChoices.size(); i++){
-            String currentDate = TimeManager.extractDateString(answerChoices.get(i).getDateChoice());
-            int j = i;
-            int count = 0;
-            while(j<answerChoices.size() && TimeManager.extractDateString(answerChoices.get(j).getDateChoice()).equals(currentDate)){
-                j++;
-                count++;
-            }
-            if(highestAmountOfHoursPerDay<count)
-                highestAmountOfHoursPerDay = count;
-            i = j-1;
-            System.out.println(currentDate+" "+count);
-        }
-        System.out.println(highestAmountOfHoursPerDay);
-
-        for(int i=0; i<highestAmountOfHoursPerDay; i++){
-            TableColumn hourCol = new TableColumn("Heure "+(i+1));
-            hourCol.setCellValueFactory(new PropertyValueFactory<AnswerChoiceFormatted, String>("hourProperties"));
-            hourCols.add(hourCol);
-        }
-        */
     }
 
     @FXML

@@ -41,14 +41,11 @@
                         <ColumnConstraints />
                     </columnConstraints>
                 </GridPane>
-                <HBox>
-                    <Label contentDisplay="RIGHT" text="Date de rendez-vous">
-                        <graphic>
-                            <LocalDateTimeTextField fx:id="proposed_date" />
-                        </graphic>
-                    </Label>
-                    <Button text="Ajouter date" />
-                </HBox>
+                <Label contentDisplay="RIGHT" text="Date de rendez-vous">
+                    <graphic>
+                        <LocalDateTimeTextField fx:id="proposed_date" />
+                    </graphic>
+                </Label>
                 <HBox>
                     <TableView fx:id="table_dates" prefHeight="150" />
                 </HBox>
