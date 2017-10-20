@@ -37,11 +37,14 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
 
     public List<AnswerChoice> getPollAnswerChoices(int idPoll){
         try {
-            String query = "SELECT * FROM ANSwERCHOICE WHERE IDPOLL = ? ORDER BY DATECHOICE ASC";
+            String query = "\n" +
+                    "SELECT ac.*, count(a.*) TIMESCHOSEN FROM ANSWER a JOIN ANSWERCHOICE ac ON a.IDANSWERCHOICE = ac.IDANSWERCHOICE " +
+                    "WHERE ac.IDPOLL = ? GROUP BY a.IDANSWERCHOICE ORDER BY ac.DATECHOICE ASC";
             ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
             List<AnswerChoice> answerChoices = new ArrayList<>();
             while(rs.next()){
-                answerChoices.add(new AnswerChoice(rs.getInt("IDANSWERCHOICE"), rs.getTimestamp("CREATIONDATE"), rs.getTimestamp("DATECHOICE"), rs.getInt("IDPOLL")));
+                answerChoices.add(new AnswerChoice(rs.getInt("IDANSWERCHOICE"), rs.getTimestamp("CREATIONDATE"),
+                        rs.getTimestamp("DATECHOICE"), rs.getInt("IDPOLL"), rs.getString("TIMESCHOSEN")));
             }
             return answerChoices;
         } catch (SQLException e) {
