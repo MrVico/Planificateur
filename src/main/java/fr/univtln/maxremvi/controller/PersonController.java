@@ -38,6 +38,10 @@ public class PersonController {
         return personDao.getAll();
     }
 
+    public List<Person> getNotInvitedToPoll(int idPoll){
+        return personDao.getNotInvitedToPoll(idPoll);
+    }
+
     public Person getPerson(int id) {
         return personDao.get(id);
     }

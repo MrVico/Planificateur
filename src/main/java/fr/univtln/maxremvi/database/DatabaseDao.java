@@ -1,5 +1,7 @@
 package fr.univtln.maxremvi.database;
 
+import fr.univtln.maxremvi.model.Invitation;
+
 import java.sql.SQLException;
 
 public class DatabaseDao {
@@ -17,5 +19,9 @@ public class DatabaseDao {
 
     public static AnswerDao getAnswerDao() throws SQLException {
         return (AnswerDao) new AnswerDao().getInstance();
+    }
+
+    public static InvitationDao getInvitationDao() throws SQLException {
+        return (InvitationDao) new InvitationDao().getInstance();
     }
 }

@@ -181,6 +181,6 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     public void handleSharePollButtonClick(ActionEvent actionEvent) {
-        ViewManager.openModal(ViewManager.viewsEnum.SHARE_POLL);
+        ViewManager.openModal(ViewManager.viewsEnum.SHARE_POLL, poll);
     }
 }

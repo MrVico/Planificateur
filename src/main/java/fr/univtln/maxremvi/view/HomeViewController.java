@@ -28,7 +28,7 @@ public class HomeViewController implements ViewControllerInterface {
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(event.getClickCount()==2){
+                if(event.getClickCount()==2 && listView.getSelectionModel().getSelectedItem()!=null){
                     Poll selectedPoll = pollList.get(listView.getSelectionModel().getSelectedIndex());
                     ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, selectedPoll);
                 }
