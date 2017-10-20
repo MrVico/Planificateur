@@ -27,7 +27,7 @@ public class PollDao extends AbstractDao<Poll> {
             ResultSet rs = DatabaseUtil.executeQuery(query, id);
             rs.next();
             Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
-            Poll poll = Poll.fromResultSet(rs, pers);
+            Poll poll = Poll.fromResultSet(rs);
             return poll;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,8 +42,7 @@ public class PollDao extends AbstractDao<Poll> {
 
             List<Poll> pollList = new ArrayList<>();
             while (rs.next()) {
-                Person pers = PersonController.getInstance().getPerson(rs.getInt("IDPERSON"));
-                pollList.add(Poll.fromResultSet(rs, pers));
+                pollList.add(Poll.fromResultSet(rs));
             }
             return pollList;
         } catch (SQLException e) {
@@ -78,7 +77,7 @@ public class PollDao extends AbstractDao<Poll> {
 
             List<Poll> pollList = new ArrayList<>();
             while (rs.next()) {
-                pollList.add(Poll.fromResultSet(rs, person));
+                pollList.add(Poll.fromResultSet(rs));
             }
             return pollList;
         } catch (SQLException e) {
@@ -91,7 +90,7 @@ public class PollDao extends AbstractDao<Poll> {
         String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         int pollId = DatabaseUtil.executeInsert(
                 query,
-                object.getPromoter().getId(),
+                object.getPromoterID(),
                 object.getTitle(),
                 object.getDescription(),
                 object.getLocation(),
@@ -119,7 +118,7 @@ public class PollDao extends AbstractDao<Poll> {
         try {
             String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSINGDATE = ?, CLOSED = ?, TYPE = ? WHERE ID = ?";
             DatabaseUtil.executeUpdate(query,
-                    object.getPromoter().getId(),
+                    object.getPromoterID(),
                     object.getTitle(),
                     object.getDescription(),
                     object.getLocation(),
