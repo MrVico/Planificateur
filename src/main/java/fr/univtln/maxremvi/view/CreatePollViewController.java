@@ -94,7 +94,7 @@ public class CreatePollViewController implements ViewControllerInterface {
         });
     }
 
-    public void handleCreatePollButton(ActionEvent event) {
+    public void handleCreatePollButtonClick(ActionEvent event) {
         Poll.pollType pollType = null;
 
         if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || proposedDates.isEmpty()) {
@@ -109,7 +109,6 @@ public class CreatePollViewController implements ViewControllerInterface {
 
             Date endDate = TimeManager.localDateToDate(end_date.getLocalDateTime());
 
-            PersonDao personDao = new PersonDao();
             Person promoter = User.getUser();
 
             try {
@@ -128,7 +127,7 @@ public class CreatePollViewController implements ViewControllerInterface {
 
     }
 
-    public void handleAddDate(ActionEvent event) {
+    public void handleAddDateButtonClick(ActionEvent event) {
         if (!proposed_date.getText().isEmpty()) {
             proposedDates.add(new AnswerChoice(null, Calendar.getInstance().getTime(), TimeManager.localDateToDate(proposed_date.getLocalDateTime()), null));
             proposed_date.setText("");
@@ -139,6 +138,10 @@ public class CreatePollViewController implements ViewControllerInterface {
         int focusedIndex = table_dates.getSelectionModel().getFocusedIndex();
         if (focusedIndex != -1)
             table_dates.getItems().remove(focusedIndex);
+    }
+
+    public void handleBackButtonClick(ActionEvent actionEvent) {
+        ViewManager.switchView(ViewManager.viewsEnum.HOME);
     }
 
     @Override

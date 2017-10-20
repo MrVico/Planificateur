@@ -21,14 +21,15 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.CreatePollViewController">
     <children>
-        <VBox layoutX="200.0">
+        <VBox layoutX="250.0">
             <children>
+                <Button text="Retour" onAction="#handleBackButtonClick"></Button>
                 <GridPane hgap="10" vgap="10">
                     <children>
                         <Label text="Titre"/>
                         <TextField fx:id="title" GridPane.columnIndex="1"/>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1"/>
-                        <TextArea fx:id="description_poll" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1"
+                        <TextArea fx:id="description_poll" prefHeight="60.0" prefWidth="200.0" GridPane.columnIndex="1"
                                   GridPane.rowIndex="1"/>
                         <Label text="Lieu" GridPane.rowIndex="2"/>
                         <TextField fx:id="location_poll" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
@@ -87,7 +88,7 @@
                                     <Insets bottom="5.0"/>
                                 </VBox.margin>
                             </LocalDateTimeTextField>
-                            <Button onAction="#handleAddDate" text="Ajouter date">
+                            <Button onAction="#handleAddDateButtonClick" text="Ajouter date">
                                 <VBox.margin>
                                     <Insets top="5.0"/>
                                 </VBox.margin>
@@ -109,10 +110,10 @@
                     </VBox.margin>
                 </GridPane>
                 <HBox>
-                    <TableView fx:id="table_dates" maxWidth="-Infinity" prefHeight="130.0" prefWidth="282.0"/>
+                    <TableView fx:id="table_dates" maxWidth="-Infinity" prefHeight="100.0" prefWidth="282.0"/>
                 </HBox>
                 <HBox>
-                    <Button onAction="#handleCreatePollButton" text="Créer le sondage"/>
+                    <Button onAction="#handleCreatePollButtonClick" text="Créer le sondage"/>
                     <Button onAction="#handleRemoveDateButtonClick" text="Supprimer la date" fx:id="remove_date_button" disable="true"/>
                 </HBox>
             </children>
