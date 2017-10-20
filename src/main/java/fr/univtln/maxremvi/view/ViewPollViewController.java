@@ -35,6 +35,7 @@ public class ViewPollViewController implements ViewControllerInterface {
     @FXML
     private LocalDateTimeTextField proposed_date;
     private ObservableList<AnswerChoice> proposedDates;
+    private List<AnswerChoice> initialAnswerChoices;
 
     private Poll poll;
     //inutile j'crois !
@@ -47,8 +48,8 @@ public class ViewPollViewController implements ViewControllerInterface {
             title.setText(poll.getTitle());
             place.setText(poll.getLocation());
             description.setText(poll.getDescription());
-            List<AnswerChoice> answerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getId());
-            proposedDates = ListManager.observableListFromList(answerChoices);
+            initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getId());
+            proposedDates = ListManager.observableListFromList(initialAnswerChoices);
             table_dates.setEditable(true);
             TableColumn dateCol = new TableColumn("Date");
             dateCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
@@ -71,7 +72,7 @@ public class ViewPollViewController implements ViewControllerInterface {
             List<Integer> myAnswersIDs = new ArrayList<>();
             for(AnswerChoice myAnswer : myAnswers){
                 myAnswersIDs.add(myAnswer.getId());
-                for(AnswerChoice answerChoice : answerChoices){
+                for(AnswerChoice answerChoice : initialAnswerChoices){
                     if(myAnswer.equals(answerChoice)){
                         //TODO : A changer, passer par le controleur etc ???
                         answerChoice.setCheckProperty(true);
@@ -97,8 +98,34 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     @FXML
     public void handleValidateAnswerButtonClick(ActionEvent actionEvent) {
+        //TODO : Ajouter les nouveaux choix de réponses (addDates) avant d'ajouter les réponses !!!
         List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getId());
         List<Integer> newAnswersIDs = new ArrayList<>();
+
+        //TODO : Normalement ça devrait déjà etre bon !
+        initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getId());
+
+        List<AnswerChoice> newAnswerChoices = new ArrayList<>();
+        for(AnswerChoice answerChoice : proposedDates){
+            if(!initialAnswerChoices.contains(answerChoice)){
+                newAnswerChoices.add(new AnswerChoice(-1, answerChoice.getCreationDate(), answerChoice.getDateChoice(), poll.getId()));
+            }
+        }
+
+        System.out.println(newAnswerChoices);
+        //TODO : Changer le format de la date pour que l'insertion marche !?
+        //ajout des nouveaux choix de réponses
+        try {
+            AnswerChoiceController.getInstance().addAll(newAnswerChoices);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        /*
+        TODO : Récuperer les IDs des nouveaux choix de réponses ajoutés pour qu'on puisse
+                ajouter la réponse de l'utilisateur. Comment ? Aucune idée...
+         */
+
 
         //récupèration des réponses sélectionnées par l'utilisateur
         List<Answer> answers = new ArrayList<>();
