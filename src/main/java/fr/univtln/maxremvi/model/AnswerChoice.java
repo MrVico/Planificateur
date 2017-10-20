@@ -17,6 +17,7 @@ public class AnswerChoice {
     private SimpleStringProperty dateProperty;
     private SimpleStringProperty hourProperty;
     private SimpleBooleanProperty checkProperty;
+    private SimpleStringProperty timesChosenProperty;
 
     public AnswerChoice(Integer id, Date creationDate, Date dateChoice, Integer idPoll) {
         this.id = id;
@@ -25,6 +26,17 @@ public class AnswerChoice {
         this.dateProperty = new SimpleStringProperty(TimeManager.extractDateString(dateChoice));
         this.hourProperty = new SimpleStringProperty(TimeManager.extractHourMinutesString(dateChoice));
         this.checkProperty = new SimpleBooleanProperty(false);
+        this.idPoll = idPoll;
+    }
+
+    public AnswerChoice(Integer id, Date creationDate, Date dateChoice, Integer idPoll, String timesChosen) {
+        this.id = id;
+        this.creationDate = creationDate;
+        this.dateChoice = dateChoice;
+        this.dateProperty = new SimpleStringProperty(TimeManager.extractDateString(dateChoice));
+        this.hourProperty = new SimpleStringProperty(TimeManager.extractHourMinutesString(dateChoice));
+        this.checkProperty = new SimpleBooleanProperty(false);
+        this.timesChosenProperty = new SimpleStringProperty("("+timesChosen+")");
         this.idPoll = idPoll;
     }
 
@@ -86,6 +98,18 @@ public class AnswerChoice {
 
     public void setIdPoll(int idPoll) {
         this.idPoll = idPoll;
+    }
+
+    public String getTimesChosenProperty() {
+        return timesChosenProperty.get();
+    }
+
+    public SimpleStringProperty timesChosenPropertyProperty() {
+        return timesChosenProperty;
+    }
+
+    public void setTimesChosenProperty(String timesChosenProperty) {
+        this.timesChosenProperty.set(timesChosenProperty);
     }
 
     public static AnswerChoice fromResultSet(ResultSet rs) throws SQLException {

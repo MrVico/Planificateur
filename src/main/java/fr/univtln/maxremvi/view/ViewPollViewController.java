@@ -40,6 +40,7 @@ public class ViewPollViewController implements ViewControllerInterface {
     private ObservableList<AnswerChoice> proposedDates;
 
     private Poll poll;
+    //inutile j'crois !
     //stocke l'état des réponses du sondage pour un utilisateur pour y accèder lors de la validation
     private Map<Integer, List<Integer>> onLoad = new HashMap<>();
 
@@ -60,10 +61,13 @@ public class ViewPollViewController implements ViewControllerInterface {
             checkCol.setCellValueFactory(new PropertyValueFactory<>("checkProperty"));
             checkCol.setCellFactory(column -> new CheckBoxTableCell());
             checkCol.setSortable(false);
+            TableColumn answerCol = new TableColumn();
+            answerCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("timesChosenProperty"));
 
             table_dates.getColumns().add(dateCol);
             table_dates.getColumns().add(hourCol);
             table_dates.getColumns().add(checkCol);
+            table_dates.getColumns().add(answerCol);
             table_dates.setItems(proposedDates);
 
             List<AnswerChoice> myAnswers = AnswerChoiceController.getInstance().getPollAnswerChoicesForPerson(poll.getId(), User.getUser().getId());
@@ -145,7 +149,7 @@ public class ViewPollViewController implements ViewControllerInterface {
                 answerChoice = (AnswerChoice) obj;
                 if(answerChoice.isCheckProperty()) {
                     newAnswersIDs.add(answerChoice.getId());
-                    answers.add(new Answer(poll.getId(), User.getUser().getId(), answerChoice.getId()));
+                    answers.add(new Answer(User.getUser().getId(), poll.getId(), answerChoice.getId()));
                 }
             }
         }

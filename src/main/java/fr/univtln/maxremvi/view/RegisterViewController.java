@@ -35,8 +35,8 @@ public class RegisterViewController implements ViewControllerInterface {
     }
 
     public void signUp(){
-        if(login.getText().isEmpty() || password.getText().isEmpty() || conf_password.getText().isEmpty() || email.getText().isEmpty()){
-            AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
+        if(login.getText().isEmpty() || password.getText().isEmpty() || conf_password.getText().isEmpty() || email.getText().isEmpty() || firstname.getText().isEmpty() || lastname.getText().isEmpty()){
+            AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Tous les champs sont obligatoires");
         }
         else {
             if (!password.getText().equals(conf_password.getText())) {
