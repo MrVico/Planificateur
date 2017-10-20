@@ -39,6 +39,7 @@ public class ViewManager {
 
     ;
 
+    // TODO : Modifier les deux vues
     public static void switchView(viewsEnum viewName, Object... data) {
         /*
         if(viewName != "signin" && viewName != "register" && !User.isLogged()){
@@ -65,19 +66,20 @@ public class ViewManager {
         //}
     }
 
-    //TODO : Superposition !
-    public static void openModal(viewsEnum viewName){
+    public static void openModal(viewsEnum viewName, Object... data){
         String viewUrl = "/views/" + viewName.getFilename() + ".fxml";
         FXMLLoader fxmlLoader = new FXMLLoader(viewUrl.getClass().getResource(viewUrl));
 
         Parent root1 = null;
         try {
             root1 = (Parent) fxmlLoader.load();
+            ViewControllerInterface controller = fxmlLoader.getController();
+            controller.initData(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Stage stage = App.getStage();
+        Stage stage = new Stage();
         stage.setScene(new Scene(root1, 600, 400));
         stage.setResizable(false);
         stage.show();

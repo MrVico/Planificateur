@@ -34,8 +34,16 @@ public class PersonController {
         return personDao.update(p);
     }
 
+    public boolean changePassword(Person p) throws SQLException{
+        return personDao.changePassword(p);
+    }
+
     public List<Person> getPersons(){
         return personDao.getAll();
+    }
+
+    public List<Person> getNotInvitedToPoll(int idPoll){
+        return personDao.getNotInvitedToPoll(idPoll);
     }
 
     public Person getPerson(int id) {

@@ -16,7 +16,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class HomeViewController implements ViewControllerInterface {
@@ -25,11 +24,11 @@ public class HomeViewController implements ViewControllerInterface {
     @FXML
     private ListView listView;
 
-    public void initialize() {
+    public void initialize(){
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2) {
+                if(event.getClickCount()==2 && listView.getSelectionModel().getSelectedItem()!=null){
                     Poll selectedPoll = pollList.get(listView.getSelectionModel().getSelectedIndex());
                     ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, selectedPoll);
                 }
@@ -75,6 +74,11 @@ public class HomeViewController implements ViewControllerInterface {
 
     public void handleViewProfilButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
+    }
+
+    public void handleDeconnectionButtonClick(ActionEvent actionEvent){
+        User.setUser(null);
+        ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
     }
 
     @Override

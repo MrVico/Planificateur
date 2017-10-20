@@ -2,10 +2,7 @@ package fr.univtln.maxremvi.utils;
 
 import fr.univtln.maxremvi.model.Person;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.naming.NamingException;
@@ -52,45 +49,38 @@ public class EmailManager {
     }
 
     public static void sendEmails(List<Person> receivers){
-        // Recipient's email ID needs to be mentioned.
-        String to = "zarakikov67@gmail.com";
+        final String username = "email";
+        final String password = "password";
 
-        // Sender's email ID needs to be mentioned
-        String from = "Planificateur_do_not_answer@gmail.com";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
 
-        // Assuming you are sending email from localhost
-        String host = "localhost";
-
-        // Get system properties
-        Properties properties = System.getProperties();
-
-        // Setup mail server
-        properties.setProperty("mail.smtp.host", host);
-
-        // Get the default Session object.
-        Session session = Session.getDefaultInstance(properties);
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
 
         try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
 
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("from_email@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("to_email@hotmail.fr"));
+            message.setSubject("Testing Subject");
+            message.setText("Dear Mail Crawler,"
+                    + "\n\n No spam to my email, please!");
 
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Set Subject: header field
-            message.setSubject("Testing email sender!");
-
-            // Now set the actual message
-            message.setText("Hey, you got an email from me! Congrats!");
-
-            // Send message
             Transport.send(message);
-            System.out.println("Sent message successfully....");
-        }catch (MessagingException mex) {
-            mex.printStackTrace();
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

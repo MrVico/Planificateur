@@ -61,6 +61,24 @@ public class PersonDao extends AbstractDao<Person> {
         return null;
     }
 
+    public List<Person> getNotInvitedToPoll(int idPoll){
+        try {
+            String query = "SELECT * FROM PERSON WHERE ID NOT IN (" +
+                                                                    "SELECT IDPERSON FROM INVITATION WHERE IDPOLL = ?)";
+            ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
+
+            List<Person> personList = new ArrayList<>();
+            while (rs.next()) {
+                personList.add(new Person(rs.getInt("ID"), rs.getString("LOGIN"), rs.getString("PASSWORD"),
+                        rs.getString("EMAIL"), rs.getString("FIRSTNAME"), rs.getString("LASTNAME")));
+            }
+            return personList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<Person> getAll() {
         try {
             String query = "SELECT * FROM PERSON";
@@ -99,6 +117,19 @@ public class PersonDao extends AbstractDao<Person> {
             return true;
         } catch (SQLException e) {
             System.out.println("PersonDao Update : "+e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean changePassword(Person object)
+    {
+        try{
+            String query ="UPDATE PERSON SET PASSWORD = ? WHERE ID = ?";
+            DatabaseUtil.executeUpdate(query,object.getPassword(),object.getId());
+            return true;
+        }catch (SQLException e)
+        {
+            System.out.println("PersonDao ChangePassword : "+e.getMessage());
             return false;
         }
     }
