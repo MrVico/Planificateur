@@ -1,8 +1,6 @@
 package fr.univtln.maxremvi.view;
 
-import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.controller.PollController;
-import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.ViewManager;
@@ -18,7 +16,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class HomeViewController implements ViewControllerInterface {
@@ -46,8 +43,7 @@ public class HomeViewController implements ViewControllerInterface {
                     HBox hBox = new HBox();
                     Label labelA = new Label(poll.getTitle());
                     labelA.setPrefWidth(150);
-                    Person promoter = PersonController.getInstance().getPerson(poll.getPromoterID());
-                    Label labelB = new Label(promoter.getLogin());
+                    Label labelB = new Label(poll.getPromoter().getLogin());
                     labelB.setPrefWidth(150);
                     Label labelC = new Label(poll.getClosingDate().toString());
                     labelC.setPrefWidth(150);
