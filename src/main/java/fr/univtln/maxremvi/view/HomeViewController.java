@@ -1,6 +1,8 @@
 package fr.univtln.maxremvi.view;
 
+import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.controller.PollController;
+import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.ViewManager;
@@ -43,7 +45,8 @@ public class HomeViewController implements ViewControllerInterface {
                     HBox hBox = new HBox();
                     Label labelA = new Label(poll.getTitle());
                     labelA.setPrefWidth(150);
-                    Label labelB = new Label(poll.getPromoter().getLogin());
+                    Person promoter = PersonController.getInstance().getPerson(poll.getPromoterID());
+                    Label labelB = new Label(promoter.getLogin());
                     labelB.setPrefWidth(150);
                     Label labelC = new Label(poll.getClosingDate().toString());
                     labelC.setPrefWidth(150);

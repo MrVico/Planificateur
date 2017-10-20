@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Poll {
     private Integer id;
-    private Person idPerson;
+    private int idPerson;
     private String title;
     private String description;
     private String location;
@@ -22,14 +22,14 @@ public class Poll {
     };
     public Poll(){}
 
-    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, Person promoter, boolean multipleChoice, boolean hideAnswers, boolean addDates, pollType pollType) {
+    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, int idPerson, boolean multipleChoice, boolean hideAnswers, boolean addDates, pollType pollType) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.location = location;
         this.closingDate = closingDate;
         this.closed = closed;
-        this.idPerson = promoter;
+        this.idPerson = idPerson;
         this.multipleChoice = multipleChoice;
         this.hideAnswers = hideAnswers;
         this.addDates = addDates;
@@ -84,12 +84,12 @@ public class Poll {
         this.closed = closed;
     }
 
-    public Person getPromoter() {
+    public int getPromoterID() {
         return idPerson;
     }
 
-    public void setPromoter(Person promoter) {
-        this.idPerson = promoter;
+    public void setPromoter(int idPerson) {
+        this.idPerson = idPerson;
     }
 
     public boolean isMultipleChoice() {
@@ -124,9 +124,9 @@ public class Poll {
         this.type = type;
     }
 
-    public static Poll fromResultSet(ResultSet rs, Person pers) throws SQLException {
+    public static Poll fromResultSet(ResultSet rs) throws SQLException {
         return new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
-                rs.getBoolean("CLOSED"), pers, rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.pollType.valueOf(rs.getString("TYPE")));
+                rs.getBoolean("CLOSED"), rs.getInt("IDPERSON"), rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.pollType.valueOf(rs.getString("TYPE")));
     }
 
     @Override

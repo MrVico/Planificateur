@@ -27,8 +27,8 @@ public class PollController {
         return pollController;
     }
 
-    public Poll addPoll(String title, String description, String location, Date closingDate, boolean closed, Person promoter, boolean multipleChoice, boolean hideAnswers, boolean addDates, Poll.pollType pollType) throws SQLException {
-        return pollDao.add(new Poll(null, title, description, location, closingDate, closed, promoter, multipleChoice, hideAnswers, addDates, pollType));
+    public Poll addPoll(String title, String description, String location, Date closingDate, boolean closed, int promoterID, boolean multipleChoice, boolean hideAnswers, boolean addDates, Poll.pollType pollType) throws SQLException {
+        return pollDao.add(new Poll(null, title, description, location, closingDate, closed, promoterID, multipleChoice, hideAnswers, addDates, pollType));
     }
 
     public int getPollPromoterID(int idPoll){
