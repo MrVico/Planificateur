@@ -14,10 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-
-import javax.swing.plaf.ViewportUI;
-import javax.swing.text.View;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,9 +159,7 @@ public class ViewPollViewController implements ViewControllerInterface {
         }
 
         try {
-            System.out.println("Unselected answers : "+unselectedAnswers);
             AnswerController.getInstance().deleteAll(poll.getId(), User.getUser().getId(), unselectedAnswers);
-            System.out.println("New answers : "+answers);
             AnswerController.getInstance().addAll(answers);
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
             ViewManager.switchView(ViewManager.viewsEnum.HOME);
