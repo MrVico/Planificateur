@@ -1,6 +1,8 @@
 package fr.univtln.maxremvi.view;
 
+import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.controller.PollController;
+import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.ViewManager;
@@ -16,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeViewController implements ViewControllerInterface {
@@ -38,14 +41,22 @@ public class HomeViewController implements ViewControllerInterface {
         try {
             pollList = PollController.getInstance().getVisiblePollsForPerson(User.getUser());
             List<HBox> hBoxes = new ArrayList<>();
+            Date closingDate;
+            Label labelC;
             if(pollList != null){
                 for(Poll poll : pollList){
                     HBox hBox = new HBox();
+                    closingDate = poll.getClosingDate();
                     Label labelA = new Label(poll.getTitle());
                     labelA.setPrefWidth(150);
-                    Label labelB = new Label(poll.getPromoter().getLogin());
+                    Person promoter = PersonController.getInstance().getPerson(poll.getPromoterID());
+                    Label labelB = new Label(promoter.getLogin());
                     labelB.setPrefWidth(150);
-                    Label labelC = new Label(poll.getClosingDate().toString());
+                    if (closingDate != null)
+                        labelC = new Label(poll.getClosingDate().toString());
+                    else
+                        labelC = new Label("");
+
                     labelC.setPrefWidth(150);
                     hBox.getChildren().addAll(labelA, labelB, labelC);
                     hBoxes.add(hBox);
