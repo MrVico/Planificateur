@@ -39,7 +39,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
             p.setFirstname(firstname.getText());
             p.setLastname(lastname.getText());
             if(PersonController.getInstance().updatePerson(p)) {
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "ed", null, "Profil mis à jour avec succès.");
+                AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Profil mis à jour avec succès.");
                 ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
             }
         } catch (SQLException e) {
@@ -56,10 +56,12 @@ public class UpdateProfilViewController implements ViewControllerInterface {
         {
             if(User.getUser().getPassword().compareTo(password)==0)
             {
+                passwordField.setText("");
                 int dialogNewPassword = JOptionPane.showConfirmDialog(null,passwordField,"Saisir un nouveau mot de passe",JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 String newPassword=PasswordManager.encrypt(new String(passwordField.getPassword()));
                 if(dialogNewPassword==JOptionPane.OK_OPTION)
                 {
+                    passwordField.setText("");
                     int dialogNewPasswordConfirmed = JOptionPane.showConfirmDialog(null,passwordField,"Confirmer le nouveau mot de passe",JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                     String newPasswordConfirmed=PasswordManager.encrypt(new String(passwordField.getPassword()));
                     if(dialogNewPasswordConfirmed==JOptionPane.OK_OPTION)
@@ -69,8 +71,8 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                             try{
                                 Person p = User.getUser();
                                 p.setPassword(newPassword);
-                                if(PersonController.getInstance().updatePerson(p)) {
-                                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, "ed", null, "Profil mis à jour avec succès.");
+                                if(PersonController.getInstance().changePassword(p)) {
+                                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Profil mis à jour avec succès.");
                                     ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
                                 }
                                 System.out.println("yes");
@@ -80,6 +82,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
 
                         }
                         else{
+                            AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Les mots de passes ne sont pas identiques");
                             System.out.println("no");
                         }
 
@@ -87,9 +90,15 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                 }
             }
             else{
+                AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Le mot de passe ne correspond pas à l'utilisateur");
                 System.out.println("no");
             }
         }
+    }
+
+    public void handleRetourClick(ActionEvent actionEvent)
+    {
+        ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
     }
 
 

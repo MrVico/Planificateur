@@ -70,6 +70,11 @@ public class HomeViewController implements ViewControllerInterface {
         ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
     }
 
+    public void handleDeconnectionButtonClick(ActionEvent actionEvent){
+        User.setUser(null);
+        ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
+    }
+
     @Override
     public void initData(Object... arguments) {
 

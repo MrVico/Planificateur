@@ -121,6 +121,19 @@ public class PersonDao extends AbstractDao<Person> {
         }
     }
 
+    public boolean changePassword(Person object)
+    {
+        try{
+            String query ="UPDATE PERSON SET PASSWORD = ? WHERE ID = ?";
+            DatabaseUtil.executeUpdate(query,object.getPassword(),object.getId());
+            return true;
+        }catch (SQLException e)
+        {
+            System.out.println("PersonDao ChangePassword : "+e.getMessage());
+            return false;
+        }
+    }
+
     public boolean remove(int id) throws SQLException {
         String query = "DELETE FROM PERSON WHERE ID = ?";
         DatabaseUtil.executeInsert(query, id);

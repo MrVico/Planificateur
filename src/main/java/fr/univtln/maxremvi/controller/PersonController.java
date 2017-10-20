@@ -34,6 +34,10 @@ public class PersonController {
         return personDao.update(p);
     }
 
+    public boolean changePassword(Person p) throws SQLException{
+        return personDao.changePassword(p);
+    }
+
     public List<Person> getPersons(){
         return personDao.getAll();
     }
