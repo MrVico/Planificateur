@@ -14,13 +14,16 @@ import java.io.IOException;
  */
 public class ViewManager {
     public enum viewsEnum {
-        CREATE_POLL("createPoll"),
+        // account
         HOME("home"),
         REGISTER("register"),
         SIGNIN("signin"),
+        // profile
         UPDATE_PROFIL("updateProfil"),
-        VIEW_POLL("viewPoll"),
         VIEW_PROFIL("viewProfil"),
+        // poll
+        CREATE_POLL("createPoll"),
+        VIEW_POLL("viewPoll"),
         SHARE_POLL("sharePoll");
 
         String filename;

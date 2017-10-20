@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeViewController implements ViewControllerInterface {
@@ -24,11 +25,11 @@ public class HomeViewController implements ViewControllerInterface {
     @FXML
     private ListView listView;
 
-    public void initialize(){
+    public void initialize() {
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(event.getClickCount()==2){
+                if (event.getClickCount() == 2) {
                     Poll selectedPoll = pollList.get(listView.getSelectionModel().getSelectedIndex());
                     ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, selectedPoll);
                 }
@@ -38,14 +39,20 @@ public class HomeViewController implements ViewControllerInterface {
         try {
             pollList = PollController.getInstance().getVisiblePollsForPerson(User.getUser());
             List<HBox> hBoxes = new ArrayList<>();
-            if(pollList != null){
-                for(Poll poll : pollList){
+            Date closingDate;
+            Label labelC;
+            if (pollList != null) {
+                for (Poll poll : pollList) {
                     HBox hBox = new HBox();
+                    closingDate = poll.getClosingDate();
                     Label labelA = new Label(poll.getTitle());
                     labelA.setPrefWidth(150);
                     Label labelB = new Label(poll.getPromoter().getLogin());
                     labelB.setPrefWidth(150);
-                    Label labelC = new Label(poll.getClosingDate().toString());
+                    if (closingDate != null)
+                        labelC = new Label(poll.getClosingDate().toString());
+                    else
+                        labelC = new Label("");
                     labelC.setPrefWidth(150);
                     hBox.getChildren().addAll(labelA, labelB, labelC);
                     hBoxes.add(hBox);
@@ -58,7 +65,7 @@ public class HomeViewController implements ViewControllerInterface {
     }
 
     public ObservableList<HBox> getLines() {
-        return lines ;
+        return lines;
     }
 
     @FXML
