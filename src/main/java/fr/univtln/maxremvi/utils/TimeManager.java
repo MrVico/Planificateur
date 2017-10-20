@@ -16,7 +16,7 @@ public class TimeManager {
     }
 
     public static String timeToSqlFormat(Date time) {
-        return format("yyyy-MM-dd HH:mm:ss", time);
+        return (time != null) ? format("yyyy-MM-dd HH:mm:ss", time) : null;
     }
 
     public static String extractDateString(Date time) {

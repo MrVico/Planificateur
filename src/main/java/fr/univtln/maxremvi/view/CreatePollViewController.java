@@ -2,28 +2,25 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.AnswerChoiceController;
 import fr.univtln.maxremvi.controller.PollController;
-import fr.univtln.maxremvi.database.PersonDao;
 import fr.univtln.maxremvi.model.AnswerChoice;
-import fr.univtln.maxremvi.model.User;
-import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
+import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.AlertManager;
+import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import jfxtras.scene.control.*;
+import jfxtras.scene.control.LocalDateTimeTextField;
 
-import javax.swing.event.ChangeListener;
-import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,10 +83,16 @@ public class CreatePollViewController implements ViewControllerInterface {
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 if (table_dates.getSelectionModel().getSelectedItem() != null) {
                     remove_date_button.setDisable(false);
-                }
-                else {
+                } else {
                     remove_date_button.setDisable(true);
                 }
+            }
+        });
+
+        proposed_date.localDateTimeProperty().addListener((observable, oldValue, newValue) -> {
+            if (proposed_date.localDateTimeProperty().getValue() != null) {
+                proposedDates.add(new AnswerChoice(null, Calendar.getInstance().getTime(), TimeManager.localDateToDate(proposed_date.getLocalDateTime()), null));
+                proposed_date.setLocalDateTime(null);
             }
         });
     }
@@ -107,7 +110,7 @@ public class CreatePollViewController implements ViewControllerInterface {
             else
                 pollType = Poll.pollType.PRIVATE_SHARABLE;
 
-            Date endDate = TimeManager.localDateToDate(end_date.getLocalDateTime());
+            Date endDate = (end_date.getLocalDateTime() != null) ? TimeManager.localDateToDate(end_date.getLocalDateTime()) : null;
 
             try {
                 Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, User.getUser().getId(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), pollType);
@@ -123,13 +126,6 @@ public class CreatePollViewController implements ViewControllerInterface {
             }
         }
 
-    }
-
-    public void handleAddDateButtonClick(ActionEvent event) {
-        if (!proposed_date.getText().isEmpty()) {
-            proposedDates.add(new AnswerChoice(null, Calendar.getInstance().getTime(), TimeManager.localDateToDate(proposed_date.getLocalDateTime()), null));
-            proposed_date.setText("");
-        }
     }
 
     public void handleRemoveDateButtonClick(ActionEvent event) {

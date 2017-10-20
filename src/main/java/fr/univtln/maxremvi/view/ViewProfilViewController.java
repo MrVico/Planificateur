@@ -41,6 +41,11 @@ public class ViewProfilViewController implements ViewControllerInterface {
         ViewManager.switchView(ViewManager.viewsEnum.UPDATE_PROFIL);
     }
 
+    public void handleRetourClick(ActionEvent actionEvent)
+    {
+        ViewManager.switchView(ViewManager.viewsEnum.HOME);
+    }
+
     @Override
     public void initData(Object... arguments) {
 

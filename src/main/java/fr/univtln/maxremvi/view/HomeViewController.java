@@ -40,15 +40,21 @@ public class HomeViewController implements ViewControllerInterface {
         try {
             pollList = PollController.getInstance().getVisiblePollsForPerson(User.getUser());
             List<HBox> hBoxes = new ArrayList<>();
-            if(pollList != null){
-                for(Poll poll : pollList){
+            Date closingDate;
+            Label labelC;
+            if (pollList != null) {
+                for (Poll poll : pollList) {
                     HBox hBox = new HBox();
+                    closingDate = poll.getClosingDate();
                     Label labelA = new Label(poll.getTitle());
                     labelA.setPrefWidth(150);
                     Person promoter = PersonController.getInstance().getPerson(poll.getPromoterID());
                     Label labelB = new Label(promoter.getLogin());
                     labelB.setPrefWidth(150);
-                    Label labelC = new Label(poll.getClosingDate().toString());
+                    if (closingDate != null)
+                        labelC = new Label(poll.getClosingDate().toString());
+                    else
+                        labelC = new Label("");
                     labelC.setPrefWidth(150);
                     hBox.getChildren().addAll(labelA, labelB, labelC);
                     hBoxes.add(hBox);
@@ -61,7 +67,7 @@ public class HomeViewController implements ViewControllerInterface {
     }
 
     public ObservableList<HBox> getLines() {
-        return lines ;
+        return lines;
     }
 
     @FXML
@@ -71,6 +77,11 @@ public class HomeViewController implements ViewControllerInterface {
 
     public void handleViewProfilButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
+    }
+
+    public void handleDeconnectionButtonClick(ActionEvent actionEvent){
+        User.setUser(null);
+        ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
     }
 
     @Override

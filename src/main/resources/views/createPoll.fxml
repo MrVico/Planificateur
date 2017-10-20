@@ -82,18 +82,8 @@
                         <LocalDateTimeTextField fx:id="end_date" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
                         <Label contentDisplay="RIGHT" text="Date de rendez-vous" GridPane.columnIndex="1"
                                GridPane.rowIndex="2"/>
-                        <VBox GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                            <LocalDateTimeTextField fx:id="proposed_date">
-                                <VBox.margin>
-                                    <Insets bottom="5.0"/>
-                                </VBox.margin>
-                            </LocalDateTimeTextField>
-                            <Button onAction="#handleAddDateButtonClick" text="Ajouter date">
-                                <VBox.margin>
-                                    <Insets top="5.0"/>
-                                </VBox.margin>
-                            </Button>
-                        </VBox>
+                        <LocalDateTimeTextField GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="proposed_date">
+                        </LocalDateTimeTextField>
                     </children>
                     <columnConstraints>
                         <ColumnConstraints/>
@@ -114,7 +104,8 @@
                 </HBox>
                 <HBox>
                     <Button onAction="#handleCreatePollButtonClick" text="Créer le sondage"/>
-                    <Button onAction="#handleRemoveDateButtonClick" text="Supprimer la date" fx:id="remove_date_button" disable="true"/>
+                    <Button onAction="#handleRemoveDateButtonClick" text="Supprimer la date" fx:id="remove_date_button"
+                            disable="true"/>
                 </HBox>
             </children>
         </VBox>
