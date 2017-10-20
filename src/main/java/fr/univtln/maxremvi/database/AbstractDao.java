@@ -11,7 +11,7 @@ public abstract class AbstractDao<T> {
     // TODO : Clean le code ! passer en boolean...
     public abstract AbstractDao getInstance();
     public abstract T get(int id);
-    public abstract List<T> getAll();
+    public abstract List<T> getAll()throws SQLException;
     public abstract T add(T object) throws SQLException;
     public abstract List<T> addAll(List<T> objects) throws SQLException;
     public abstract boolean update(T object);

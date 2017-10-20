@@ -1,5 +1,6 @@
 package fr.univtln.maxremvi.controller;
 
+import com.j256.ormlite.stmt.query.In;
 import fr.univtln.maxremvi.database.DatabaseDao;
 import fr.univtln.maxremvi.database.InvitationDao;
 import fr.univtln.maxremvi.model.Invitation;
@@ -28,5 +29,9 @@ public class InvitationController {
 
     public boolean addAll(List<Invitation> invitations) throws SQLException{
         return invitationDao.addInvitations(invitations);
+    }
+
+    public List<Invitation> getAll()throws SQLException{
+        return invitationDao.getAll();
     }
 }

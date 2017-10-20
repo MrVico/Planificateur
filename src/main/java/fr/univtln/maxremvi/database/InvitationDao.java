@@ -1,9 +1,12 @@
 package fr.univtln.maxremvi.database;
 
 import fr.univtln.maxremvi.model.Invitation;
+import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.TimeManager;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,8 +24,17 @@ public class InvitationDao extends AbstractDao {
     }
 
     @Override
-    public List getAll() {
-        return null;
+    public List<Invitation> getAll()throws SQLException {
+        String query="Select * from Invitation where IDPERSON = ? and SEEN = false";
+        ResultSet rs=DatabaseUtil.executeQuery(query, User.getUser().getId());
+        List<Invitation> invitationList=new ArrayList<>();
+        while (rs.next())
+        {
+            invitationList.add(new Invitation(rs.getInt("IDPERSON"),rs.getInt("IDPOLL"),rs.getInt("IDPERSONINVITER"),rs.getBoolean("SEEN")));
+        }
+
+
+        return invitationList;
     }
 
     @Override

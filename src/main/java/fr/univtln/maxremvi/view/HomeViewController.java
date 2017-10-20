@@ -1,7 +1,9 @@
 package fr.univtln.maxremvi.view;
 
+import fr.univtln.maxremvi.controller.InvitationController;
 import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.controller.PollController;
+import fr.univtln.maxremvi.model.Invitation;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
@@ -17,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +27,7 @@ import java.util.List;
 public class HomeViewController implements ViewControllerInterface {
     private final ObservableList<HBox> lines = FXCollections.observableArrayList();
     private List<Poll> pollList;
+    private List<Invitation> invitationList;
     @FXML
     private ListView listView;
 
@@ -37,6 +41,11 @@ public class HomeViewController implements ViewControllerInterface {
                 }
             }
         });
+
+        try {
+            invitationList = InvitationController.getInstance().getAll();
+            System.out.println("coucou regarde ici : "+invitationList.size());
+        }catch (SQLException e){}
 
         try {
             pollList = PollController.getInstance().getVisiblePollsForPerson(User.getUser());
