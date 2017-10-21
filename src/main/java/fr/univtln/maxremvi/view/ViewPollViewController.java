@@ -50,6 +50,7 @@ public class ViewPollViewController implements ViewControllerInterface {
             description.setText(poll.getDescription());
             initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getId());
             proposedDates = ListManager.observableListFromList(initialAnswerChoices);
+            System.out.println(proposedDates);
             table_dates.setEditable(true);
             TableColumn dateCol = new TableColumn("Date");
             dateCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
@@ -102,41 +103,42 @@ public class ViewPollViewController implements ViewControllerInterface {
         List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getId());
         List<Integer> newAnswersIDs = new ArrayList<>();
 
-        //TODO : Normalement ça devrait déjà etre bon !
+        //TODO : Normalement ça ne devrait pas être nécessaire !
         initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getId());
 
         List<AnswerChoice> newAnswerChoices = new ArrayList<>();
         for(AnswerChoice answerChoice : proposedDates){
             if(!initialAnswerChoices.contains(answerChoice)){
-                newAnswerChoices.add(new AnswerChoice(-1, answerChoice.getCreationDate(), answerChoice.getDateChoice(), poll.getId()));
+                newAnswerChoices.add(new AnswerChoice(null, answerChoice.getCreationDate(), answerChoice.getDateChoice(), poll.getId()));
             }
         }
 
-        System.out.println(newAnswerChoices);
-        //TODO : Changer le format de la date pour que l'insertion marche !?
+        List<AnswerChoice> insertedNewAnswerChoices = new ArrayList<>();
         //ajout des nouveaux choix de réponses
         try {
-            AnswerChoiceController.getInstance().addAll(newAnswerChoices);
+            insertedNewAnswerChoices = AnswerChoiceController.getInstance().addAll(newAnswerChoices);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         /*
-        TODO : Récuperer les IDs des nouveaux choix de réponses ajoutés pour qu'on puisse
-                ajouter la réponse de l'utilisateur. Comment ? Aucune idée...
+            TODO : Ajout des réponses pour un choix de réponse ajouté au même moment...
          */
 
 
         //récupèration des réponses sélectionnées par l'utilisateur
+        //int index = 0;
         List<Answer> answers = new ArrayList<>();
         for(Object obj : table_dates.getItems()){
             AnswerChoice answerChoice = null;
             if(obj instanceof AnswerChoice) {
                 answerChoice = (AnswerChoice) obj;
+                //System.out.println(answerChoice.getDateChoice()+"         "+insertedNewAnswerChoices.get(index));
                 if(answerChoice.isCheckProperty()) {
                     newAnswersIDs.add(answerChoice.getId());
                     answers.add(new Answer(User.getUser().getId(), poll.getId(), answerChoice.getId()));
                 }
+                //index++;
             }
         }
 

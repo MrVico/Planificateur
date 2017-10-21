@@ -38,8 +38,8 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     public List<AnswerChoice> getPollAnswerChoices(int idPoll){
         try {
             String query = "\n" +
-                    "SELECT ac.*, count(a.*) TIMESCHOSEN FROM ANSWER a JOIN ANSWERCHOICE ac ON a.IDANSWERCHOICE = ac.IDANSWERCHOICE " +
-                    "WHERE ac.IDPOLL = ? GROUP BY a.IDANSWERCHOICE ORDER BY ac.DATECHOICE ASC";
+                    "SELECT ac.*, count(a.IDPOLL) TIMESCHOSEN FROM ANSWER a RIGHT JOIN ANSWERCHOICE ac ON a.IDANSWERCHOICE = ac.IDANSWERCHOICE AND a.IDPOLL = ac.IDPOLL " +
+                    "WHERE ac.IDPOLL = ? GROUP BY ac.IDANSWERCHOICE ORDER BY ac.DATECHOICE ASC";
             ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
             List<AnswerChoice> answerChoices = new ArrayList<>();
             while(rs.next()){
@@ -77,6 +77,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     public AnswerChoice add(AnswerChoice object) throws SQLException {
         String query = "INSERT INTO ANSWERCHOICE(DATECHOICE, CREATIONDATE, IDPOLL) VALUES(?, ?, ?)";
         int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getIdPoll());
+        System.out.println(answerChoiceId);
         return ((AnswerChoiceDao) getInstance()).get(answerChoiceId);
     }
 

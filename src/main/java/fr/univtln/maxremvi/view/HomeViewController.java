@@ -44,7 +44,7 @@ public class HomeViewController implements ViewControllerInterface {
 
         try {
             invitationList = InvitationController.getInstance().getAll();
-            System.out.println("coucou regarde ici : "+invitationList.size());
+            //System.out.println("coucou regarde ici : "+invitationList.size());
         }catch (SQLException e){}
 
         try {
