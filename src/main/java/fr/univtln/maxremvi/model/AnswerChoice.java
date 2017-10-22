@@ -7,11 +7,10 @@ import javafx.beans.property.SimpleStringProperty;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 public class AnswerChoice {
-    private Integer id;
-    private Integer idPoll;
+    private Integer ID;
+    private Integer pollID;
     private Date creationDate;
     private Date dateChoice;
     private SimpleStringProperty dateProperty;
@@ -19,33 +18,33 @@ public class AnswerChoice {
     private SimpleBooleanProperty checkProperty;
     private SimpleStringProperty timesChosenProperty;
 
-    public AnswerChoice(Integer id, Date creationDate, Date dateChoice, Integer idPoll) {
-        this.id = id;
+    public AnswerChoice(Integer ID, Date creationDate, Date dateChoice, Integer pollID) {
+        this.ID = ID;
         this.creationDate = creationDate;
         this.dateChoice = dateChoice;
         this.dateProperty = new SimpleStringProperty(TimeManager.extractDateString(dateChoice));
         this.hourProperty = new SimpleStringProperty(TimeManager.extractHourMinutesString(dateChoice));
         this.checkProperty = new SimpleBooleanProperty(false);
-        this.idPoll = idPoll;
+        this.pollID = pollID;
     }
 
-    public AnswerChoice(Integer id, Date creationDate, Date dateChoice, Integer idPoll, String timesChosen) {
-        this.id = id;
+    public AnswerChoice(int ID, Date creationDate, Date dateChoice, int pollID, String timesChosen) {
+        this.ID = ID;
         this.creationDate = creationDate;
         this.dateChoice = dateChoice;
         this.dateProperty = new SimpleStringProperty(TimeManager.extractDateString(dateChoice));
         this.hourProperty = new SimpleStringProperty(TimeManager.extractHourMinutesString(dateChoice));
         this.checkProperty = new SimpleBooleanProperty(false);
         this.timesChosenProperty = new SimpleStringProperty("("+timesChosen+")");
-        this.idPoll = idPoll;
+        this.pollID = pollID;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public Date getCreationDate() {
@@ -92,12 +91,12 @@ public class AnswerChoice {
         this.checkProperty.set(checkProperty);
     }
 
-    public int getIdPoll() {
-        return idPoll;
+    public int getPollID() {
+        return pollID;
     }
 
-    public void setIdPoll(int idPoll) {
-        this.idPoll = idPoll;
+    public void setPollID(int pollID) {
+        this.pollID = pollID;
     }
 
     public String getTimesChosenProperty() {
@@ -132,7 +131,6 @@ public class AnswerChoice {
         return hourProperty.toString().equals(that.hourProperty.toString());
     }
 
-    //ça sert à quoi ce bidule encore ?
     @Override
     public int hashCode() {
         int result = dateProperty.hashCode();
@@ -143,8 +141,8 @@ public class AnswerChoice {
     @Override
     public String toString() {
         return "AnswerChoice{" +
-                "id=" + id +
-                ", idPoll=" + idPoll +
+                "ID=" + ID +
+                ", pollID=" + pollID +
                 ", creationDate=" + creationDate +
                 ", dateChoice=" + dateChoice +
                 ", dateProperty=" + dateProperty +

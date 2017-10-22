@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class Poll {
-    private Integer id;
-    private int idPerson;
+    private Integer ID;
+    private int personID;
     private String title;
     private String description;
     private String location;
@@ -20,28 +20,29 @@ public class Poll {
     public enum pollType {
       PUBLIC, PRIVATE_SHARABLE, PRIVATE;
     };
+
     public Poll(){}
 
-    public Poll(Integer id, String title, String description, String location, Date closingDate, boolean closed, int idPerson, boolean multipleChoice, boolean hideAnswers, boolean addDates, pollType pollType) {
-        this.id = id;
+    public Poll(Integer ID, String title, String description, String location, Date closingDate, boolean closed, int personID, boolean multipleChoice, boolean hideAnswers, boolean addDates, pollType pollType) {
+        this.ID = ID;
         this.title = title;
         this.description = description;
         this.location = location;
         this.closingDate = closingDate;
         this.closed = closed;
-        this.idPerson = idPerson;
+        this.personID = personID;
         this.multipleChoice = multipleChoice;
         this.hideAnswers = hideAnswers;
         this.addDates = addDates;
         this.type = pollType;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getTitle() {
@@ -85,11 +86,11 @@ public class Poll {
     }
 
     public int getPromoterID() {
-        return idPerson;
+        return personID;
     }
 
     public void setPromoter(int idPerson) {
-        this.idPerson = idPerson;
+        this.personID = idPerson;
     }
 
     public boolean isMultipleChoice() {
@@ -132,13 +133,13 @@ public class Poll {
     @Override
     public String toString() {
         return "Poll{" +
-                "id=" + id +
+                "ID=" + ID +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +
                 ", closingDate=" + closingDate +
                 ", closed=" + closed +
-                ", idPerson=" + idPerson +
+                ", personID=" + personID +
                 '}';
     }
 }

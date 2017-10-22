@@ -1,71 +1,48 @@
 package fr.univtln.maxremvi.model;
 
-import java.util.Date;
-import java.util.List;
-
 public class Answer {
-    //private Person person;
-    //private Poll poll;
-    private int idPerson;
-    private int idPoll;
-    private int idAnswerChoice;
+    private int personID;
+    private int pollID;
+    private int answerChoiceID;
 
     public Answer(){}
 
-    public Answer(int idPerson, int idPoll, int idAnswerChoice) {
-        this.idPerson = idPerson;
-        this.idPoll = idPoll;
-        this.idAnswerChoice = idAnswerChoice;
+    public Answer(int personID, int pollID, int answerChoiceID) {
+        this.personID = personID;
+        this.pollID = pollID;
+        this.answerChoiceID = answerChoiceID;
     }
 
-    public int getIdPerson() {
-        return idPerson;
+    public int getPersonID() {
+        return personID;
     }
 
-    public void setIdPerson(int idPerson) {
-        this.idPerson = idPerson;
+    public void setPersonID(int personID) {
+        this.personID = personID;
     }
 
-    public int getIdPoll() {
-        return idPoll;
+    public int getPollID() {
+        return pollID;
     }
 
-    public void setIdPoll(int idPoll) {
-        this.idPoll = idPoll;
+    public void setPollID(int pollID) {
+        this.pollID = pollID;
     }
 
-    public int getIdAnswerChoice() {
-        return idAnswerChoice;
+    public int getAnswerChoiceID() {
+        return answerChoiceID;
     }
 
-    public void setIdAnswerChoice(int idAnswerChoice) {
-        this.idAnswerChoice = idAnswerChoice;
+    public void setAnswerChoiceID(int answerChoiceID) {
+        this.answerChoiceID = answerChoiceID;
     }
-
-    /*
-        public Person getPerson() {
-            return person;
-        }
-
-        public void setPerson(Person person) {
-            this.person = person;
-        }
-
-        public Poll getPoll() {
-            return poll;
-        }
-
-        public void setPoll(Poll poll) {
-            this.poll = poll;
-        }
-        */
-
+    
     @Override
     public String toString() {
         return "Answer{" +
-                "idPerson=" + idPerson +
-                ", idPoll=" + idPoll +
-                ", idAnswerChoice=" + idAnswerChoice +
+                "personID=" + personID +
+                ", pollID=" + pollID +
+                ", answerChoiceID=" + answerChoiceID +
                 '}';
     }
 }

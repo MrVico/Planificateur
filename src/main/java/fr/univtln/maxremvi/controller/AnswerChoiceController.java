@@ -46,4 +46,8 @@ public class AnswerChoiceController {
     public List<AnswerChoice> addAll(List<AnswerChoice> answerChoices) throws SQLException {
         return answerChoiceDao.addAll(answerChoices);
     }
+
+    public boolean addAndAnswer(int personID, AnswerChoice answerChoice) throws SQLException{
+        return answerChoiceDao.addAndAnswer(personID, answerChoice);
+    }
 }

@@ -32,6 +32,7 @@ public class PersonDao extends AbstractDao<Person> {
         return null;
     }
 
+    //TODO : supprimer si reste inutilisé !
     public Person get(String login) {
         try {
             String query = "SELECT * FROM PERSON WHERE LOGIN = ?";
@@ -113,7 +114,7 @@ public class PersonDao extends AbstractDao<Person> {
     public boolean update(Person object) {
         try {
             String query = "UPDATE PERSON SET FIRSTNAME = ?, LASTNAME = ? WHERE ID = ?";
-            DatabaseUtil.executeUpdate(query, object.getFirstname(), object.getLastname(), object.getId());
+            DatabaseUtil.executeUpdate(query, object.getFirstname(), object.getLastname(), object.getID());
             return true;
         } catch (SQLException e) {
             System.out.println("PersonDao Update : "+e.getMessage());
@@ -125,7 +126,7 @@ public class PersonDao extends AbstractDao<Person> {
     {
         try{
             String query ="UPDATE PERSON SET PASSWORD = ? WHERE ID = ?";
-            DatabaseUtil.executeUpdate(query,object.getPassword(),object.getId());
+            DatabaseUtil.executeUpdate(query,object.getPassword(),object.getID());
             return true;
         }catch (SQLException e)
         {
@@ -141,6 +142,6 @@ public class PersonDao extends AbstractDao<Person> {
     }
 
     public boolean remove(Person object) throws SQLException {
-        return remove(object.getId());
+        return remove(object.getID());
     }
 }

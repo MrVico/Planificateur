@@ -3,14 +3,12 @@ package fr.univtln.maxremvi.view;
 import fr.univtln.maxremvi.controller.AnswerChoiceController;
 import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.AnswerChoice;
-import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,7 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import jfxtras.scene.control.LocalDateTimeTextField;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -113,10 +110,10 @@ public class CreatePollViewController implements ViewControllerInterface {
             Date endDate = (end_date.getLocalDateTime() != null) ? TimeManager.localDateToDate(end_date.getLocalDateTime()) : null;
 
             try {
-                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, User.getUser().getId(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), pollType);
+                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), pollType);
 
                 if (proposedDates != null) {
-                    proposedDates.forEach(answerChoice -> answerChoice.setIdPoll(savedPoll.getId()));
+                    proposedDates.forEach(answerChoice -> answerChoice.setPollID(savedPoll.getID()));
                     answerChoiceController.addAll(proposedDates);
                 }
 

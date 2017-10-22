@@ -29,17 +29,17 @@
             </rowConstraints>
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom" GridPane.rowIndex="1"/>
-                <TextField GridPane.columnIndex="1" fx:id="firstname"/>
+                <TextField GridPane.columnIndex="1" fx:ID="firstname"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom"/>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="lastname"/>
+                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:ID="lastname"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Login" GridPane.rowIndex="2"/>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="login"/>
+                <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:ID="login"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email" GridPane.rowIndex="3"/>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="email"/>
+                <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" fx:ID="email"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" GridPane.rowIndex="4"/>
-                <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="4" fx:id="password1"/>
+                <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="4" fx:ID="password1"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Confirmation de mot de passe" GridPane.rowIndex="5"/>
-                <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="password2"/>
+                <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="5" fx:ID="password2"/>
             </children>
         </GridPane>
         <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">

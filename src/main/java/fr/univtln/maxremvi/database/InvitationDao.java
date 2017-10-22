@@ -26,7 +26,7 @@ public class InvitationDao extends AbstractDao {
     @Override
     public List<Invitation> getAll()throws SQLException {
         String query="Select * from Invitation where IDPERSON = ? and SEEN = false";
-        ResultSet rs=DatabaseUtil.executeQuery(query, User.getUser().getId());
+        ResultSet rs=DatabaseUtil.executeQuery(query, User.getUser().getID());
         List<Invitation> invitationList=new ArrayList<>();
         while (rs.next())
         {
@@ -52,7 +52,7 @@ public class InvitationDao extends AbstractDao {
 
     public boolean add(Invitation invitation) throws SQLException {
         String query = "INSERT INTO INVITATION VALUES(?, ?, ?, ?, ?)";
-        DatabaseUtil.executeUpdate(query, invitation.getIdPoll(), invitation.getIdPerson(), invitation.getIdSender(), false, TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
+        DatabaseUtil.executeUpdate(query, invitation.getPollID(), invitation.getPersonID(), invitation.getSenderID(), false, TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
         return true;
     }
 

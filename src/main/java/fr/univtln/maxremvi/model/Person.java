@@ -4,15 +4,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Person {
-    private Integer id;
+    private Integer ID;
     private String login;
     private String password;
     private String email;
     private String firstname;
     private String lastname;
 
-    public Person(Integer id, String login, String password, String email, String firstname, String lastname) {
-        this.id = id;
+    public Person(Integer ID, String login, String password, String email, String firstname, String lastname) {
+        this.ID = ID;
         this.login = login;
         this.password = password;
         this.email = email;
@@ -20,12 +20,12 @@ public class Person {
         this.lastname = lastname;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getLogin() {
@@ -82,7 +82,7 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "id=" + id +
+                "ID=" + ID +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +

@@ -3,42 +3,42 @@ package fr.univtln.maxremvi.model;
 import java.util.Date;
 
 public class Message {
-    private int id;
-    private Person sender;
-    private Poll poll;
+    private int ID;
+    private int senderID;
+    private int pollID;
     private String content;
     private Date creationDate;
 
-    public Message(int id, Person sender, Poll poll, String content, Date creationDate) {
-        this.id = id;
-        this.sender = sender;
-        this.poll = poll;
+    public Message(int ID, int senderID, int pollID, String content, Date creationDate) {
+        this.ID = ID;
+        this.senderID = senderID;
+        this.pollID = pollID;
         this.content = content;
         this.creationDate = creationDate;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public Person getSender() {
-        return sender;
+    public int getSenderID() {
+        return senderID;
     }
 
-    public void setSender(Person sender) {
-        this.sender = sender;
+    public void setSenderID(int senderID) {
+        this.senderID = senderID;
     }
 
-    public Poll getPoll() {
-        return poll;
+    public int getPollID() {
+        return pollID;
     }
 
-    public void setPoll(Poll poll) {
-        this.poll = poll;
+    public void setPollID(int pollID) {
+        this.pollID = pollID;
     }
 
     public String getContent() {
@@ -60,9 +60,9 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "id=" + id +
-                ", sender=" + sender +
-                ", poll=" + poll +
+                "ID=" + ID +
+                ", sender=" + senderID +
+                ", poll=" + pollID +
                 ", content='" + content + '\'' +
                 ", creationDate=" + creationDate +
                 '}';

@@ -2,13 +2,11 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.InvitationController;
 import fr.univtln.maxremvi.controller.PersonController;
-import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.Invitation;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.AlertManager;
-import fr.univtln.maxremvi.utils.EmailManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
-import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +34,7 @@ public class SharePollViewController implements ViewControllerInterface{
     public void initialize(){
         if(poll != null){
             try {
-                personList = PersonController.getInstance().getNotInvitedToPoll(poll.getId());
+                personList = PersonController.getInstance().getNotInvitedToPoll(poll.getID());
                 List<HBox> hBoxes = new ArrayList<>();
                 if(personList != null){
                     for(Person person : personList){
@@ -78,7 +75,7 @@ public class SharePollViewController implements ViewControllerInterface{
 
         List<Invitation> invitations = new ArrayList<>();
         for(Person person : receivers){
-            invitations.add(new Invitation(person.getId(), poll.getId(), User.getUser().getId(), false));
+            invitations.add(new Invitation(person.getID(), poll.getID(), User.getUser().getID(), false));
         }
 
         try {

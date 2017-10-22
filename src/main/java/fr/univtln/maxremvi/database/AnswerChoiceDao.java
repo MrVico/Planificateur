@@ -1,10 +1,10 @@
 package fr.univtln.maxremvi.database;
 
-import fr.univtln.maxremvi.model.Answer;
+import fr.univtln.maxremvi.controller.AnswerController;
 import fr.univtln.maxremvi.model.AnswerChoice;
-import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.utils.TimeManager;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -76,8 +76,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     @Override
     public AnswerChoice add(AnswerChoice object) throws SQLException {
         String query = "INSERT INTO ANSWERCHOICE(DATECHOICE, CREATIONDATE, IDPOLL) VALUES(?, ?, ?)";
-        int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getIdPoll());
-        System.out.println(answerChoiceId);
+        int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getPollID());
         return ((AnswerChoiceDao) getInstance()).get(answerChoiceId);
     }
 
@@ -88,6 +87,17 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
             insertedAnswerChoices.add(add(answerChoice));
         }
         return insertedAnswerChoices;
+    }
+
+    public boolean addAndAnswer(int personID, AnswerChoice answerChoice) throws SQLException {
+        AnswerChoice insertedAnswerChoice = add(answerChoice);
+        try {
+            AnswerController.getInstance().addAnswer(personID, insertedAnswerChoice.getPollID(), insertedAnswerChoice.getID());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

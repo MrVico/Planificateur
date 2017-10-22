@@ -48,7 +48,7 @@ public class ViewPollViewController implements ViewControllerInterface {
             title.setText(poll.getTitle());
             place.setText(poll.getLocation());
             description.setText(poll.getDescription());
-            initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getId());
+            initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
             proposedDates = ListManager.observableListFromList(initialAnswerChoices);
             System.out.println(proposedDates);
             table_dates.setEditable(true);
@@ -69,23 +69,23 @@ public class ViewPollViewController implements ViewControllerInterface {
             table_dates.getColumns().add(answerCol);
             table_dates.setItems(proposedDates);
 
-            List<AnswerChoice> myAnswers = AnswerChoiceController.getInstance().getPollAnswerChoicesForPerson(poll.getId(), User.getUser().getId());
+            List<AnswerChoice> myAnswers = AnswerChoiceController.getInstance().getPollAnswerChoicesForPerson(poll.getID(), User.getUser().getID());
             List<Integer> myAnswersIDs = new ArrayList<>();
             for(AnswerChoice myAnswer : myAnswers){
-                myAnswersIDs.add(myAnswer.getId());
+                myAnswersIDs.add(myAnswer.getID());
                 for(AnswerChoice answerChoice : initialAnswerChoices){
                     if(myAnswer.equals(answerChoice)){
-                        //TODO : A changer, passer par le controleur etc ???
+                        //TODO : Bizarre de faire des set dans la vue nan ?
                         answerChoice.setCheckProperty(true);
                     }
                 }
             }
-            onLoad.put(User.getUser().getId(), myAnswersIDs);
+            onLoad.put(User.getUser().getID(), myAnswersIDs);
 
-            if(PollController.getInstance().getPollPromoterID(poll.getId()) == User.getUser().getId())
+            if(PollController.getInstance().getPollPromoterID(poll.getID()) == User.getUser().getID())
                 updatePoll.setVisible(true);
 
-            if(poll.getType()!=Poll.pollType.PRIVATE || (poll.getPromoterID()==User.getUser().getId()))
+            if(poll.getType()!=Poll.pollType.PRIVATE || (poll.getPromoterID()==User.getUser().getID()))
                 sharePoll.setVisible(true);
 
             proposed_date.localDateTimeProperty().addListener((observable, oldValue, newValue) -> {
@@ -99,47 +99,53 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     @FXML
     public void handleValidateAnswerButtonClick(ActionEvent actionEvent) {
-        //TODO : Ajouter les nouveaux choix de réponses (addDates) avant d'ajouter les réponses !!!
-        List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getId());
+        List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getID());
         List<Integer> newAnswersIDs = new ArrayList<>();
 
-        //TODO : Normalement ça ne devrait pas être nécessaire !
-        initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getId());
+        //TODO : Normalement ça ne devrait pas être nécessaire ?!?
+        initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
 
+        //récupération des nouveaux choix de réponses ajoutés par l'utilisateur
         List<AnswerChoice> newAnswerChoices = new ArrayList<>();
         for(AnswerChoice answerChoice : proposedDates){
             if(!initialAnswerChoices.contains(answerChoice)){
-                newAnswerChoices.add(new AnswerChoice(null, answerChoice.getCreationDate(), answerChoice.getDateChoice(), poll.getId()));
+                newAnswerChoices.add(new AnswerChoice(null, answerChoice.getCreationDate(), answerChoice.getDateChoice(), poll.getID()));
             }
         }
 
-        List<AnswerChoice> insertedNewAnswerChoices = new ArrayList<>();
-        //ajout des nouveaux choix de réponses
-        try {
-            insertedNewAnswerChoices = AnswerChoiceController.getInstance().addAll(newAnswerChoices);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        /*
-            TODO : Ajout des réponses pour un choix de réponse ajouté au même moment...
-         */
-
-
         //récupèration des réponses sélectionnées par l'utilisateur
-        //int index = 0;
         List<Answer> answers = new ArrayList<>();
         for(Object obj : table_dates.getItems()){
             AnswerChoice answerChoice = null;
             if(obj instanceof AnswerChoice) {
                 answerChoice = (AnswerChoice) obj;
-                //System.out.println(answerChoice.getDateChoice()+"         "+insertedNewAnswerChoices.get(index));
                 if(answerChoice.isCheckProperty()) {
-                    newAnswersIDs.add(answerChoice.getId());
-                    answers.add(new Answer(User.getUser().getId(), poll.getId(), answerChoice.getId()));
+                    //si l'utilisateur a ajouté le choix de réponse il faut d'abord le créé
+                    if(newAnswerChoices.contains(answerChoice)) {
+                        try {
+                            //TODO : Bizarre de faire des set dans la vue nan ?
+                            answerChoice.setPollID(poll.getID());
+                            if(AnswerChoiceController.getInstance().addAndAnswer(User.getUser().getID(), answerChoice))
+                                newAnswerChoices.remove(answerChoice);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //sinon on ajoute juste la réponse
+                    else{
+                        newAnswersIDs.add(answerChoice.getID());
+                        answers.add(new Answer(User.getUser().getID(), poll.getID(), answerChoice.getID()));
+                    }
                 }
-                //index++;
             }
+        }
+
+        //ajout des nouveaux choix de réponses non sélectionnés
+        List<AnswerChoice> insertedNewAnswerChoices = new ArrayList<>();
+        try {
+            insertedNewAnswerChoices = AnswerChoiceController.getInstance().addAll(newAnswerChoices);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         //récupèration des réponses désélectionnées par l'utilisateur
@@ -150,8 +156,9 @@ public class ViewPollViewController implements ViewControllerInterface {
             }
         }
 
+        //suppression de toutes les réponses désélectionnées par l'utilisateur
         try {
-            AnswerController.getInstance().deleteAll(poll.getId(), User.getUser().getId(), unselectedAnswers);
+            AnswerController.getInstance().deleteAll(poll.getID(), User.getUser().getID(), unselectedAnswers);
             AnswerController.getInstance().addAll(answers);
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
             ViewManager.switchView(ViewManager.viewsEnum.HOME);

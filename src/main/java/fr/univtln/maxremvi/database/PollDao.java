@@ -65,7 +65,7 @@ public class PollDao extends AbstractDao<Poll> {
     }
 
     public List<Poll> getVisiblePollsForPerson(Person person) {
-        int personId = person.getId();
+        int personId = person.getID();
         try {
             String query =
                     "(SELECT * FROM POLL WHERE TYPE='PUBLIC')" +
@@ -140,6 +140,6 @@ public class PollDao extends AbstractDao<Poll> {
     }
 
     public boolean remove(Poll object) throws SQLException {
-        return remove(object.getId());
+        return remove(object.getID());
     }
 }

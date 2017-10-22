@@ -1,7 +1,6 @@
 package fr.univtln.maxremvi.database;
 
 import fr.univtln.maxremvi.model.Answer;
-import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.utils.TimeManager;
 
 import java.sql.ResultSet;
@@ -25,7 +24,7 @@ public class AnswerDao extends AbstractDao<Answer>{
     public boolean answerExists(Answer answer){
         try {
             String query = "SELECT * FROM ANSWER WHERE IDPOLL = ? AND IDPERSON = ? AND IDANSWERCHOICE = ?";
-            ResultSet rs = DatabaseUtil.executeQuery(query, answer.getIdPoll(), answer.getIdPerson(), answer.getIdAnswerChoice());
+            ResultSet rs = DatabaseUtil.executeQuery(query, answer.getPollID(), answer.getPersonID(), answer.getAnswerChoiceID());
             if(!rs.next())
                 return false;
             else
@@ -46,7 +45,7 @@ public class AnswerDao extends AbstractDao<Answer>{
         System.out.println(object);
         if(!answerExists(object)){
             String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, IDANSWERCHOICE, CREATIONDATE) VALUES(?, ?, ?, ?)";
-            DatabaseUtil.executeUpdate(query, object.getIdPoll(), object.getIdPerson(), object.getIdAnswerChoice(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
+            DatabaseUtil.executeUpdate(query, object.getPollID(), object.getPersonID(), object.getAnswerChoiceID(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
         }
         return null;
     }

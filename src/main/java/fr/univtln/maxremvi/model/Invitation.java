@@ -1,86 +1,44 @@
 package fr.univtln.maxremvi.model;
 
-import java.util.Date;
-
 public class Invitation {
-
-    /*
-    private Person person;
-    private Poll poll;
-    private Person inviter;
-    */
-    private int idPerson;
-    private int idPoll;
-    private int idSender;
+    private int personID;
+    private int pollID;
+    private int senderID;
     private boolean seen;
 
     public Invitation(){}
-    /*
-    public Invitation(Person person, Poll poll, Person inviter, boolean seen, Date sendingDate) {
-        this.person = person;
-        this.poll = poll;
-        this.inviter = inviter;
-        this.seen = seen;
-        this.sendingDate = sendingDate;
-    }
-    */
 
-    public Invitation(int idPerson, int idPoll, int idSender, boolean seen) {
-        this.idPerson = idPerson;
-        this.idPoll = idPoll;
-        this.idSender = idSender;
+    public Invitation(int personID, int pollID, int senderID, boolean seen) {
+        this.personID = personID;
+        this.pollID = pollID;
+        this.senderID = senderID;
         this.seen = seen;
     }
 
-    public int getIdPerson() {
-        return idPerson;
+    public int getPersonID() {
+        return personID;
     }
 
-    public void setIdPerson(int idPerson) {
-        this.idPerson = idPerson;
+    public void setPersonID(int personID) {
+        this.personID = personID;
     }
 
-    public int getIdPoll() {
-        return idPoll;
+    public int getPollID() {
+        return pollID;
     }
 
-    public void setIdPoll(int idPoll) {
-        this.idPoll = idPoll;
+    public void setPollID(int pollID) {
+        this.pollID = pollID;
     }
 
-    public int getIdSender() {
-        return idSender;
+    public int getSenderID() {
+        return senderID;
     }
 
-    public void setIdSender(int idSender) {
-        this.idSender = idSender;
+    public void setSenderID(int senderID) {
+        this.senderID = senderID;
     }
-
-    /*
-        public Person getPerson() {
-            return person;
-        }
-
-        public void setPerson(Person person) {
-            this.person = person;
-        }
-
-        public Poll getPoll() {
-            return poll;
-        }
-
-        public void setPoll(Poll poll) {
-            this.poll = poll;
-        }
-
-        public Person getInviter() {
-            return inviter;
-        }
-
-        public void setInviter(Person inviter) {
-            this.inviter = inviter;
-        }
-        */
+    
     public boolean isSeen() {
         return seen;
     }
@@ -92,9 +50,9 @@ public class Invitation {
     @Override
     public String toString() {
         return "Invitation{" +
-                "idPerson=" + idPerson +
-                ", idPoll=" + idPoll +
-                ", idSender=" + idSender +
+                "personID=" + personID +
+                ", pollID=" + pollID +
+                ", senderID=" + senderID +
                 ", seen=" + seen +
                 '}';
     }

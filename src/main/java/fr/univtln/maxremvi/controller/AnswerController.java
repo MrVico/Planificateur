@@ -28,11 +28,11 @@ public class AnswerController {
         else
             return answerController;
     }
-    /*
-    public Answer addAnswer(int idPerson, int idPoll, List<AnswerChoice> answerChoices)  throws SQLException, IOException {
-        return answerDao.add(new Answer(idPerson, idPoll, answerChoices));
+
+    public Answer addAnswer(int idPerson, int idPoll, int idAnswerChoice)  throws SQLException, IOException {
+        return answerDao.add(new Answer(idPerson, idPoll, idAnswerChoice));
     }
-    */
+
     public List<Answer> addAll(List<Answer> answers) throws SQLException {
         return answerDao.addAll(answers);
     }
