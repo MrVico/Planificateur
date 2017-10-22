@@ -55,6 +55,7 @@
                   <Button fx:id="updatePoll" mnemonicParsing="false" onAction="#handleUpdatePollButtonClick" text="Modifier le sondage" visible="false" StackPane.alignment="BOTTOM_LEFT" />
                </children>
             </StackPane>
+                <Button mnemonicParsing="false" text="retour" onAction="#handleRetourClick" />
             </children>
          <opaqueInsets>
             <Insets top="100.0" />

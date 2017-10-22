@@ -7,6 +7,7 @@ import fr.univtln.maxremvi.model.Invitation;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
+import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -43,11 +45,6 @@ public class HomeViewController implements ViewControllerInterface {
         });
 
         try {
-            invitationList = InvitationController.getInstance().getAll();
-            //System.out.println("coucou regarde ici : "+invitationList.size());
-        }catch (SQLException e){}
-
-        try {
             pollList = PollController.getInstance().getVisiblePollsForPerson(User.getUser());
             List<HBox> hBoxes = new ArrayList<>();
             Date closingDate;
@@ -75,6 +72,17 @@ public class HomeViewController implements ViewControllerInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            invitationList = InvitationController.getInstance().getAll();
+            String nameInvitation="";
+            for(Invitation e:invitationList)
+            {
+                nameInvitation+=PollController.getInstance().getPoll(e.getPollID()).getTitle()+"\n";
+            }
+            if(invitationList.size()>0)
+                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Vous avez "+invitationList.size()+" sondages privé non vu :\n"+nameInvitation);
+        }catch (SQLException e){}
     }
 
     public ObservableList<HBox> getLines() {

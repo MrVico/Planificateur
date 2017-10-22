@@ -34,4 +34,15 @@ public class InvitationController {
     public List<Invitation> getAll()throws SQLException{
         return invitationDao.getAll();
     }
+
+    public Invitation getInvitation(int idPoll,int idPerson, int idPersonInviter) throws SQLException
+    {
+        Invitation invitation=invitationDao.getInvitation(idPoll,idPerson,idPersonInviter);
+        return invitation;
+    }
+
+    public void setInvitationSeenTrue(Invitation invitation)throws SQLException
+    {
+        invitationDao.setInvitationTrue(invitation);
+    }
 }

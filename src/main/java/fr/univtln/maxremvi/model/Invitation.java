@@ -1,5 +1,8 @@
 package fr.univtln.maxremvi.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Invitation {
     private int personID;
     private int pollID;
@@ -8,11 +11,18 @@ public class Invitation {
 
     public Invitation(){}
 
-    public Invitation(int personID, int pollID, int senderID, boolean seen) {
-        this.personID = personID;
+    public Invitation(int pollID, int personID,  int senderID, boolean seen) {
         this.pollID = pollID;
+        this.personID = personID;
         this.senderID = senderID;
         this.seen = seen;
+    }
+
+    public static Invitation fromResusltSet(ResultSet rs) throws SQLException
+    {
+        System.out.println("coucou");
+        return new Invitation(rs.getInt("IDPOLL"), rs.getInt("IDPERSON"), rs.getInt("IDPERSONINVITER"), rs.getBoolean("SEEN"));
+
     }
 
     public int getPersonID() {

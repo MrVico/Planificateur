@@ -2,6 +2,7 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.AnswerChoiceController;
 import fr.univtln.maxremvi.controller.AnswerController;
+import fr.univtln.maxremvi.controller.InvitationController;
 import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.AlertManager;
@@ -45,6 +46,7 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     public void initialize(){
         if (poll != null) {
+            pollSeenToTrue();
             title.setText(poll.getTitle());
             place.setText(poll.getLocation());
             description.setText(poll.getDescription());
@@ -179,5 +181,20 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     public void handleSharePollButtonClick(ActionEvent actionEvent) {
         ViewManager.openModal(ViewManager.viewsEnum.SHARE_POLL, poll);
+    }
+
+    public void handleRetourClick(ActionEvent actionEvent)
+    {
+        ViewManager.switchView(ViewManager.viewsEnum.HOME);
+    }
+
+    public void pollSeenToTrue()
+    {
+        try {
+            Invitation invitation=InvitationController.getInstance().getInvitation(poll.getID(),User.getUser().getID(),poll.getPromoterID());
+            InvitationController.getInstance().setInvitationSeenTrue(invitation);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

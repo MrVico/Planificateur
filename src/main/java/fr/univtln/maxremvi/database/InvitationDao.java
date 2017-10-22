@@ -30,7 +30,7 @@ public class InvitationDao extends AbstractDao {
         List<Invitation> invitationList=new ArrayList<>();
         while (rs.next())
         {
-            invitationList.add(new Invitation(rs.getInt("IDPERSON"),rs.getInt("IDPOLL"),rs.getInt("IDPERSONINVITER"),rs.getBoolean("SEEN")));
+            invitationList.add(new Invitation(rs.getInt("IDPOLL"),rs.getInt("IDPERSON"),rs.getInt("IDPERSONINVITER"),rs.getBoolean("SEEN")));
         }
 
 
@@ -54,6 +54,23 @@ public class InvitationDao extends AbstractDao {
         String query = "INSERT INTO INVITATION VALUES(?, ?, ?, ?, ?)";
         DatabaseUtil.executeUpdate(query, invitation.getPollID(), invitation.getPersonID(), invitation.getSenderID(), false, TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
         return true;
+    }
+
+
+
+    public Invitation getInvitation(int idPoll,int idPerson, int idPersonInviter) throws SQLException
+    {
+        String query="SELECT * FROM INVITATION WHERE IDPOLL= ? AND IDPERSON = ? AND IDPERSONINVITER = ?";
+        ResultSet rs=DatabaseUtil.executeQuery(query,idPoll,idPerson,idPersonInviter);
+        rs.next();
+        Invitation invitation=Invitation.fromResusltSet(rs);
+        return invitation;
+    }
+
+    public void setInvitationTrue(Invitation invitation) throws SQLException
+    {
+        String query="UPDATE INVITATION SET SEEN=TRUE WHERE IDPOLL = ? AND IDPERSON = ? AND IDPERSONINVITER = ?";
+        DatabaseUtil.executeUpdate(query,invitation.getPollID(),invitation.getPersonID(),invitation.getSenderID());
     }
 
     @Override

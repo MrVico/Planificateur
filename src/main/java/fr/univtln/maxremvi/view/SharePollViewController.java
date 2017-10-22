@@ -75,7 +75,7 @@ public class SharePollViewController implements ViewControllerInterface{
 
         List<Invitation> invitations = new ArrayList<>();
         for(Person person : receivers){
-            invitations.add(new Invitation(person.getID(), poll.getID(), User.getUser().getID(), false));
+            invitations.add(new Invitation( poll.getID(),person.getID(), User.getUser().getID(), false));
         }
 
         try {
