@@ -196,7 +196,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     {
         try {
             Invitation invitation=InvitationController.getInstance().getInvitation(poll.getID(),User.getUser().getID(),poll.getPromoterID());
-            InvitationController.getInstance().setInvitationSeenTrue(invitation);
+            if(!invitation.isSeen())
+                InvitationController.getInstance().setInvitationSeenTrue(invitation);
         } catch (SQLException e) {
             e.printStackTrace();
         }
