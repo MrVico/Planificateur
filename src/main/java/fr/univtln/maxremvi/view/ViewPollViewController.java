@@ -9,11 +9,13 @@ import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -109,6 +111,9 @@ public class ViewPollViewController implements ViewControllerInterface {
                 }
             });
 
+            //chat.setMouseTransparent(true);
+            chat.setFocusTraversable(false);
+
             message.setWrapText(true);
             //limitation à 255 caractères pour un message
             message.setTextFormatter(new TextFormatter<String>(change -> change.getControlNewText().length() <= 255 ? change : null));
@@ -118,15 +123,46 @@ public class ViewPollViewController implements ViewControllerInterface {
                 List<VBox> vBoxes = new ArrayList<>();
                 for(Message mess : messages){
                     VBox vBox = new VBox();
+                    HBox hBox = new HBox();
                     Text info = new Text();
                     Person sender = PersonController.getInstance().getPerson(mess.getSenderID());
                     String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(mess.getCreationDate());
                     info.setText(date+" "+sender.getFirstname()+" "+sender.getLastname()+" : ");
+                    hBox.getChildren().add(info);
+                    //TODO : Set icon & align to the right
+                    if(poll.getPromoterID()==User.getUser().getID() || mess.getSenderID()==User.getUser().getID()){
+                        Button delete = new Button("x");
+                        delete.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                int index = -1;
+                                for(int i=0; i<lines.size(); i++){
+                                    HBox currentHBox = (HBox) lines.get(i).getChildren().get(0);
+                                    if(currentHBox.getChildren().size() > 1 && currentHBox.getChildren().get(1).equals(delete)) {
+                                        index = i;
+                                        i = lines.size();
+                                    }
+                                }
+                                if(index != -1){
+                                    System.out.println("Message : "+messages.get(index));
+                                    Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Suppression du message", null, "Voulez-vous vraiment supprimer ce message ?");
+                                    if (result.get() == ButtonType.OK){
+                                        try {
+                                            MessageController.getInstance().delete(messages.get(index).getID());
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        hBox.getChildren().add(delete);
+                    }
                     StackPane container = new StackPane();
                     Text content = new Text(mess.getContent());
                     content.setWrappingWidth(250);
                     container.getChildren().add(content);
-                    vBox.getChildren().addAll(info, container);
+                    vBox.getChildren().addAll(hBox, container);
                     vBox.setSpacing(5);
                     vBoxes.add(vBox);
                 }

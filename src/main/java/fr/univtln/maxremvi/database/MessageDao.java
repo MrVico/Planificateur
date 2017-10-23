@@ -64,7 +64,9 @@ public class MessageDao extends AbstractDao<Message>{
 
     @Override
     public boolean remove(int id) throws SQLException {
-        return false;
+        String query = "DELETE FROM MESSAGE WHERE IDMESSAGE = ?";
+        DatabaseUtil.executeUpdate(query, id);
+        return true;
     }
 
     @Override

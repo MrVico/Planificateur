@@ -33,4 +33,8 @@ public class MessageController {
     public List<Message> getPollMessages(int pollID) throws SQLException {
         return messageDao.getPollMessages(pollID);
     }
+
+    public boolean delete(int messageID) throws SQLException {
+        return messageDao.remove(messageID);
+    }
 }
