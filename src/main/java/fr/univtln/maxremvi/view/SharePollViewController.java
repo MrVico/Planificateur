@@ -1,5 +1,6 @@
 package fr.univtln.maxremvi.view;
 
+import fr.univtln.maxremvi.controller.App;
 import fr.univtln.maxremvi.controller.InvitationController;
 import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.model.Invitation;
@@ -11,11 +12,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,6 +29,8 @@ public class SharePollViewController implements ViewControllerInterface{
     private Poll poll;
     @FXML
     private ListView listView;
+    @FXML
+    private Button shareButton;
 
     public void initialize(){
         if(poll != null){
@@ -61,7 +62,6 @@ public class SharePollViewController implements ViewControllerInterface{
         return lines ;
     }
 
-    // TODO : send mail
     public void handleShareButtonClick(ActionEvent actionEvent) {
         List<Person> receivers = new ArrayList<>();
         int index = 0;
@@ -81,10 +81,10 @@ public class SharePollViewController implements ViewControllerInterface{
         try {
             InvitationController.getInstance().addAll(invitations);
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information",null, "Partage effectué.");
+            ((Stage)shareButton.getScene().getWindow()).close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //EmailManager.sendEmails(receivers);
     }
 
     @Override

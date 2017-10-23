@@ -1,6 +1,5 @@
 package fr.univtln.maxremvi.controller;
 
-import com.j256.ormlite.stmt.query.In;
 import fr.univtln.maxremvi.database.DatabaseDao;
 import fr.univtln.maxremvi.database.InvitationDao;
 import fr.univtln.maxremvi.model.Invitation;
@@ -41,8 +40,11 @@ public class InvitationController {
         return invitation;
     }
 
-    public void setInvitationSeenTrue(Invitation invitation)throws SQLException
-    {
-        invitationDao.setInvitationTrue(invitation);
+    public boolean wasInvitedToPoll(int pollID, int personID) throws SQLException {
+        return invitationDao.wasInvitedToPoll(pollID, personID);
+    }
+
+    public void setInvitationsAsSeen(int pollID, int personID)throws SQLException {
+        invitationDao.setInvitationsAsSeen(pollID, personID);
     }
 }

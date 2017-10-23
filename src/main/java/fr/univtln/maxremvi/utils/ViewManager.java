@@ -41,12 +41,6 @@ public class ViewManager {
 
     // TODO : Modifier les deux vues
     public static void switchView(viewsEnum viewName, Object... data) {
-        /*
-        if(viewName != "signin" && viewName != "register" && !User.isLogged()){
-            ViewManager.switchView("signin");
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Utilisateur non identifié", null, "Veuillez vous connectez !");
-        }
-        else{*/
         String viewUrl = "/views/" + viewName.getFilename() + ".fxml";
         FXMLLoader fxmlLoader = new FXMLLoader(viewUrl.getClass().getResource(viewUrl));
 
@@ -63,7 +57,6 @@ public class ViewManager {
         stage.setScene(new Scene(root1, 800, 600));
         stage.setResizable(false);
         stage.show();
-        //}
     }
 
     public static void openModal(viewsEnum viewName, Object... data){

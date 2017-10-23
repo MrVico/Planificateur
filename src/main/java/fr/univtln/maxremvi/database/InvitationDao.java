@@ -66,14 +66,21 @@ public class InvitationDao extends AbstractDao<Invitation>{
         String query="SELECT * FROM INVITATION WHERE IDPOLL= ? AND IDPERSON = ? AND IDPERSONINVITER = ?";
         ResultSet rs=DatabaseUtil.executeQuery(query,idPoll,idPerson,idPersonInviter);
         rs.next();
-        Invitation invitation=Invitation.fromResusltSet(rs);
+        Invitation invitation=Invitation.fromResultSet(rs);
         return invitation;
     }
 
-    public void setInvitationTrue(Invitation invitation) throws SQLException
-    {
-        String query="UPDATE INVITATION SET SEEN=TRUE WHERE IDPOLL = ? AND IDPERSON = ? AND IDPERSONINVITER = ?";
-        DatabaseUtil.executeUpdate(query,invitation.getPollID(),invitation.getPersonID(),invitation.getSenderID());
+    public boolean wasInvitedToPoll(int pollID, int personID) throws SQLException {
+        String query = "SELECT * FROM INVITATION WHERE IDPOLL = ? AND IDPERSON = ? AND SEEN=FALSE";
+        ResultSet rs = DatabaseUtil.executeQuery(query, pollID, personID);
+        if(rs.next())
+            return true;
+        return false;
+    }
+
+    public void setInvitationsAsSeen(int pollID, int personID) throws SQLException {
+        String query="UPDATE INVITATION SET SEEN=TRUE WHERE IDPOLL = ? AND IDPERSON = ?";
+        DatabaseUtil.executeUpdate(query, pollID, personID);
     }
 
     @Override

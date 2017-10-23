@@ -15,9 +15,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class HomeViewController implements ViewControllerInterface {
     private final ObservableList<HBox> lines = FXCollections.observableArrayList();
@@ -45,7 +46,13 @@ public class HomeViewController implements ViewControllerInterface {
             }
         });
 
+        getPolls();
+    }
+
+    public void getPolls(){
         try {
+            listView.getItems().clear();
+            invitationList = InvitationController.getInstance().getAll();
             pollList = PollController.getInstance().getVisiblePollsForPerson(User.getUser());
             List<HBox> hBoxes = new ArrayList<>();
             Date closingDate;
@@ -53,19 +60,44 @@ public class HomeViewController implements ViewControllerInterface {
             if(pollList != null){
                 for(Poll poll : pollList){
                     HBox hBox = new HBox();
+                    hBox.setPrefHeight(20);
                     closingDate = poll.getClosingDate();
                     Label labelA = new Label(poll.getTitle());
-                    labelA.setPrefWidth(150);
+                    labelA.setPrefWidth(280);
                     Person promoter = PersonController.getInstance().getPerson(poll.getPromoterID());
                     Label labelB = new Label(promoter.getFirstname()+" "+promoter.getLastname());
-                    labelB.setPrefWidth(150);
+                    labelB.setPrefWidth(170);
                     if (closingDate != null)
                         labelC = new Label(new SimpleDateFormat("dd/MM/yyyy").format(poll.getClosingDate()));
                     else
                         labelC = new Label("");
-
-                    labelC.setPrefWidth(150);
+                    labelC.setPrefWidth(100);
                     hBox.getChildren().addAll(labelA, labelB, labelC);
+                    Invitation invitation = null;
+                    for(Invitation invite : invitationList){
+                        if(invite.getPollID()==poll.getID())
+                            invitation = invite;
+                    }
+                    if(invitation != null){
+                        Button invitationButton = new Button();
+                        Image image = new Image("/images/invitation.png");
+                        invitationButton.setGraphic(new ImageView(image));
+                        invitationButton.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Invitation", null, "Marquer comme lue ?");
+                                if (result.get() == ButtonType.OK){
+                                    try {
+                                        InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID());
+                                        getPolls();
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+                        hBox.getChildren().add(invitationButton);
+                    }
                     hBoxes.add(hBox);
                 }
                 lines.addAll(hBoxes);
@@ -73,20 +105,6 @@ public class HomeViewController implements ViewControllerInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        try {
-            invitationList = InvitationController.getInstance().getAll();
-            String nameInvitation="";
-            for(Invitation e:invitationList)
-            {
-                nameInvitation+=PollController.getInstance().getPoll(e.getPollID()).getTitle()+"\n";
-            }
-            //TODO : Chiant à mort !
-            /*
-            if(invitationList.size()>0)
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Vous avez "+invitationList.size()+" sondages privé non vu :\n"+nameInvitation);
-            */
-        }catch (SQLException e){}
     }
 
     public ObservableList<HBox> getLines() {

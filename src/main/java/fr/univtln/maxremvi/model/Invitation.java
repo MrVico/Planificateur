@@ -18,12 +18,6 @@ public class Invitation {
         this.seen = seen;
     }
 
-    public static Invitation fromResusltSet(ResultSet rs) throws SQLException
-    {
-        return new Invitation(rs.getInt("IDPOLL"), rs.getInt("IDPERSON"), rs.getInt("IDPERSONINVITER"), rs.getBoolean("SEEN"));
-
-    }
-
     public int getPersonID() {
         return personID;
     }
@@ -54,6 +48,11 @@ public class Invitation {
 
     public void setSeen(boolean seen) {
         this.seen = seen;
+    }
+
+    public static Invitation fromResultSet(ResultSet rs) throws SQLException
+    {
+        return new Invitation(rs.getInt("IDPOLL"), rs.getInt("IDPERSON"), rs.getInt("IDPERSONINVITER"), rs.getBoolean("SEEN"));
     }
 
     @Override

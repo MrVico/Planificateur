@@ -9,6 +9,6 @@
    <children>
        <Label layoutX="158.0" layoutY="30.0" text="Selection des personnes avec qui partager le sondage" />
        <ListView fx:id="listView" items="${controller.lines}" layoutX="37.0" layoutY="61.0" prefHeight="277.0" prefWidth="527.0" />
-      <Button onAction="#handleShareButtonClick" layoutX="503.0" layoutY="350.0" mnemonicParsing="false" text="Partager" />
+      <Button fx:id="shareButton" onAction="#handleShareButtonClick" layoutX="503.0" layoutY="350.0" mnemonicParsing="false" text="Partager" />
    </children>
 </AnchorPane>
