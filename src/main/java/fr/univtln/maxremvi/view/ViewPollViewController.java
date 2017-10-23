@@ -86,9 +86,13 @@ public class ViewPollViewController implements ViewControllerInterface {
 
             if(PollController.getInstance().getPollPromoterID(poll.getID()) == User.getUser().getID())
                 updatePoll.setVisible(true);
+            else
+                updatePoll.setVisible(false);
 
             if(poll.getType()!=Poll.pollType.PRIVATE || (poll.getPromoterID()==User.getUser().getID()))
                 sharePoll.setVisible(true);
+            else
+                sharePoll.setVisible(false);
 
             proposed_date.localDateTimeProperty().addListener((observable, oldValue, newValue) -> {
                 if (proposed_date.localDateTimeProperty().getValue() != null) {
