@@ -24,4 +24,8 @@ public class DatabaseDao {
     public static InvitationDao getInvitationDao() throws SQLException {
         return (InvitationDao) new InvitationDao().getInstance();
     }
+
+    public static MessageDao getMessageDao() throws SQLException {
+        return (MessageDao) new MessageDao().getInstance();
+    }
 }

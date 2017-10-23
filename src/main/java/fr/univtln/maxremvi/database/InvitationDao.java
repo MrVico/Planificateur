@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class InvitationDao extends AbstractDao {
+public class InvitationDao extends AbstractDao<Invitation>{
     @Override
     public AbstractDao getInstance() {
         if (instance == null)
@@ -19,7 +19,7 @@ public class InvitationDao extends AbstractDao {
     }
 
     @Override
-    public Object get(int id) {
+    public Invitation get(int id) {
         return null;
     }
 
@@ -37,26 +37,29 @@ public class InvitationDao extends AbstractDao {
         return invitationList;
     }
 
-    @Override
-    public Object add(Object object) throws SQLException {
-        return null;
-    }
-
     public boolean addInvitations(List<Invitation> invitations) throws SQLException {
         for(Invitation invitation : invitations){
-            if(!add(invitation))
+            if(!addInvitation(invitation))
                 return false;
         }
         return true;
     }
 
-    public boolean add(Invitation invitation) throws SQLException {
+    public boolean addInvitation(Invitation invitation) throws SQLException {
         String query = "INSERT INTO INVITATION VALUES(?, ?, ?, ?, ?)";
         DatabaseUtil.executeUpdate(query, invitation.getPollID(), invitation.getPersonID(), invitation.getSenderID(), false, TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
         return true;
     }
 
+    @Override
+    public Invitation add(Invitation object) throws SQLException {
+        return null;
+    }
 
+    @Override
+    public List<Invitation> addAll(List<Invitation> objects) throws SQLException {
+        return null;
+    }
 
     public Invitation getInvitation(int idPoll,int idPerson, int idPersonInviter) throws SQLException
     {
@@ -74,12 +77,7 @@ public class InvitationDao extends AbstractDao {
     }
 
     @Override
-    public List addAll(List objects) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public boolean update(Object object) {
+    public boolean update(Invitation object) {
         return false;
     }
 
@@ -89,7 +87,7 @@ public class InvitationDao extends AbstractDao {
     }
 
     @Override
-    public boolean remove(Object object) throws SQLException {
+    public boolean remove(Invitation object) throws SQLException {
         return false;
     }
 }

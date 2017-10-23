@@ -62,11 +62,11 @@ public class PersonDao extends AbstractDao<Person> {
         return null;
     }
 
-    public List<Person> getNotInvitedToPoll(int idPoll){
+    public List<Person> getNotInvitedToPoll(int pollID, int personID){
         try {
             String query = "SELECT * FROM PERSON WHERE ID NOT IN (" +
-                                                                    "SELECT IDPERSON FROM INVITATION WHERE IDPOLL = ?)";
-            ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
+                                                                    "SELECT IDPERSON FROM INVITATION WHERE IDPOLL = ?) AND ID != ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, pollID, personID);
 
             List<Person> personList = new ArrayList<>();
             while (rs.next()) {

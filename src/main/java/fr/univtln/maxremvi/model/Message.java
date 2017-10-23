@@ -1,15 +1,17 @@
 package fr.univtln.maxremvi.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Message {
-    private int ID;
+    private Integer ID;
     private int senderID;
     private int pollID;
     private String content;
     private Date creationDate;
 
-    public Message(int ID, int senderID, int pollID, String content, Date creationDate) {
+    public Message(Integer ID, int senderID, int pollID, String content, Date creationDate) {
         this.ID = ID;
         this.senderID = senderID;
         this.pollID = pollID;
@@ -55,6 +57,10 @@ public class Message {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public static Message fromResultSet(ResultSet rs) throws SQLException {
+        return new Message(rs.getInt("IDMESSAGE"), rs.getInt("IDPERSON"), rs.getInt("IDPOLL"), rs.getString("CONTENT"), rs.getTimestamp("CREATIONDATE"));
     }
 
     @Override

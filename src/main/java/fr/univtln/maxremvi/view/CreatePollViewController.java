@@ -92,6 +92,8 @@ public class CreatePollViewController implements ViewControllerInterface {
                 proposed_date.setLocalDateTime(null);
             }
         });
+
+        description_poll.setWrapText(true);
     }
 
     public void handleCreatePollButtonClick(ActionEvent event) {

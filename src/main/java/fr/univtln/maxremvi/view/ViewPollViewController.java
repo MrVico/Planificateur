@@ -1,23 +1,25 @@
 package fr.univtln.maxremvi.view;
 
-import fr.univtln.maxremvi.controller.AnswerChoiceController;
-import fr.univtln.maxremvi.controller.AnswerController;
-import fr.univtln.maxremvi.controller.InvitationController;
-import fr.univtln.maxremvi.controller.PollController;
+import fr.univtln.maxremvi.controller.*;
 import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import jfxtras.scene.control.LocalDateTimeTextField;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ViewPollViewController implements ViewControllerInterface {
@@ -35,6 +37,12 @@ public class ViewPollViewController implements ViewControllerInterface {
     private Button sharePoll;
     @FXML
     private LocalDateTimeTextField proposed_date;
+    @FXML
+    private TextArea message;
+    @FXML
+    private ListView chat;
+    private final ObservableList<VBox> lines = FXCollections.observableArrayList();
+    private List<Message> messages;
     private ObservableList<AnswerChoice> proposedDates;
     private List<AnswerChoice> initialAnswerChoices;
 
@@ -46,13 +54,13 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     public void initialize(){
         if (poll != null) {
-            pollSeenToTrue();
+            //TODO : Balance une erreur ta merde non contrôlée !
+            //pollSeenToTrue();
             title.setText(poll.getTitle());
             place.setText(poll.getLocation());
             description.setText(poll.getDescription());
             initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
             proposedDates = ListManager.observableListFromList(initialAnswerChoices);
-            System.out.println(proposedDates);
             table_dates.setEditable(true);
             TableColumn dateCol = new TableColumn("Date");
             dateCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
@@ -100,7 +108,37 @@ public class ViewPollViewController implements ViewControllerInterface {
                     proposed_date.setLocalDateTime(null);
                 }
             });
+
+            message.setWrapText(true);
+            //limitation à 255 caractères pour un message
+            message.setTextFormatter(new TextFormatter<String>(change -> change.getControlNewText().length() <= 255 ? change : null));
+
+            try {
+                messages = MessageController.getInstance().getPollMessages(poll.getID());
+                List<VBox> vBoxes = new ArrayList<>();
+                for(Message mess : messages){
+                    VBox vBox = new VBox();
+                    Text info = new Text();
+                    Person sender = PersonController.getInstance().getPerson(mess.getSenderID());
+                    String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(mess.getCreationDate());
+                    info.setText(date+" "+sender.getFirstname()+" "+sender.getLastname()+" : ");
+                    StackPane container = new StackPane();
+                    Text content = new Text(mess.getContent());
+                    content.setWrappingWidth(250);
+                    container.getChildren().add(content);
+                    vBox.getChildren().addAll(info, container);
+                    vBox.setSpacing(5);
+                    vBoxes.add(vBox);
+                }
+                lines.addAll(vBoxes);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public ObservableList<VBox> getLines() {
+        return lines ;
     }
 
     @FXML
@@ -187,7 +225,7 @@ public class ViewPollViewController implements ViewControllerInterface {
         ViewManager.openModal(ViewManager.viewsEnum.SHARE_POLL, poll);
     }
 
-    public void handleRetourClick(ActionEvent actionEvent)
+    public void handleReturnButtonClick(ActionEvent actionEvent)
     {
         ViewManager.switchView(ViewManager.viewsEnum.HOME);
     }
@@ -199,6 +237,18 @@ public class ViewPollViewController implements ViewControllerInterface {
             InvitationController.getInstance().setInvitationSeenTrue(invitation);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void handleSendMessageButtonClick(ActionEvent actionEvent) {
+        if(message.getText().length()>0){
+            try {
+                Message addedMessage = MessageController.getInstance().add(new Message(null, User.getUser().getID(), poll.getID(), message.getText(), null));
+                message.setText("");
+                messages.add(addedMessage);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,10 +57,10 @@ public class HomeViewController implements ViewControllerInterface {
                     Label labelA = new Label(poll.getTitle());
                     labelA.setPrefWidth(150);
                     Person promoter = PersonController.getInstance().getPerson(poll.getPromoterID());
-                    Label labelB = new Label(promoter.getLogin());
+                    Label labelB = new Label(promoter.getFirstname()+" "+promoter.getLastname());
                     labelB.setPrefWidth(150);
                     if (closingDate != null)
-                        labelC = new Label(poll.getClosingDate().toString());
+                        labelC = new Label(new SimpleDateFormat("dd/MM/yyyy").format(poll.getClosingDate()));
                     else
                         labelC = new Label("");
 
@@ -80,8 +81,11 @@ public class HomeViewController implements ViewControllerInterface {
             {
                 nameInvitation+=PollController.getInstance().getPoll(e.getPollID()).getTitle()+"\n";
             }
+            //TODO : Chiant à mort !
+            /*
             if(invitationList.size()>0)
                 AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Vous avez "+invitationList.size()+" sondages privé non vu :\n"+nameInvitation);
+            */
         }catch (SQLException e){}
     }
 

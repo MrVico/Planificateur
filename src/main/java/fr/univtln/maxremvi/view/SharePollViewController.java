@@ -34,7 +34,7 @@ public class SharePollViewController implements ViewControllerInterface{
     public void initialize(){
         if(poll != null){
             try {
-                personList = PersonController.getInstance().getNotInvitedToPoll(poll.getID());
+                personList = PersonController.getInstance().getNotInvitedToPoll(poll.getID(), User.getUser().getID());
                 List<HBox> hBoxes = new ArrayList<>();
                 if(personList != null){
                     for(Person person : personList){

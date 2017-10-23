@@ -20,7 +20,6 @@ public class Invitation {
 
     public static Invitation fromResusltSet(ResultSet rs) throws SQLException
     {
-        System.out.println("coucou");
         return new Invitation(rs.getInt("IDPOLL"), rs.getInt("IDPERSON"), rs.getInt("IDPERSONINVITER"), rs.getBoolean("SEEN"));
 
     }
