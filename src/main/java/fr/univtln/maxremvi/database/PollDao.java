@@ -125,7 +125,8 @@ public class PollDao extends AbstractDao<Poll> {
                     TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
                     TimeManager.timeToSqlFormat(object.getClosingDate()),
                     object.isClosed(),
-                    object.getType().toString());
+                    object.getType().toString(),
+                    object.getID());
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

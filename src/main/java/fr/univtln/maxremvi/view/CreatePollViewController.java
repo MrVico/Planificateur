@@ -25,34 +25,7 @@ import java.util.Date;
 /**
  * Created by remi on 14/10/2017.
  */
-public class CreatePollViewController implements ViewControllerInterface {
-    @FXML
-    private TextField title;
-    @FXML
-    private TextField location_poll;
-    @FXML
-    private TextArea description_poll;
-    @FXML
-    private CheckBox addDates;
-    @FXML
-    private CheckBox multipleChoice;
-    @FXML
-    private CheckBox hideAnswers;
-    @FXML
-    private LocalDateTimeTextField end_date;
-    @FXML
-    private LocalDateTimeTextField proposed_date;
-    @FXML
-    private RadioButton radio_public;
-    @FXML
-    private RadioButton radio_private_sharable;
-    @FXML
-    private RadioButton radio_private;
-    @FXML
-    private TableView table_dates;
-    @FXML
-    private Button remove_date_button;
-
+public class CreatePollViewController extends FormPollViewController {
     private PollController pollController;
     private AnswerChoiceController answerChoiceController;
 
@@ -97,22 +70,11 @@ public class CreatePollViewController implements ViewControllerInterface {
     }
 
     public void handleCreatePollButtonClick(ActionEvent event) {
-        Poll.pollType pollType = null;
-
         if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || proposedDates.isEmpty()) {
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
         } else {
-            if (radio_public.isSelected())
-                pollType = Poll.pollType.PUBLIC;
-            else if (radio_private.isSelected())
-                pollType = Poll.pollType.PRIVATE;
-            else
-                pollType = Poll.pollType.PRIVATE_SHARABLE;
-
-            Date endDate = (end_date.getLocalDateTime() != null) ? TimeManager.localDateToDate(end_date.getLocalDateTime()) : null;
-
             try {
-                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), endDate, false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), pollType);
+                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), getEndDate(), false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), getPollType());
 
                 if (proposedDates != null) {
                     proposedDates.forEach(answerChoice -> answerChoice.setPollID(savedPoll.getID()));

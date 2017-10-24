@@ -126,7 +126,7 @@ public class Poll {
     }
 
     public static Poll fromResultSet(ResultSet rs) throws SQLException {
-        return new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getDate("CLOSINGDATE"),
+        return new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getTimestamp("CLOSINGDATE"),
                 rs.getBoolean("CLOSED"), rs.getInt("IDPERSON"), rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.pollType.valueOf(rs.getString("TYPE")));
     }
 

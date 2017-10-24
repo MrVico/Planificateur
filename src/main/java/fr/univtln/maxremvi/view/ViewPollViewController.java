@@ -259,7 +259,7 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     public void handleUpdatePollButtonClick(ActionEvent actionEvent) {
-        AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "TODO !!!");
+        ViewManager.switchView(ViewManager.viewsEnum.UPDATE_POLL, poll);
     }
 
     public void handleSharePollButtonClick(ActionEvent actionEvent) {
