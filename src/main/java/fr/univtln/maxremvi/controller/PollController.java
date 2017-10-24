@@ -55,4 +55,8 @@ public class PollController {
     public boolean deletePoll(int id) throws SQLException {
         return pollDao.remove(id);
     }
+
+    public boolean closePoll(boolean bool, int pollID) throws SQLException {
+        return pollDao.close(bool, pollID);
+    }
 }

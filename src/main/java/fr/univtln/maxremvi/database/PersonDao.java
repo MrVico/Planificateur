@@ -64,8 +64,7 @@ public class PersonDao extends AbstractDao<Person> {
 
     public List<Person> getNotInvitedToPoll(int pollID, int personID){
         try {
-            String query = "SELECT * FROM PERSON WHERE ID NOT IN (" +
-                                                                    "SELECT IDPERSON FROM INVITATION WHERE IDPOLL = ?) AND ID != ?" +
+            String query = "SELECT * FROM PERSON WHERE ID NOT IN (SELECT IDPERSON FROM INVITATION WHERE IDPOLL = ?) AND ID != ?" +
                                                                     "AND ID NOT IN (SELECT IDPERSON FROM POLL WHERE ID = ?)";
             ResultSet rs = DatabaseUtil.executeQuery(query, pollID, personID, pollID);
 

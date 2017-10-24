@@ -68,9 +68,9 @@ public class PollDao extends AbstractDao<Poll> {
         int personId = person.getID();
         try {
             String query =
-                    "(SELECT * FROM POLL WHERE TYPE='PUBLIC')" +
+                    "(SELECT * FROM POLL WHERE TYPE = 'PUBLIC' AND CLOSED = FALSE)" +
                             "UNION" +
-                            " (SELECT POLL.* FROM POLL INNER JOIN INVITATION ON POLL.ID = INVITATION.IDPOLL WHERE INVITATION.IDPERSON = ?)" +
+                            " (SELECT POLL.* FROM POLL INNER JOIN INVITATION ON POLL.ID = INVITATION.IDPOLL WHERE INVITATION.IDPERSON = ? AND POLL.CLOSED = FALSE)" +
                             "UNION" +
                             "(SELECT * FROM POLL WHERE IDPERSON = ?)";
             ResultSet rs = DatabaseUtil.executeQuery(query, personId, personId);
@@ -130,6 +130,17 @@ public class PollDao extends AbstractDao<Poll> {
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean close(boolean bool, int pollID) {
+        try {
+            String query = "UPDATE POLL SET CLOSED = ? WHERE ID = ?";
+            DatabaseUtil.executeUpdate(query, bool, pollID);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }

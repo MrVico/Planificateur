@@ -29,42 +29,14 @@ public class CreatePollViewController extends FormPollViewController {
     private PollController pollController;
     private AnswerChoiceController answerChoiceController;
 
-    private ObservableList<AnswerChoice> proposedDates;
-
     public void initialize() {
-        table_dates.setEditable(true);
-        TableColumn dateCol = new TableColumn("Date");
-        TableColumn hourCol = new TableColumn("Heure");
-        dateCol.setCellValueFactory(
-                new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
-
-        hourCol.setCellValueFactory(
-                new PropertyValueFactory<AnswerChoice, String>("hourProperty"));
-        table_dates.getColumns().addAll(dateCol, hourCol);
-
-        pollController = PollController.getInstance();
-        answerChoiceController = AnswerChoiceController.getInstance();
+        super.initialize();
 
         proposedDates = ListManager.observableListFromList(new ArrayList<AnswerChoice>());
         table_dates.setItems(proposedDates);
 
-        table_dates.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                if (table_dates.getSelectionModel().getSelectedItem() != null) {
-                    remove_date_button.setDisable(false);
-                } else {
-                    remove_date_button.setDisable(true);
-                }
-            }
-        });
-
-        proposed_date.localDateTimeProperty().addListener((observable, oldValue, newValue) -> {
-            if (proposed_date.localDateTimeProperty().getValue() != null) {
-                proposedDates.add(new AnswerChoice(null, Calendar.getInstance().getTime(), TimeManager.localDateToDate(proposed_date.getLocalDateTime()), null));
-                proposed_date.setLocalDateTime(null);
-            }
-        });
+        pollController = PollController.getInstance();
+        answerChoiceController = AnswerChoiceController.getInstance();
 
         description_poll.setWrapText(true);
     }
