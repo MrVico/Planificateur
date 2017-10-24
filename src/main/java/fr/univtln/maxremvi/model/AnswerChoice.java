@@ -39,7 +39,7 @@ public class AnswerChoice {
         this.pollID = pollID;
     }
 
-    public int getID() {
+    public Integer getID() {
         return ID;
     }
 
