@@ -41,7 +41,10 @@ public class HomeViewController implements ViewControllerInterface {
             public void handle(MouseEvent event) {
                 if(event.getClickCount()==2 && listView.getSelectionModel().getSelectedItem()!=null){
                     Poll selectedPoll = pollList.get(listView.getSelectionModel().getSelectedIndex());
-                    ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, selectedPoll);
+                    if(!selectedPoll.isClosed())
+                        ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, selectedPoll);
+                    else
+                        AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information",null, "Ce sondage est clos.\nVous pouvez le réouvrir ou consulter ses résultats.");
                 }
             }
         });
@@ -71,32 +74,66 @@ public class HomeViewController implements ViewControllerInterface {
                         labelC = new Label(new SimpleDateFormat("dd/MM/yyyy").format(poll.getClosingDate()));
                     else
                         labelC = new Label("");
-                    labelC.setPrefWidth(100);
+                    labelC.setPrefWidth(75);
                     hBox.getChildren().addAll(labelA, labelB, labelC);
-                    Invitation invitation = null;
-                    for(Invitation invite : invitationList){
-                        if(invite.getPollID()==poll.getID())
-                            invitation = invite;
+                    if(!poll.isClosed()) {
+                        Invitation invitation = null;
+                        for (Invitation invite : invitationList) {
+                            if (invite.getPollID() == poll.getID())
+                                invitation = invite;
+                        }
+                        if (invitation != null) {
+                            Button invitationButton = new Button();
+                            Image image = new Image("/images/invitation.png");
+                            invitationButton.setGraphic(new ImageView(image));
+                            invitationButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Invitation", null, "Marquer comme lue ?");
+                                    if (result.get() == ButtonType.OK) {
+                                        try {
+                                            InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID());
+                                            getPolls();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            });
+                            hBox.getChildren().add(invitationButton);
+                        }
                     }
-                    if(invitation != null){
-                        Button invitationButton = new Button();
-                        Image image = new Image("/images/invitation.png");
-                        invitationButton.setGraphic(new ImageView(image));
-                        invitationButton.setOnAction(new EventHandler<ActionEvent>() {
+                    else{
+                        Button viewResultsButton = new Button();
+                        Image image = new Image("/images/results.png");
+                        viewResultsButton.setGraphic(new ImageView(image));
+                        viewResultsButton.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Invitation", null, "Marquer comme lue ?");
-                                if (result.get() == ButtonType.OK){
+                                ViewManager.switchView(ViewManager.viewsEnum.RESULTS, poll);
+                            }
+                        });
+                        hBox.getChildren().add(viewResultsButton);
+
+                        Button openButton = new Button();
+                        image = new Image("/images/closed.png");
+                        openButton.setGraphic(new ImageView(image));
+                        openButton.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Reouverture", null, "Voulez-vous vraiment réouvrir ce sondage ?");
+                                if (result.get() == ButtonType.OK) {
                                     try {
-                                        InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID());
-                                        getPolls();
+                                        if(PollController.getInstance().closePoll(false, poll.getID()))
+                                            getPolls();
                                     } catch (SQLException e) {
                                         e.printStackTrace();
                                     }
                                 }
                             }
                         });
-                        hBox.getChildren().add(invitationButton);
+                        hBox.getChildren().add(openButton);
+
                     }
                     hBoxes.add(hBox);
                 }

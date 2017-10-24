@@ -39,6 +39,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     @FXML
     private Button deletePoll;
     @FXML
+    private Button closePoll;
+    @FXML
     private LocalDateTimeTextField proposed_date;
     @FXML
     private TextArea message;
@@ -103,10 +105,13 @@ public class ViewPollViewController implements ViewControllerInterface {
             if(PollController.getInstance().getPollPromoterID(poll.getID()) == User.getUser().getID()) {
                 updatePoll.setVisible(true);
                 deletePoll.setVisible(true);
+                if(!poll.isClosed())
+                    closePoll.setVisible(true);
             }
             else {
                 updatePoll.setVisible(false);
                 deletePoll.setVisible(false);
+                closePoll.setVisible(false);
             }
 
             if(poll.getType()!=Poll.pollType.PRIVATE || (poll.getPromoterID()==User.getUser().getID()))
@@ -239,9 +244,8 @@ public class ViewPollViewController implements ViewControllerInterface {
         }
 
         //ajout des nouveaux choix de réponses non sélectionnés
-        List<AnswerChoice> insertedNewAnswerChoices = new ArrayList<>();
         try {
-            insertedNewAnswerChoices = AnswerChoiceController.getInstance().addAll(newAnswerChoices);
+            AnswerChoiceController.getInstance().addAll(newAnswerChoices);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -315,6 +319,19 @@ public class ViewPollViewController implements ViewControllerInterface {
                     ViewManager.switchView(ViewManager.viewsEnum.HOME);
                     AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Sondage supprimé", null, "Suppression effectuée.");
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void handleClosePollButtonClick(ActionEvent actionEvent) {
+        Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Cloturation du sondage", null, "La cloturation du sondage empêchera toutes personnes d'y accéder\n" +
+                "Êtes vous certain de vouloir cloturer ce sondage ?");
+        if (result.get() == ButtonType.OK){
+            try {
+                if(PollController.getInstance().closePoll(true, poll.getID()))
+                    ViewManager.switchView(ViewManager.viewsEnum.RESULTS, poll);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
