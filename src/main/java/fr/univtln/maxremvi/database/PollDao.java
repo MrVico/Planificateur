@@ -135,7 +135,7 @@ public class PollDao extends AbstractDao<Poll> {
 
     public boolean remove(int id) throws SQLException {
         String query = "DELETE FROM POLL WHERE ID = ?";
-        DatabaseUtil.executeInsert(query, id);
+        DatabaseUtil.executeUpdate(query, id);
         return true;
     }
 

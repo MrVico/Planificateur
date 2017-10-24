@@ -46,4 +46,8 @@ public class PollController {
     public List<Poll> getVisiblePollsForPerson(Person person) {
         return pollDao.getVisiblePollsForPerson(person);
     }
+
+    public boolean deletePoll(int id) throws SQLException {
+        return pollDao.remove(id);
+    }
 }

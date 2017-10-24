@@ -55,6 +55,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#handleValidateAnswerButtonClick" text="Valider réponse" />
                   <Button fx:id="updatePoll" mnemonicParsing="false" onAction="#handleUpdatePollButtonClick" text="Modifier le sondage" visible="false" StackPane.alignment="BOTTOM_LEFT" />
+                   <Button fx:id="deletePoll" mnemonicParsing="false" onAction="#handleDeletePollButtonClick" text="Supprimer le sondage" visible="false" StackPane.alignment="BOTTOM_RIGHT" />
                </children>
             </StackPane>
                 <Button mnemonicParsing="false" onAction="#handleReturnButtonClick" text="Retour" />
