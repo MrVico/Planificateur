@@ -31,6 +31,11 @@ public class PollController {
         return pollDao.add(new Poll(null, title, description, location, closingDate, closed, promoterID, multipleChoice, hideAnswers, addDates, pollType));
     }
 
+    public boolean updatePoll(Poll p) throws SQLException {
+        return pollDao.update(p);
+    }
+
+
     public int getPollPromoterID(int idPoll){
         return pollDao.getPollPromoterID(idPoll);
     }
