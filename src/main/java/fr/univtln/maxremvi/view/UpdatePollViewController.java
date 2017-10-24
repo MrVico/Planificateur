@@ -1,33 +1,43 @@
 package fr.univtln.maxremvi.view;
 
+import fr.univtln.maxremvi.controller.AnswerChoiceController;
 import fr.univtln.maxremvi.controller.PollController;
+import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.AlertManager;
+import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import jfxtras.scene.control.LocalDateTimeTextField;
+import javafx.scene.control.Alert;
 
+import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by remi on 24/10/2017.
  */
 public class UpdatePollViewController extends FormPollViewController {
     private Poll poll;
+    private List<Integer> removedAnswerChoices;
 
     public void initialize() {
         if (poll != null) {
+            super.initialize();
+            removedAnswerChoices = new ArrayList();
+
             title.setText(poll.getTitle());
             location_poll.setText(poll.getLocation());
             description_poll.setText(poll.getDescription());
             addDates.setSelected(poll.isAddDates());
             multipleChoice.setSelected(poll.isMultipleChoice());
             hideAnswers.setSelected(poll.isHideAnswers());
-            end_date.setLocalDateTime(TimeManager.dateToLocalDateTime(poll.getClosingDate()));
+
+            if (poll.getClosingDate() != null)
+                end_date.setLocalDateTime(TimeManager.dateToLocalDateTime(poll.getClosingDate()));
+
             switch (poll.getType()) {
                 case PRIVATE:
                     radio_private.setSelected(true);
@@ -39,11 +49,14 @@ public class UpdatePollViewController extends FormPollViewController {
                     radio_public.setSelected(true);
                     break;
             }
+
+            proposedDates = ListManager.observableListFromList(AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID()));
+            table_dates.setItems(proposedDates);
         }
     }
 
     public void handleBackButtonClick(ActionEvent event) {
-
+        ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, poll);
     }
 
     public void handleSaveButtonClick(ActionEvent event) {
@@ -56,14 +69,31 @@ public class UpdatePollViewController extends FormPollViewController {
         poll.setClosingDate(getEndDate());
         poll.setType(getPollType());
 
-        // TODO : Mettre à jour les choix de réponse
+        for (AnswerChoice proposedDate : proposedDates) {
+            if (proposedDate.getID() == null) {
+                try {
+                    AnswerChoiceController.getInstance().addAnswerChoice(proposedDate.getCreationDate(), proposedDate.getDateChoice(), poll.getID());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        for (Integer answerChoiceId : removedAnswerChoices) {
+                try {
+                    AnswerChoiceController.getInstance().delete(answerChoiceId);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+        }
 
         try {
             if (PollController.getInstance().updatePoll(poll)) {
                 AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Sondage mis à jour avec succès.");
                 ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, poll);
-            }
-            else {
+            } else {
                 AlertManager.AlertBox(Alert.AlertType.ERROR, null, null, "Erreur lors de la mise à jour.");
             }
         } catch (SQLException e) {
@@ -75,5 +105,21 @@ public class UpdatePollViewController extends FormPollViewController {
     public void initData(Object... arguments) {
         this.poll = (Poll) arguments[0];
         initialize();
+    }
+
+    public void handleRemoveDateButtonClick(ActionEvent event) {
+        int focusedIndex = table_dates.getSelectionModel().getFocusedIndex();
+        AnswerChoice focusedItem;
+        Integer focusedItemId;
+
+        if (focusedIndex != -1) {
+            focusedItem = (AnswerChoice) table_dates.getItems().get(focusedIndex);
+            focusedItemId = focusedItem.getID();
+
+            if (focusedItemId != null)
+                removedAnswerChoices.add(focusedItemId);
+
+            table_dates.getItems().remove(focusedIndex);
+        }
     }
 }

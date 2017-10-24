@@ -50,4 +50,8 @@ public class AnswerChoiceController {
     public boolean addAndAnswer(int personID, AnswerChoice answerChoice) throws SQLException{
         return answerChoiceDao.addAndAnswer(personID, answerChoice);
     }
+
+    public boolean delete(int answerChoiceID) throws SQLException {
+        return answerChoiceDao.remove(answerChoiceID);
+    }
 }

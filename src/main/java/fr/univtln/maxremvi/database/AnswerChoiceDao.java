@@ -107,11 +107,13 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
 
     @Override
     public boolean remove(int id) throws SQLException {
-        return false;
+        String query = "DELETE FROM ANSWERCHOICE WHERE IDANSWERCHOICE = ?";
+        DatabaseUtil.executeUpdate(query, id);
+        return true;
     }
 
     @Override
     public boolean remove(AnswerChoice object) throws SQLException {
-        return false;
+        return remove(object.getID());
     }
 }

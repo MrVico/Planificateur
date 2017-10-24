@@ -104,6 +104,8 @@
                 </HBox>
                 <HBox>
                     <Button onAction="#handleSaveButtonClick" text="Sauvegarder les changements"/>
+                    <Button onAction="#handleRemoveDateButtonClick" text="Supprimer la date" fx:id="remove_date_button"
+                            disable="true"/>
                 </HBox>
             </children>
         </VBox>
