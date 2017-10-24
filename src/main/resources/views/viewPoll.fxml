@@ -51,13 +51,20 @@
                 <HBox>
                     <TableView fx:id="table_dates" prefHeight="150" />
                 </HBox>
-            <StackPane prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#handleValidateAnswerButtonClick" text="Valider réponse" />
-                  <Button fx:id="updatePoll" mnemonicParsing="false" onAction="#handleUpdatePollButtonClick" text="Modifier le sondage" visible="false" StackPane.alignment="BOTTOM_LEFT" />
-               </children>
-            </StackPane>
-                <Button mnemonicParsing="false" onAction="#handleReturnButtonClick" text="Retour" />
+                <StackPane>
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleValidateAnswerButtonClick" text="Valider mes choix" StackPane.alignment="TOP_RIGHT" />
+                    </children>
+                </StackPane>
+                <StackPane prefHeight="75.0" prefWidth="200.0">
+                   <children>
+                      <Button fx:id="updatePoll" mnemonicParsing="false" onAction="#handleUpdatePollButtonClick" text="Modifier le sondage" visible="false" StackPane.alignment="TOP_LEFT" />
+                       <Button fx:id="closePoll" mnemonicParsing="false" onAction="#handleClosePollButtonClick" text="Clore le sondage" visible="false" StackPane.alignment="TOP_RIGHT" />
+                       <Button fx:id="openPoll" mnemonicParsing="false" text="Ouvrir le sondage" visible="false" StackPane.alignment="TOP_RIGHT" />
+                       <Button fx:id="deletePoll" mnemonicParsing="false" onAction="#handleDeletePollButtonClick" text="Supprimer le sondage" visible="false" StackPane.alignment="BOTTOM_RIGHT" />
+                   </children>
+                </StackPane>
+                <Button mnemonicParsing="false" onAction="#handleReturnButtonClick" text="Retour"/>
             </children>
          <opaqueInsets>
             <Insets top="100.0" />

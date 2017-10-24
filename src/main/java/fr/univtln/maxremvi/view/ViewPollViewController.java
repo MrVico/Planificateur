@@ -37,6 +37,10 @@ public class ViewPollViewController implements ViewControllerInterface {
     @FXML
     private Button sharePoll;
     @FXML
+    private Button deletePoll;
+    @FXML
+    private Button closePoll;
+    @FXML
     private LocalDateTimeTextField proposed_date;
     @FXML
     private TextArea message;
@@ -69,14 +73,21 @@ public class ViewPollViewController implements ViewControllerInterface {
             checkCol.setCellValueFactory(new PropertyValueFactory<>("checkProperty"));
             checkCol.setCellFactory(column -> new CheckBoxTableCell());
             checkCol.setSortable(false);
-            TableColumn answerCol = new TableColumn();
-            answerCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("timesChosenProperty"));
 
             table_dates.getColumns().add(dateCol);
             table_dates.getColumns().add(hourCol);
             table_dates.getColumns().add(checkCol);
-            table_dates.getColumns().add(answerCol);
+
+            if(!poll.isHideAnswers()){
+                TableColumn answerCol = new TableColumn();
+                answerCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("timesChosenProperty"));
+                table_dates.getColumns().add(answerCol);
+            }
+
             table_dates.setItems(proposedDates);
+
+            if(!poll.isAddDates())
+                proposed_date.setDisable(true);
 
             List<AnswerChoice> myAnswers = AnswerChoiceController.getInstance().getPollAnswerChoicesForPerson(poll.getID(), User.getUser().getID());
             List<Integer> myAnswersIDs = new ArrayList<>();
@@ -91,10 +102,17 @@ public class ViewPollViewController implements ViewControllerInterface {
             }
             onLoad.put(User.getUser().getID(), myAnswersIDs);
 
-            if(PollController.getInstance().getPollPromoterID(poll.getID()) == User.getUser().getID())
+            if(PollController.getInstance().getPollPromoterID(poll.getID()) == User.getUser().getID()) {
                 updatePoll.setVisible(true);
-            else
+                deletePoll.setVisible(true);
+                if(!poll.isClosed())
+                    closePoll.setVisible(true);
+            }
+            else {
                 updatePoll.setVisible(false);
+                deletePoll.setVisible(false);
+                closePoll.setVisible(false);
+            }
 
             if(poll.getType()!=Poll.pollType.PRIVATE || (poll.getPromoterID()==User.getUser().getID()))
                 sharePoll.setVisible(true);
@@ -226,9 +244,8 @@ public class ViewPollViewController implements ViewControllerInterface {
         }
 
         //ajout des nouveaux choix de réponses non sélectionnés
-        List<AnswerChoice> insertedNewAnswerChoices = new ArrayList<>();
         try {
-            insertedNewAnswerChoices = AnswerChoiceController.getInstance().addAll(newAnswerChoices);
+            AnswerChoiceController.getInstance().addAll(newAnswerChoices);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -288,6 +305,33 @@ public class ViewPollViewController implements ViewControllerInterface {
                 message.setText("");
                 messages.add(addedMessage);
                 getChat();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void handleDeletePollButtonClick(ActionEvent actionEvent) {
+        Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Suppression du sondage", null, "Êtes vous certain de vouloir supprimer ce sondage ?");
+        if (result.get() == ButtonType.OK){
+            try {
+                if(PollController.getInstance().deletePoll(poll.getID())) {
+                    ViewManager.switchView(ViewManager.viewsEnum.HOME);
+                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Sondage supprimé", null, "Suppression effectuée.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void handleClosePollButtonClick(ActionEvent actionEvent) {
+        Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Cloturation du sondage", null, "La cloturation du sondage empêchera toutes personnes d'y accéder\n" +
+                "Êtes vous certain de vouloir cloturer ce sondage ?");
+        if (result.get() == ButtonType.OK){
+            try {
+                if(PollController.getInstance().closePoll(true, poll.getID()))
+                    ViewManager.switchView(ViewManager.viewsEnum.RESULTS, poll);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

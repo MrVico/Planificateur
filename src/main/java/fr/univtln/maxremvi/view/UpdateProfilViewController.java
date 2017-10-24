@@ -75,7 +75,6 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                                     AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Profil mis à jour avec succès.");
                                     ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
                                 }
-                                System.out.println("yes");
                             }catch (SQLException e){
 
                             }
@@ -83,7 +82,6 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                         }
                         else{
                             AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Les mots de passes ne sont pas identiques");
-                            System.out.println("no");
                         }
 
                     }
@@ -91,7 +89,6 @@ public class UpdateProfilViewController implements ViewControllerInterface {
             }
             else{
                 AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Le mot de passe ne correspond pas à l'utilisateur");
-                System.out.println("no");
             }
         }
     }

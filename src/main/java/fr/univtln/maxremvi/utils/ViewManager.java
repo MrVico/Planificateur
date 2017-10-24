@@ -25,7 +25,8 @@ public class ViewManager {
         CREATE_POLL("createPoll"),
         VIEW_POLL("viewPoll"),
         SHARE_POLL("sharePoll"),
-        UPDATE_POLL("updatePoll");
+        UPDATE_POLL("updatePoll"),
+        RESULTS("results");
 
         String filename;
 

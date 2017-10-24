@@ -72,7 +72,7 @@
                 </CheckBox>
                 <CheckBox fx:id="hideAnswers">
                     <graphic>
-                        <Label text="Cacher les réponses (TODO)"/>
+                        <Label text="Cacher les réponses"/>
                     </graphic>
                 </CheckBox>
                 <GridPane hgap="10" vgap="10">
