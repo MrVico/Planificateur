@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -69,12 +70,14 @@ public class ViewPollViewController implements ViewControllerInterface {
             hourCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("hourProperty"));
             TableColumn<AnswerChoice, Boolean> checkCol = new TableColumn<>();
             checkCol.setCellValueFactory(new PropertyValueFactory<>("checkProperty"));
-            checkCol.setCellFactory(column -> new CheckBoxTableCell());
+            checkCol.setCellFactory(column ->  new CheckBoxTableCell());
             checkCol.setSortable(false);
+
 
             table_dates.getColumns().add(dateCol);
             table_dates.getColumns().add(hourCol);
             table_dates.getColumns().add(checkCol);
+
 
             if(!poll.isHideAnswers()){
                 TableColumn answerCol = new TableColumn();
