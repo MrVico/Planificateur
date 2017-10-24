@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AnswerChoice {
@@ -140,14 +141,6 @@ public class AnswerChoice {
 
     @Override
     public String toString() {
-        return "AnswerChoice{" +
-                "ID=" + ID +
-                ", pollID=" + pollID +
-                ", creationDate=" + creationDate +
-                ", dateChoice=" + dateChoice +
-                ", dateProperty=" + dateProperty +
-                ", hourProperty=" + hourProperty +
-                ", checkProperty=" + checkProperty +
-                '}';
+        return new SimpleDateFormat("dd/MM/yyyy hh:mm").format(dateChoice)+" "+timesChosenProperty.get();
     }
 }
