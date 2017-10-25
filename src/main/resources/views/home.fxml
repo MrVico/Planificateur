@@ -5,12 +5,13 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.HomeViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.HomeViewController">
    <children>
       <ListView fx:id="listView" items="${controller.lines}" layoutX="107.0" layoutY="97.0" prefWidth="600" />
-      <Button layoutX="597.0" layoutY="64.0" mnemonicParsing="false" onAction="#handleCreatePollButtonClick" text="Créer un sondage" />
+      <Button layoutX="579.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleCreatePollButtonClick" text="Créer un sondage" />
       <Label layoutX="107.0" layoutY="74.0" text="Liste des sondages" />
-      <Button layoutX="597.0" layoutY="25.0" mnemonicParsing="false" text="Profil" onAction="#handleViewProfilButtonClick"/>
-      <Button mnemonicParsing="false" text="Deconnexion" onAction="#handleDeconnectionButtonClick" />
+      <Button layoutX="656.0" mnemonicParsing="false" onAction="#handleViewProfilButtonClick" text="Profil" />
+      <Button mnemonicParsing="false" onAction="#handleDeconnectionButtonClick" text="Deconnexion" />
+      <Button layoutX="498.0" layoutY="55.0" mnemonicParsing="false" onAction="#handleRefreshButtonClick" text="Rafraichir la liste des sondages" />
    </children>
 </AnchorPane>

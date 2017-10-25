@@ -57,7 +57,7 @@ public class HomeViewController implements ViewControllerInterface {
         getPolls();
     }
 
-    public void getPolls(){
+    private void getPolls(){
         try {
             listView.getItems().clear();
             invitationList = InvitationController.getInstance().getAll();
@@ -166,6 +166,10 @@ public class HomeViewController implements ViewControllerInterface {
     public void handleDeconnectionButtonClick(ActionEvent actionEvent){
         User.setUser(null);
         ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
+    }
+
+    public void handleRefreshButtonClick(ActionEvent event) {
+        getPolls();
     }
 
     @Override
