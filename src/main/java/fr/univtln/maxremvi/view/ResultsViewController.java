@@ -24,8 +24,6 @@ import java.util.*;
 
 public class ResultsViewController implements ViewControllerInterface {
     @FXML
-    private Label bestChoice;
-    @FXML
     private Label dateFinale;
     @FXML
     private Button notifyButton;
@@ -73,20 +71,6 @@ public class ResultsViewController implements ViewControllerInterface {
 
                 cbbChoixFinal.setItems(FXCollections.observableArrayList(answerChoices));
                 cbbChoixFinal.getSelectionModel().select(0);
-
-                /*
-                String res = data.get(0).getName();
-                int index = 0;
-                while(index < data.size()-1 && data.get(index).getPieValue() == data.get(index+1).getPieValue()){
-                    res += " ou "+data.get(index+1).getName();
-                    index++;
-                }
-
-                if(index == 0)
-                    bestChoice.setText("Meilleur date de réunion : "+res+".");
-                else
-                    bestChoice.setText("Meilleures dates de réunion : "+res+".");
-                */
             }
             else {
                 notifyButton.setVisible(false);
@@ -111,9 +95,6 @@ public class ResultsViewController implements ViewControllerInterface {
     public void handleNotifyButtonClick(ActionEvent actionEvent) {
         if(cbbChoixFinal.getSelectionModel().getSelectedIndex()!=-1){
             AnswerChoice choixFinal = cbbChoixFinal.getSelectionModel().getSelectedItem();
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION,"Information", null, "Vous avez choisi de notifier tous les participants que la réunion se déroulera le "
-                    +new SimpleDateFormat("dd/MM/yyyy HH:mm").format(choixFinal.getDateChoice())+".");
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION,"TODO", null, "Faut encore notifier tout le monde ! \\_(o.o)_/");
             try {
                 PollController.getInstance().setFinalDate(poll.getID(), choixFinal.getDateChoice());
                 AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Tous les participants vont être notifier de votre choix.");
