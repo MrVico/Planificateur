@@ -87,22 +87,26 @@ public class PollDao extends AbstractDao<Poll> {
     }
 
     public Poll add(Poll object) throws SQLException {
-        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::polltype)";
+
         int pollId = DatabaseUtil.executeInsert(
                 query,
                 object.getPromoterID(),
                 object.getTitle(),
                 object.getDescription(),
                 object.getLocation(),
-                TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
-                TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
-                TimeManager.timeToSqlFormat(object.getClosingDate()),
+                TimeManager.dateToSqlDate(Calendar.getInstance().getTime()),
+                TimeManager.dateToSqlDate(Calendar.getInstance().getTime()),
+                TimeManager.dateToSqlDate(object.getClosingDate()),
                 object.isClosed(),
                 object.isMultipleChoice(),
                 object.isHideAnswers(),
                 object.isAddDates(),
                 object.getType().toString()
         );
+
+        System.out.println(TimeManager.dateToSqlDate(Calendar.getInstance().getTime()));
+
         return ((PollDao) getInstance()).get(pollId);
     }
 
@@ -122,8 +126,8 @@ public class PollDao extends AbstractDao<Poll> {
                     object.getTitle(),
                     object.getDescription(),
                     object.getLocation(),
-                    TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
-                    TimeManager.timeToSqlFormat(object.getClosingDate()),
+                    TimeManager.dateToSqlDate(Calendar.getInstance().getTime()),
+                    TimeManager.dateToSqlDate(object.getClosingDate()),
                     object.isClosed(),
                     object.getType().toString(),
                     object.getID());

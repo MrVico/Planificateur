@@ -48,7 +48,7 @@ public class MessageDao extends AbstractDao<Message>{
     @Override
     public Message add(Message message) throws SQLException {
         String query = "INSERT INTO MESSAGE(IDPOLL, IDPERSON, CONTENT, CREATIONDATE) VALUES(?, ?, ?, ?)";
-        int messageID = DatabaseUtil.executeInsert(query, message.getPollID(), message.getSenderID(), message.getContent(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
+        int messageID = DatabaseUtil.executeInsert(query, message.getPollID(), message.getSenderID(), message.getContent(), TimeManager.dateToSqlDate(Calendar.getInstance().getTime()));
         return get(messageID);
     }
 
