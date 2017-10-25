@@ -119,7 +119,7 @@ public class PollDao extends AbstractDao<Poll> {
 
     public boolean update(Poll object) {
         try {
-            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSED = ?, TYPE = ? WHERE ID = ?";
+            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSED = ?, TYPE = ?::polltype WHERE ID = ?";
             DatabaseUtil.executeUpdate(query,
                     object.getPromoterID(),
                     object.getTitle(),
