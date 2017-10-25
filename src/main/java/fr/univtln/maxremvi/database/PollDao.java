@@ -12,6 +12,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Created by remi on 15/10/2017.
+ */
 public class PollDao extends AbstractDao<Poll> {
 
     public AbstractDao getInstance() {

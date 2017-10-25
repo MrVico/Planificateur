@@ -44,7 +44,7 @@ public class AnswerDao extends AbstractDao<Answer>{
     public Answer add(Answer object) throws SQLException {
         if(!answerExists(object)){
             String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, IDANSWERCHOICE, CREATIONDATE) VALUES(?, ?, ?, ?)";
-            DatabaseUtil.executeUpdate(query, object.getPollID(), object.getPersonID(), object.getAnswerChoiceID(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
+            DatabaseUtil.executeUpdate(query, object.getPollID(), object.getPersonID(), object.getAnswerChoiceID(), TimeManager.dateToSqlDate(Calendar.getInstance().getTime()));
         }
         return null;
     }

@@ -12,8 +12,8 @@ public class TimeManager {
         return new SimpleDateFormat(pattern).format(time);
     }
 
-    public static String timeToSqlFormat(Date time) {
-        return (time != null) ? format("yyyy-MM-dd HH:mm:ss", time) : null;
+    public static java.sql.Timestamp dateToSqlDate(Date date) {
+        return (date != null) ? new java.sql.Timestamp(date.getTime()) : null;
     }
 
     public static String extractDateString(Date time) {
