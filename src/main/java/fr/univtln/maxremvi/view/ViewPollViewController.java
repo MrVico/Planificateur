@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -72,7 +73,29 @@ public class ViewPollViewController implements ViewControllerInterface {
             hourCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("hourProperty"));
             TableColumn<AnswerChoice, Boolean> checkCol = new TableColumn<>();
             checkCol.setCellValueFactory(new PropertyValueFactory<>("checkProperty"));
-            checkCol.setCellFactory(column ->  new CheckBoxTableCell());
+            TableCell table=new TableCell();
+            CheckBox checkBox=new CheckBox();
+            
+            checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+
+                    System.out.println(event.getClickCount());
+                    System.out.println("coucuo");
+                }
+            });
+
+            if(!poll.isMultipleChoice())
+            {
+                checkCol.setCellFactory(column -> new CheckBox());
+
+
+
+            }
+            else{
+                checkCol.setCellFactory(column -> new CheckBoxTableCell<>());
+            }
+
             checkCol.setSortable(false);
 
 
@@ -340,4 +363,14 @@ public class ViewPollViewController implements ViewControllerInterface {
             }
         }
     }
+
+    public void selectThisChoice(){
+        for(Object obj : table_dates.getItems()){
+            if(obj instanceof AnswerChoice) {
+                ((AnswerChoice)obj).setCheckProperty(false);
+
+            }
+        }
+    }
+
 }
