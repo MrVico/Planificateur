@@ -76,7 +76,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     @Override
     public AnswerChoice add(AnswerChoice object) throws SQLException {
         String query = "INSERT INTO ANSWERCHOICE(DATECHOICE, CREATIONDATE, IDPOLL) VALUES(?, ?, ?)";
-        int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.dateToSqlDate(object.getDateChoice()), TimeManager.dateToSqlDate(Calendar.getInstance().getTime()), object.getPollID());
+        int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getPollID());
         return ((AnswerChoiceDao) getInstance()).get(answerChoiceId);
     }
 

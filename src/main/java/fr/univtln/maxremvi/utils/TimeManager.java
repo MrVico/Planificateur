@@ -12,7 +12,7 @@ public class TimeManager {
         return new SimpleDateFormat(pattern).format(time);
     }
 
-    public static java.sql.Timestamp dateToSqlDate(Date date) {
+    public static java.sql.Timestamp timeToSqlFormat(Date date) {
         return (date != null) ? new java.sql.Timestamp(date.getTime()) : null;
     }
 

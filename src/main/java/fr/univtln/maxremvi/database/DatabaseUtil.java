@@ -15,7 +15,7 @@ public class DatabaseUtil {
     // Java SQL
     public static Connection getConnection() throws SQLException {
         if (connection == null)
-            connection = DriverManager.getConnection(databaseUrl[1], username, password);
+            connection = DriverManager.getConnection(databaseUrl[0], username, password);
         return connection;
     }
 

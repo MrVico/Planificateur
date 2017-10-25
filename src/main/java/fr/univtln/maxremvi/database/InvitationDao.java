@@ -47,7 +47,7 @@ public class InvitationDao extends AbstractDao<Invitation>{
 
     public boolean addInvitation(Invitation invitation) throws SQLException {
         String query = "INSERT INTO INVITATION VALUES(?, ?, ?, ?, ?)";
-        DatabaseUtil.executeUpdate(query, invitation.getPollID(), invitation.getPersonID(), invitation.getSenderID(), false, TimeManager.dateToSqlDate(Calendar.getInstance().getTime()));
+        DatabaseUtil.executeUpdate(query, invitation.getPollID(), invitation.getPersonID(), invitation.getSenderID(), false, TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
         return true;
     }
 
