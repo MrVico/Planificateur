@@ -54,12 +54,12 @@
                         <ColumnConstraints />
                     </columnConstraints>
                 </GridPane>
-                <CheckBox fx:id="addDates">
+                <CheckBox fx:id="addDates" selected="true">
                     <graphic>
                         <Label text="Possibilité d'ajouter des dates" />
                     </graphic>
                 </CheckBox>
-                <CheckBox fx:id="multipleChoice">
+                <CheckBox fx:id="multipleChoice" selected="true">
                     <graphic>
                         <Label text="Autoriser le choix multiple (TODO)" />
                     </graphic>
