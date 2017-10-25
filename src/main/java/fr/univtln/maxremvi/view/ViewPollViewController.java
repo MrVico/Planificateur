@@ -12,16 +12,22 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import jfxtras.scene.control.LocalDateTimeTextField;
+
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 public class ViewPollViewController implements ViewControllerInterface {
     @FXML
@@ -40,6 +46,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     private Button deletePoll;
     @FXML
     private Button closePoll;
+    @FXML
+    private Button updateChat;
     @FXML
     private LocalDateTimeTextField proposed_date;
     @FXML
@@ -95,7 +103,6 @@ public class ViewPollViewController implements ViewControllerInterface {
                 myAnswersIDs.add(myAnswer.getID());
                 for(AnswerChoice answerChoice : initialAnswerChoices){
                     if(myAnswer.equals(answerChoice)){
-                        //TODO : Bizarre de faire des set dans la vue nan ?
                         answerChoice.setCheckProperty(true);
                     }
                 }
@@ -126,9 +133,14 @@ public class ViewPollViewController implements ViewControllerInterface {
                 }
             });
 
-            //TODO : On peut toujours selectionner un item dans le chat, mais sinon le clic sur delete ne marche pas.
-            //chat.setMouseTransparent(true);
             chat.setFocusTraversable(false);
+            updateChat.setGraphic(new ImageView(new Image("/images/update.png")));
+            updateChat.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    getChat();
+                }
+            });
 
             message.setWrapText(true);
             //limitation à 255 caractères pour un message
@@ -152,9 +164,9 @@ public class ViewPollViewController implements ViewControllerInterface {
                 String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(mess.getCreationDate());
                 info.setText(date+" "+sender.getFirstname()+" "+sender.getLastname()+" : ");
                 hBox.getChildren().add(info);
-                //TODO : Set icon & align to the right
                 if(poll.getPromoterID()==User.getUser().getID() || mess.getSenderID()==User.getUser().getID()){
-                    Button delete = new Button("X");
+                    Button delete = new Button();
+                    delete.setGraphic(new ImageView(new Image("/images/delete.png")));
                     delete.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
