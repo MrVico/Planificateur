@@ -57,43 +57,49 @@ public class UpdatePollViewController extends FormPollViewController {
     }
 
     public void handleSaveButtonClick(ActionEvent event) {
-        poll.setTitle(title.getText());
-        poll.setLocation(location_poll.getText());
-        poll.setDescription(description_poll.getText());
-        poll.setAddDates(addDates.isSelected());
-        poll.setMultipleChoice(multipleChoice.isSelected());
-        poll.setHideAnswers(hideAnswers.isSelected());
-        poll.setType(getPollType());
+        if (!multipleChoice.isSelected() && PollController.getInstance().getMaxCountAnswer(poll.getID()) > 1) {
+            AlertManager.AlertBox(Alert.AlertType.ERROR, null, null, "Le sondage ne peut pas être mis à jour car un ou plusieurs utilisateur a sélectionné plus d'une réponse.");
+            multipleChoice.setSelected(true);
+        }
+        else {
+            poll.setTitle(title.getText());
+            poll.setLocation(location_poll.getText());
+            poll.setDescription(description_poll.getText());
+            poll.setAddDates(addDates.isSelected());
+            poll.setMultipleChoice(multipleChoice.isSelected());
+            poll.setHideAnswers(hideAnswers.isSelected());
+            poll.setType(getPollType());
 
-        for (AnswerChoice proposedDate : proposedDates) {
-            if (proposedDate.getID() == null) {
-                try {
-                    AnswerChoiceController.getInstance().addAnswerChoice(proposedDate.getCreationDate(), proposedDate.getDateChoice(), poll.getID());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            for (AnswerChoice proposedDate : proposedDates) {
+                if (proposedDate.getID() == null) {
+                    try {
+                        AnswerChoiceController.getInstance().addAnswerChoice(proposedDate.getCreationDate(), proposedDate.getDateChoice(), poll.getID());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
 
-        for (Integer answerChoiceId : removedAnswerChoices) {
+            for (Integer answerChoiceId : removedAnswerChoices) {
                 try {
                     AnswerChoiceController.getInstance().delete(answerChoiceId);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-        }
-
-        try {
-            if (PollController.getInstance().updatePoll(poll)) {
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Sondage mis à jour avec succès.");
-                ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, poll);
-            } else {
-                AlertManager.AlertBox(Alert.AlertType.ERROR, null, null, "Erreur lors de la mise à jour.");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+            try {
+                if (PollController.getInstance().updatePoll(poll)) {
+                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Sondage mis à jour avec succès.");
+                    ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, poll);
+                } else {
+                    AlertManager.AlertBox(Alert.AlertType.ERROR, null, null, "Erreur lors de la mise à jour.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

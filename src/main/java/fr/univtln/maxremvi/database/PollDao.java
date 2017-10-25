@@ -90,6 +90,19 @@ public class PollDao extends AbstractDao<Poll> {
         return null;
     }
 
+    public int getMaxCountAnswer(int idPoll) {
+        try {
+            String query = "select MAX(c) FROM(select COUNT(*) AS c from answer where idpoll = ? GROUP BY idperson) AS max;";
+            ResultSet rs = DatabaseUtil.executeQuery(query, idPoll);
+            if (rs.next()) {
+                return rs.getInt("max");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public Poll add(Poll object) throws SQLException {
         String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::polltype)";
         int pollId = DatabaseUtil.executeInsert(
@@ -119,16 +132,20 @@ public class PollDao extends AbstractDao<Poll> {
 
     public boolean update(Poll object) {
         try {
-            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSED = ?, TYPE = ?::polltype WHERE ID = ?";
-            DatabaseUtil.executeUpdate(query,
+            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSED = ?, MULTIPLECHOICE = ?, HIDEANSWERS = ?, ADDDATES = ?, TYPE ID = ?";
+            DatabaseUtil.executeUpdate(
+                    query,
                     object.getPromoterID(),
                     object.getTitle(),
                     object.getDescription(),
                     object.getLocation(),
                     TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
                     object.isClosed(),
-                    object.getType().toString(),
-                    object.getID());
+                    object.isMultipleChoice(),
+                    object.isHideAnswers(),
+                    object.isAddDates(),
+                    object.getType().toString()
+            );
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

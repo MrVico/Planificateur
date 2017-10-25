@@ -39,6 +39,8 @@ public class PollController {
         return pollDao.getPollPromoterID(idPoll);
     }
 
+    public int getMaxCountAnswer(int idPoll) { return pollDao.getMaxCountAnswer(idPoll); }
+
     public Poll getPoll(int id) {
         return pollDao.get(id);
     }
