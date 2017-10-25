@@ -260,15 +260,9 @@ public class ViewPollViewController implements ViewControllerInterface {
         try {
             AnswerController.getInstance().deleteAll(poll.getID(), User.getUser().getID(), unselectedAnswers);
             AnswerController.getInstance().addAll(answers);
+            PollController.getInstance().updatePoll(poll);
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
             ViewManager.switchView(ViewManager.viewsEnum.HOME);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        //update du sondage
-        try {
-            PollController.getInstance().updatePoll(poll);
         } catch (SQLException e) {
             e.printStackTrace();
         }
