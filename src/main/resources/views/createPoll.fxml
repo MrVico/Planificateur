@@ -56,7 +56,7 @@
                 </GridPane>
                 <CheckBox fx:id="addDates">
                     <graphic>
-                        <Label text="Possibilité d'ajouter des dates (TODO)" />
+                        <Label text="Possibilité d'ajouter des dates" />
                     </graphic>
                 </CheckBox>
                 <CheckBox fx:id="multipleChoice">

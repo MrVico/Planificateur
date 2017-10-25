@@ -45,7 +45,7 @@ public class HomeViewController implements ViewControllerInterface {
                         ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, selectedPoll);
                     else{
                         if(selectedPoll.getPromoterID()==User.getUser().getID())
-                            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information",null, "Ce sondage est clos.\nVous pouvez le réouvrir ou consulter ses résultats.");
+                            ViewManager.switchView(ViewManager.viewsEnum.RESULTS, selectedPoll);
                         else
                             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Résultat", null, "La réunion se déroulera le "+
                                     new SimpleDateFormat("dd/MM/yyyy HH:mm").format(selectedPoll.getFinalDate())+".");
