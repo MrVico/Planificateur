@@ -3,6 +3,7 @@ package fr.univtln.maxremvi.view;
 import fr.univtln.maxremvi.controller.App;
 import fr.univtln.maxremvi.controller.InvitationController;
 import fr.univtln.maxremvi.controller.PersonController;
+import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.Invitation;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
@@ -78,12 +79,15 @@ public class SharePollViewController implements ViewControllerInterface{
             invitations.add(new Invitation( poll.getID(),person.getID(), User.getUser().getID(), false));
         }
 
-        try {
-            InvitationController.getInstance().addAll(invitations);
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information",null, "Partage effectué.");
-            ((Stage)shareButton.getScene().getWindow()).close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(invitations.size()>0) {
+            try {
+                InvitationController.getInstance().addAll(invitations);
+                PollController.getInstance().updatePoll(poll);
+                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Partage effectué.");
+                ((Stage) shareButton.getScene().getWindow()).close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

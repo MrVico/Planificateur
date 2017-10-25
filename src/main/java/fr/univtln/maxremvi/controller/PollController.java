@@ -27,14 +27,13 @@ public class PollController {
         return pollController;
     }
 
-    public Poll addPoll(String title, String description, String location, Date closingDate, boolean closed, int promoterID, boolean multipleChoice, boolean hideAnswers, boolean addDates, Poll.pollType pollType) throws SQLException {
-        return pollDao.add(new Poll(null, title, description, location, closingDate, closed, promoterID, multipleChoice, hideAnswers, addDates, pollType));
+    public Poll addPoll(String title, String description, String location, boolean closed, int promoterID, boolean multipleChoice, boolean hideAnswers, boolean addDates, Poll.pollType pollType) throws SQLException {
+        return pollDao.add(new Poll(null, title, description, location, closed, promoterID, multipleChoice, hideAnswers, addDates, pollType, null, null));
     }
 
     public boolean updatePoll(Poll p) throws SQLException {
         return pollDao.update(p);
     }
-
 
     public int getPollPromoterID(int idPoll){
         return pollDao.getPollPromoterID(idPoll);
@@ -58,5 +57,9 @@ public class PollController {
 
     public boolean closePoll(boolean bool, int pollID) throws SQLException {
         return pollDao.close(bool, pollID);
+    }
+
+    public boolean setFinalDate(int pollID, Date finalDate) throws SQLException {
+        return pollDao.setFinalDate(pollID, finalDate);
     }
 }

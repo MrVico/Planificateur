@@ -85,16 +85,16 @@ public class ViewPollViewController implements ViewControllerInterface {
                 }
             });
 
-            if(!poll.isMultipleChoice())
+           /* if(!poll.isMultipleChoice())
             {
                 checkCol.setCellFactory(column -> new CheckBox());
 
 
 
             }
-            else{
+            else{*/
                 checkCol.setCellFactory(column -> new CheckBoxTableCell<>());
-            }
+            //}
 
             checkCol.setSortable(false);
 
@@ -231,7 +231,6 @@ public class ViewPollViewController implements ViewControllerInterface {
         List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getID());
         List<Integer> newAnswersIDs = new ArrayList<>();
 
-        //TODO : Normalement ça ne devrait pas être nécessaire ?!?
         initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
 
         //récupération des nouveaux choix de réponses ajoutés par l'utilisateur
@@ -252,7 +251,6 @@ public class ViewPollViewController implements ViewControllerInterface {
                     //si l'utilisateur a ajouté le choix de réponse il faut d'abord le créé
                     if(newAnswerChoices.contains(answerChoice)) {
                         try {
-                            //TODO : Bizarre de faire des set dans la vue nan ?
                             answerChoice.setPollID(poll.getID());
                             if(AnswerChoiceController.getInstance().addAndAnswer(User.getUser().getID(), answerChoice))
                                 newAnswerChoices.remove(answerChoice);
@@ -288,6 +286,7 @@ public class ViewPollViewController implements ViewControllerInterface {
         try {
             AnswerController.getInstance().deleteAll(poll.getID(), User.getUser().getID(), unselectedAnswers);
             AnswerController.getInstance().addAll(answers);
+            PollController.getInstance().updatePoll(poll);
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
             ViewManager.switchView(ViewManager.viewsEnum.HOME);
         } catch (SQLException e) {

@@ -46,7 +46,7 @@ public class CreatePollViewController extends FormPollViewController {
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
         } else {
             try {
-                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), getEndDate(), false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), getPollType());
+                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), getPollType());
 
                 if (proposedDates != null) {
                     proposedDates.forEach(answerChoice -> answerChoice.setPollID(savedPoll.getID()));
