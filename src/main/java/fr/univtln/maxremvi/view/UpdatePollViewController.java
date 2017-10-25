@@ -35,9 +35,6 @@ public class UpdatePollViewController extends FormPollViewController {
             multipleChoice.setSelected(poll.isMultipleChoice());
             hideAnswers.setSelected(poll.isHideAnswers());
 
-            if (poll.getClosingDate() != null)
-                end_date.setLocalDateTime(TimeManager.dateToLocalDateTime(poll.getClosingDate()));
-
             switch (poll.getType()) {
                 case PRIVATE:
                     radio_private.setSelected(true);
@@ -66,7 +63,6 @@ public class UpdatePollViewController extends FormPollViewController {
         poll.setAddDates(addDates.isSelected());
         poll.setMultipleChoice(multipleChoice.isSelected());
         poll.setHideAnswers(hideAnswers.isSelected());
-        poll.setClosingDate(getEndDate());
         poll.setType(getPollType());
 
         for (AnswerChoice proposedDate : proposedDates) {

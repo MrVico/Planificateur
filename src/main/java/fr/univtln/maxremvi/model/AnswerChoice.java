@@ -141,6 +141,6 @@ public class AnswerChoice {
 
     @Override
     public String toString() {
-        return new SimpleDateFormat("dd/MM/yyyy hh:mm").format(dateChoice)+" "+timesChosenProperty.get();
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(dateChoice)+" "+timesChosenProperty.get();
     }
 }

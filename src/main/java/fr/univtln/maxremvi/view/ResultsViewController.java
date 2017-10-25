@@ -1,6 +1,7 @@
 package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.AnswerChoiceController;
+import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.Answer;
 import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Poll;
@@ -16,7 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.util.*;
 
 public class ResultsViewController implements ViewControllerInterface {
@@ -55,7 +58,7 @@ public class ResultsViewController implements ViewControllerInterface {
                 AnswerChoice answerChoice = i.next();
                 int timesChosen = Integer.parseInt(answerChoice.getTimesChosenProperty().substring(1,answerChoice.getTimesChosenProperty().length()-1));
                 if(timesChosen>0)
-                    data.add(new PieChart.Data(new SimpleDateFormat("dd/MM/yyyy hh:mm").format(answerChoice.getDateChoice()), timesChosen));
+                    data.add(new PieChart.Data(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(answerChoice.getDateChoice()), timesChosen));
                 //ce choix n'a pas été choisi, on le supprime donc de la liste des choix possibles
                 else
                     i.remove();
@@ -71,6 +74,7 @@ public class ResultsViewController implements ViewControllerInterface {
                 cbbChoixFinal.setItems(FXCollections.observableArrayList(answerChoices));
                 cbbChoixFinal.getSelectionModel().select(0);
 
+                /*
                 String res = data.get(0).getName();
                 int index = 0;
                 while(index < data.size()-1 && data.get(index).getPieValue() == data.get(index+1).getPieValue()){
@@ -78,7 +82,6 @@ public class ResultsViewController implements ViewControllerInterface {
                     index++;
                 }
 
-                /*
                 if(index == 0)
                     bestChoice.setText("Meilleur date de réunion : "+res+".");
                 else
@@ -109,8 +112,15 @@ public class ResultsViewController implements ViewControllerInterface {
         if(cbbChoixFinal.getSelectionModel().getSelectedIndex()!=-1){
             AnswerChoice choixFinal = cbbChoixFinal.getSelectionModel().getSelectedItem();
             AlertManager.AlertBox(Alert.AlertType.INFORMATION,"Information", null, "Vous avez choisi de notifier tous les participants que la réunion se déroulera le "
-                    +new SimpleDateFormat("dd/MM/yyyy hh:mm").format(choixFinal.getDateChoice())+".");
+                    +new SimpleDateFormat("dd/MM/yyyy HH:mm").format(choixFinal.getDateChoice())+".");
             AlertManager.AlertBox(Alert.AlertType.INFORMATION,"TODO", null, "Faut encore notifier tout le monde ! \\_(o.o)_/");
+            try {
+                PollController.getInstance().setFinalDate(poll.getID(), choixFinal.getDateChoice());
+                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Tous les participants vont être notifier de votre choix.");
+                ViewManager.switchView(ViewManager.viewsEnum.HOME);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         else
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information",null, "Veuillez choisir une date de réunion.");

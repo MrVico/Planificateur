@@ -43,8 +43,13 @@ public class HomeViewController implements ViewControllerInterface {
                     Poll selectedPoll = pollList.get(listView.getSelectionModel().getSelectedIndex());
                     if(!selectedPoll.isClosed())
                         ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, selectedPoll);
-                    else
-                        AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information",null, "Ce sondage est clos.\nVous pouvez le réouvrir ou consulter ses résultats.");
+                    else{
+                        if(selectedPoll.getPromoterID()==User.getUser().getID())
+                            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information",null, "Ce sondage est clos.\nVous pouvez le réouvrir ou consulter ses résultats.");
+                        else
+                            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Résultat", null, "La réunion se déroulera le "+
+                                    new SimpleDateFormat("dd/MM/yyyy HH:mm").format(selectedPoll.getFinalDate())+".");
+                    }
                 }
             }
         });
@@ -58,23 +63,18 @@ public class HomeViewController implements ViewControllerInterface {
             invitationList = InvitationController.getInstance().getAll();
             pollList = PollController.getInstance().getVisiblePollsForPerson(User.getUser());
             List<HBox> hBoxes = new ArrayList<>();
-            Date closingDate;
             Label labelC;
             if(pollList != null){
                 for(Poll poll : pollList){
                     HBox hBox = new HBox();
                     hBox.setPrefHeight(20);
-                    closingDate = poll.getClosingDate();
                     Label labelA = new Label(poll.getTitle());
                     labelA.setPrefWidth(280);
                     Person promoter = PersonController.getInstance().getPerson(poll.getPromoterID());
                     Label labelB = new Label(promoter.getFirstname()+" "+promoter.getLastname());
-                    labelB.setPrefWidth(170);
-                    if (closingDate != null)
-                        labelC = new Label(new SimpleDateFormat("dd/MM/yyyy").format(poll.getClosingDate()));
-                    else
-                        labelC = new Label("");
-                    labelC.setPrefWidth(75);
+                    labelB.setPrefWidth(160);
+                    labelC = new Label(new SimpleDateFormat("dd/MM/yyyy").format(poll.getCreationDate()));
+                    labelC.setPrefWidth(85);
                     hBox.getChildren().addAll(labelA, labelB, labelC);
                     if(!poll.isClosed()) {
                         Invitation invitation = null;
@@ -110,29 +110,35 @@ public class HomeViewController implements ViewControllerInterface {
                         viewResultsButton.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                ViewManager.switchView(ViewManager.viewsEnum.RESULTS, poll);
+                                if(poll.getPromoterID()==User.getUser().getID())
+                                    ViewManager.switchView(ViewManager.viewsEnum.RESULTS, poll);
+                                else
+                                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Résultat", null, "La réunion se déroulera le "+
+                                            new SimpleDateFormat("dd/MM/yyyy HH:mm").format(poll.getFinalDate())+".");
                             }
                         });
                         hBox.getChildren().add(viewResultsButton);
 
-                        Button openButton = new Button();
-                        image = new Image("/images/closed.png");
-                        openButton.setGraphic(new ImageView(image));
-                        openButton.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Reouverture", null, "Voulez-vous vraiment réouvrir ce sondage ?");
-                                if (result.get() == ButtonType.OK) {
-                                    try {
-                                        if(PollController.getInstance().closePoll(false, poll.getID()))
-                                            getPolls();
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
+                        if(poll.getPromoterID()==User.getUser().getID()){
+                            Button openButton = new Button();
+                            image = new Image("/images/closed.png");
+                            openButton.setGraphic(new ImageView(image));
+                            openButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Reouverture", null, "Voulez-vous vraiment réouvrir ce sondage ?");
+                                    if (result.get() == ButtonType.OK) {
+                                        try {
+                                            if(PollController.getInstance().closePoll(false, poll.getID()))
+                                                getPolls();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }
-                            }
-                        });
-                        hBox.getChildren().add(openButton);
+                            });
+                            hBox.getChildren().add(openButton);
+                        }
 
                     }
                     hBoxes.add(hBox);

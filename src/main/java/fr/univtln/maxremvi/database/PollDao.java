@@ -5,14 +5,13 @@ import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.TimeManager;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-/**
- * Created by remi on 15/10/2017.
- */
 public class PollDao extends AbstractDao<Poll> {
 
     public AbstractDao getInstance() {
@@ -68,11 +67,13 @@ public class PollDao extends AbstractDao<Poll> {
         int personId = person.getID();
         try {
             String query =
-                    "(SELECT * FROM POLL WHERE TYPE = 'PUBLIC' AND CLOSED = FALSE)" +
+                    "(SELECT * FROM POLL WHERE TYPE = 'PUBLIC' AND (CLOSED = FALSE OR FINALDATE IS NOT NULL))" +
                             "UNION" +
-                            " (SELECT POLL.* FROM POLL INNER JOIN INVITATION ON POLL.ID = INVITATION.IDPOLL WHERE INVITATION.IDPERSON = ? AND POLL.CLOSED = FALSE)" +
+                            " (SELECT POLL.* FROM POLL INNER JOIN INVITATION ON POLL.ID = INVITATION.IDPOLL WHERE INVITATION.IDPERSON = ? " +
+                            " AND (POLL.CLOSED = FALSE  OR POLL.FINALDATE IS NOT NULL))" +
                             "UNION" +
-                            "(SELECT * FROM POLL WHERE IDPERSON = ?)";
+                            "(SELECT * FROM POLL WHERE IDPERSON = ?)" +
+                            "ORDER BY UPDATEDATE DESC";
             ResultSet rs = DatabaseUtil.executeQuery(query, personId, personId);
 
             List<Poll> pollList = new ArrayList<>();
@@ -87,7 +88,7 @@ public class PollDao extends AbstractDao<Poll> {
     }
 
     public Poll add(Poll object) throws SQLException {
-        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSINGDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         int pollId = DatabaseUtil.executeInsert(
                 query,
                 object.getPromoterID(),
@@ -96,7 +97,6 @@ public class PollDao extends AbstractDao<Poll> {
                 object.getLocation(),
                 TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
                 TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
-                TimeManager.timeToSqlFormat(object.getClosingDate()),
                 object.isClosed(),
                 object.isMultipleChoice(),
                 object.isHideAnswers(),
@@ -116,14 +116,13 @@ public class PollDao extends AbstractDao<Poll> {
 
     public boolean update(Poll object) {
         try {
-            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSINGDATE = ?, CLOSED = ?, TYPE = ? WHERE ID = ?";
+            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSED = ?, TYPE = ? WHERE ID = ?";
             DatabaseUtil.executeUpdate(query,
                     object.getPromoterID(),
                     object.getTitle(),
                     object.getDescription(),
                     object.getLocation(),
                     TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
-                    TimeManager.timeToSqlFormat(object.getClosingDate()),
                     object.isClosed(),
                     object.getType().toString(),
                     object.getID());
@@ -153,5 +152,11 @@ public class PollDao extends AbstractDao<Poll> {
 
     public boolean remove(Poll object) throws SQLException {
         return remove(object.getID());
+    }
+
+    public boolean setFinalDate(int pollID, Date finalDate) throws SQLException {
+        String query = "UPDATE POLL SET FINALDATE = ? WHERE ID = ?";
+        DatabaseUtil.executeUpdate(query, TimeManager.timeToSqlFormat(finalDate), pollID);
+        return true;
     }
 }

@@ -18,94 +18,83 @@
 <?import javafx.scene.text.Text?>
 <?import jfxtras.scene.control.LocalDateTimeTextField?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.CreatePollViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtln.maxremvi.view.CreatePollViewController">
     <children>
         <VBox layoutX="250.0">
             <children>
-                <Button text="Retour" onAction="#handleBackButtonClick"></Button>
+                <Button onAction="#handleBackButtonClick" text="Retour" />
                 <GridPane hgap="10" vgap="10">
                     <children>
-                        <Label text="Titre"/>
-                        <TextField fx:id="title" GridPane.columnIndex="1"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1"/>
-                        <TextArea fx:id="description_poll" prefHeight="60.0" prefWidth="200.0" GridPane.columnIndex="1"
-                                  GridPane.rowIndex="1"/>
-                        <Label text="Lieu" GridPane.rowIndex="2"/>
-                        <TextField fx:id="location_poll" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Label text="Titre" />
+                        <TextField fx:id="title" GridPane.columnIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1" />
+                        <TextArea fx:id="description_poll" prefHeight="60.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Lieu" GridPane.rowIndex="2" />
+                        <TextField fx:id="location_poll" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
                         <VBox fillWidth="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                            <RadioButton fx:id="radio_public" selected="true" styleClass="custom-jfx-radio-button"
-                                         text="Public">
+                            <RadioButton fx:id="radio_public" selected="true" styleClass="custom-jfx-radio-button" text="Public">
                                 <toggleGroup>
-                                    <ToggleGroup fx:id="toggleGroup"/>
+                                    <ToggleGroup fx:id="toggleGroup" />
                                 </toggleGroup>
                             </RadioButton>
-                            <RadioButton fx:id="radio_private_sharable" maxHeight="-Infinity" selected="false"
-                                         styleClass="custom-jfx-radio-button" text="Privé mais partageable"
-                                         toggleGroup="$toggleGroup"/>
-                            <RadioButton fx:id="radio_private" selected="false" styleClass="custom-jfx-radio-button"
-                                         text="Privé" toggleGroup="$toggleGroup"/>
+                            <RadioButton fx:id="radio_private_sharable" maxHeight="-Infinity" selected="false" styleClass="custom-jfx-radio-button" text="Privé mais partageable" toggleGroup="$toggleGroup" />
+                            <RadioButton fx:id="radio_private" selected="false" styleClass="custom-jfx-radio-button" text="Privé" toggleGroup="$toggleGroup" />
                         </VBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visibilité" GridPane.rowIndex="3"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visibilité" GridPane.rowIndex="3" />
                     </children>
                     <rowConstraints>
-                        <RowConstraints/>
-                        <RowConstraints/>
-                        <RowConstraints/>
-                        <RowConstraints/>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
                     </rowConstraints>
                     <columnConstraints>
-                        <ColumnConstraints/>
-                        <ColumnConstraints/>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
                     </columnConstraints>
                 </GridPane>
                 <CheckBox fx:id="addDates">
                     <graphic>
-                        <Label text="Possibilité d'ajouter des dates (TODO)"/>
+                        <Label text="Possibilité d'ajouter des dates (TODO)" />
                     </graphic>
                 </CheckBox>
                 <CheckBox fx:id="multipleChoice">
                     <graphic>
-                        <Label text="Autoriser le choix multiple (TODO)"/>
+                        <Label text="Autoriser le choix multiple (TODO)" />
                     </graphic>
                 </CheckBox>
                 <CheckBox fx:id="hideAnswers">
                     <graphic>
-                        <Label text="Cacher les réponses"/>
+                        <Label text="Cacher les réponses" />
                     </graphic>
                 </CheckBox>
                 <GridPane hgap="10" vgap="10">
                     <children>
-                        <Label contentDisplay="RIGHT" text="Date de fin de sondage" GridPane.columnIndex="1"
-                               GridPane.rowIndex="1"/>
-                        <LocalDateTimeTextField fx:id="end_date" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                        <Label contentDisplay="RIGHT" text="Date de rendez-vous" GridPane.columnIndex="1"
-                               GridPane.rowIndex="2"/>
-                        <LocalDateTimeTextField GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="proposed_date">
+                        <Label contentDisplay="RIGHT" text="Date de rendez-vous" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <LocalDateTimeTextField fx:id="proposed_date" GridPane.columnIndex="2" GridPane.rowIndex="2">
                         </LocalDateTimeTextField>
                     </children>
                     <columnConstraints>
-                        <ColumnConstraints/>
-                        <ColumnConstraints/>
-                        <ColumnConstraints/>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                        <ColumnConstraints />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints/>
-                        <RowConstraints/>
-                        <RowConstraints/>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
                     </rowConstraints>
                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0"/>
+                        <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </GridPane>
                 <HBox>
-                    <TableView fx:id="table_dates" maxWidth="-Infinity" prefHeight="100.0" prefWidth="282.0"/>
+                    <TableView fx:id="table_dates" maxWidth="-Infinity" prefHeight="100.0" prefWidth="282.0" />
                 </HBox>
                 <HBox>
-                    <Button onAction="#handleCreatePollButtonClick" text="Créer le sondage"/>
-                    <Button onAction="#handleRemoveDateButtonClick" text="Supprimer la date" fx:id="remove_date_button"
-                            disable="true"/>
+                    <Button onAction="#handleCreatePollButtonClick" text="Créer le sondage" />
+                    <Button fx:id="remove_date_button" disable="true" onAction="#handleRemoveDateButtonClick" text="Supprimer la date" />
                 </HBox>
             </children>
         </VBox>

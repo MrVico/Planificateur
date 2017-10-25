@@ -10,9 +10,9 @@
    <children>
       <Button layoutX="347.0" layoutY="497.0" mnemonicParsing="false" onAction="#handleReturnHomeButtonClick" text="Retour à l'accueil" />
       <!--<Label fx:id="bestChoice" layoutX="343.0" layoutY="417.0" text="Meilleur choix : DATECHOICE" />-->
-      <Label fx:id="dateFinale" layoutX="275.0" layoutY="438.0" text="Date finale de la réunion :" />
-      <Button fx:id="notifyButton" layoutX="476.0" layoutY="497.0" mnemonicParsing="false" text="Notifier les participants" />
-      <ComboBox fx:id="cbbChoixFinal" layoutX="422.0" layoutY="434.0" prefWidth="150.0" />
+      <Label fx:id="dateFinale" layoutX="240.0" layoutY="438.0" text="Date finale de la réunion :" />
+      <Button fx:id="notifyButton" layoutX="486.0" layoutY="497.0" mnemonicParsing="false" onAction="#handleNotifyButtonClick" text="Notifier les participants" />
+      <ComboBox fx:id="cbbChoixFinal" layoutX="422.0" layoutY="434.0" prefHeight="26.0" prefWidth="195.0" />
       <PieChart fx:id="graphic" layoutX="161.0" layoutY="15.0" />
       <Label fx:id="noAnswer" layoutX="304.0" layoutY="207.0" text="Personne n'a répondu à ce sondage." visible="false" />
    </children>
