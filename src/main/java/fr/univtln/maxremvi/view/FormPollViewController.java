@@ -33,8 +33,6 @@ public abstract class FormPollViewController implements ViewControllerInterface 
     @FXML
     protected CheckBox hideAnswers;
     @FXML
-    protected LocalDateTimeTextField end_date;
-    @FXML
     protected LocalDateTimeTextField proposed_date;
     @FXML
     protected RadioButton radio_public;
@@ -83,9 +81,5 @@ public abstract class FormPollViewController implements ViewControllerInterface 
             return Poll.pollType.PRIVATE;
         else
             return Poll.pollType.PRIVATE_SHARABLE;
-    }
-
-    protected Date getEndDate() {
-        return (end_date.getLocalDateTime() != null) ? TimeManager.localDateToDate(end_date.getLocalDateTime()) : null;
     }
 }

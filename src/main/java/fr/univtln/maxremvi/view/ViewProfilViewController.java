@@ -6,9 +6,13 @@ import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class ViewProfilViewController implements ViewControllerInterface {
     @FXML

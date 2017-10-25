@@ -10,7 +10,8 @@ public class Poll {
     private String title;
     private String description;
     private String location;
-    private Date closingDate;
+    private Date creationDate;
+    private Date finalDate;
     private boolean closed;
     private boolean multipleChoice;
     private boolean hideAnswers;
@@ -23,18 +24,21 @@ public class Poll {
 
     public Poll(){}
 
-    public Poll(Integer ID, String title, String description, String location, Date closingDate, boolean closed, int personID, boolean multipleChoice, boolean hideAnswers, boolean addDates, pollType pollType) {
+    public Poll(Integer ID, String title, String description, String location,
+                boolean closed, int personID, boolean multipleChoice, boolean hideAnswers,
+                boolean addDates, pollType pollType, Date finalDate, Date creationDate) {
         this.ID = ID;
         this.title = title;
         this.description = description;
         this.location = location;
-        this.closingDate = closingDate;
         this.closed = closed;
         this.personID = personID;
         this.multipleChoice = multipleChoice;
         this.hideAnswers = hideAnswers;
         this.addDates = addDates;
         this.type = pollType;
+        this.finalDate = finalDate;
+        this.creationDate = creationDate;
     }
 
     public int getID() {
@@ -67,14 +71,6 @@ public class Poll {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Date getClosingDate() {
-        return closingDate;
-    }
-
-    public void setClosingDate(Date closingDate) {
-        this.closingDate = closingDate;
     }
 
     public boolean isClosed() {
@@ -125,21 +121,45 @@ public class Poll {
         this.type = type;
     }
 
+    public Date getFinalDate() {
+        return finalDate;
+    }
+
+    public void setFinalDate(Date finalDate) {
+        this.finalDate = finalDate;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public static Poll fromResultSet(ResultSet rs) throws SQLException {
-        return new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"), rs.getString("LOCATION"), rs.getTimestamp("CLOSINGDATE"),
-                rs.getBoolean("CLOSED"), rs.getInt("IDPERSON"), rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"), rs.getBoolean("ADDDATES"), Poll.pollType.valueOf(rs.getString("TYPE")));
+        return new Poll(rs.getInt("ID"), rs.getString("TITLE"), rs.getString("DESCRIPTION"),
+                rs.getString("LOCATION"), rs.getBoolean("CLOSED"),
+                rs.getInt("IDPERSON"), rs.getBoolean("MULTIPLECHOICE"), rs.getBoolean("HIDEANSWERS"),
+                rs.getBoolean("ADDDATES"), Poll.pollType.valueOf(rs.getString("TYPE")),
+                rs.getTimestamp("FINALDATE"), rs.getTimestamp("CREATIONDATE"));
     }
 
     @Override
     public String toString() {
         return "Poll{" +
                 "ID=" + ID +
+                ", personID=" + personID +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +
-                ", closingDate=" + closingDate +
+                ", creationDate=" + creationDate +
+                ", finalDate=" + finalDate +
                 ", closed=" + closed +
-                ", personID=" + personID +
+                ", multipleChoice=" + multipleChoice +
+                ", hideAnswers=" + hideAnswers +
+                ", addDates=" + addDates +
+                ", type=" + type +
                 '}';
     }
 }

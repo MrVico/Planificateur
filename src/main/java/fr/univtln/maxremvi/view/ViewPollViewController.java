@@ -205,7 +205,6 @@ public class ViewPollViewController implements ViewControllerInterface {
         List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getID());
         List<Integer> newAnswersIDs = new ArrayList<>();
 
-        //TODO : Normalement ça ne devrait pas être nécessaire ?!?
         initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
 
         //récupération des nouveaux choix de réponses ajoutés par l'utilisateur
@@ -226,7 +225,6 @@ public class ViewPollViewController implements ViewControllerInterface {
                     //si l'utilisateur a ajouté le choix de réponse il faut d'abord le créé
                     if(newAnswerChoices.contains(answerChoice)) {
                         try {
-                            //TODO : Bizarre de faire des set dans la vue nan ?
                             answerChoice.setPollID(poll.getID());
                             if(AnswerChoiceController.getInstance().addAndAnswer(User.getUser().getID(), answerChoice))
                                 newAnswerChoices.remove(answerChoice);
@@ -264,6 +262,13 @@ public class ViewPollViewController implements ViewControllerInterface {
             AnswerController.getInstance().addAll(answers);
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
             ViewManager.switchView(ViewManager.viewsEnum.HOME);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //update du sondage
+        try {
+            PollController.getInstance().updatePoll(poll);
         } catch (SQLException e) {
             e.printStackTrace();
         }
