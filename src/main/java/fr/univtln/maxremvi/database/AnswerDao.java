@@ -42,7 +42,6 @@ public class AnswerDao extends AbstractDao<Answer>{
 
     @Override
     public Answer add(Answer object) throws SQLException {
-        System.out.println(object);
         if(!answerExists(object)){
             String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, IDANSWERCHOICE, CREATIONDATE) VALUES(?, ?, ?, ?)";
             DatabaseUtil.executeUpdate(query, object.getPollID(), object.getPersonID(), object.getAnswerChoiceID(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
