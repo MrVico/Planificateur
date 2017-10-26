@@ -65,7 +65,7 @@ public class ViewPollViewController implements ViewControllerInterface {
     private Map<Integer, List<Integer>> onLoad = new HashMap<>();
 
     /**
-     * Initializes the ViewPoll window
+     * Initializes the ViewPoll window.
      */
     public void initialize() {
         if (poll != null) {
@@ -183,7 +183,7 @@ public class ViewPollViewController implements ViewControllerInterface {
     /**
      * Populates the chat.
      */
-    public void getChat() {
+    private void getChat() {
         chat.getItems().clear();
         messages = MessageController.getInstance().getPollMessages(poll.getID());
         List<VBox> vBoxes = new ArrayList<>();
@@ -250,16 +250,19 @@ public class ViewPollViewController implements ViewControllerInterface {
         lines.addAll(vBoxes);
     }
 
+    /**
+     * Populates the TableView.
+     */
     public ObservableList<VBox> getLines() {
         return lines;
     }
 
     /**
-     * Handles the actions done on the validate answer button
+     * Handles the actions done on the validate answer button.
+     * Handles everything regarding the insertion or deletion of answer choices & answers.
      *
      * @param  actionEvent  the type of action that was performed
      */
-    @FXML
     public void handleValidateAnswerButtonClick(ActionEvent actionEvent) {
         List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getID());
         List<Integer> newAnswersIDs = new ArrayList<>();
@@ -328,7 +331,7 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     /**
-     * Handles the insertions of new answers and their answer choices if necessary
+     * Handles the insertions of new answers and their answer choices if necessary.
      *
      * @param  newAnswerChoices  the list of answer choices that were added by the user
      * @param  answerChoice  the answer choice that we are currently processing
@@ -336,7 +339,7 @@ public class ViewPollViewController implements ViewControllerInterface {
      * @param  answers the list of the user's answers
      * @return      true or false depending on the success of the insertions
      */
-    public boolean handleAnswers(List<AnswerChoice> newAnswerChoices, AnswerChoice answerChoice, List<Integer> newAnswersIDs, List<Answer> answers){
+    private boolean handleAnswers(List<AnswerChoice> newAnswerChoices, AnswerChoice answerChoice, List<Integer> newAnswersIDs, List<Answer> answers){
         //if the answer choice was just created, we first need to add it into the database before inserting the answer
         if (newAnswerChoices.contains(answerChoice)) {
             answerChoice.setPollID(poll.getID());
@@ -360,7 +363,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     /**
-     * Handles the actions done on the update poll button
+     * Handles the actions done on the update poll button.
+     * Switches to the UpdatePoll window.
      *
      * @param  actionEvent  the type of action that was performed
      */
@@ -369,7 +373,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     /**
-     * Handles the actions done on the share poll button
+     * Handles the actions done on the share poll button.
+     * Switches to the SharePoll window.
      *
      * @param  actionEvent  the type of action that was performed
      */
@@ -382,16 +387,17 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     /**
-     * Sets all invitations to this poll as seen by the user
+     * Sets all invitations to this poll as seen by the user.
      */
-    public void pollInvitationSeen() {
+    private void pollInvitationSeen() {
         if (InvitationController.getInstance().wasInvitedToPoll(poll.getID(), User.getUser().getID()))
             if(!InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID()))
                 AlertManager.printError();
     }
 
     /**
-     * Handles the actions done on the send message button for chatting
+     * Handles the actions done on the send message button for chatting.
+     * Sends a message into the chat for the current poll.
      *
      * @param  actionEvent  the type of action that was performed
      */
@@ -409,7 +415,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     /**
-     * Handles the actions done on the delete poll button
+     * Handles the actions done on the delete poll button.
+     * Deletes the current poll if the promoter wants it.
      *
      * @param  actionEvent  the type of action that was performed
      */
@@ -427,7 +434,8 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     /**
-     * Handles the actions done on the close poll button
+     * Handles the actions done on the close poll button.
+     * Closes the current poll if the promoter wants it.
      *
      * @param  actionEvent  the type of action that was performed
      */

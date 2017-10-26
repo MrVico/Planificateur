@@ -47,6 +47,9 @@ public abstract class FormPollViewController implements ViewControllerInterface 
 
     protected ObservableList<AnswerChoice> proposedDates;
 
+    /**
+     * Initializes the window, used by CreatePoll & UpdatePoll.
+     */
     protected void initialize() {
         table_dates.setEditable(true);
         TableColumn dateCol = new TableColumn("Date");
@@ -74,6 +77,11 @@ public abstract class FormPollViewController implements ViewControllerInterface 
         });
     }
 
+    /**
+     * Returns the selected poll type.
+     *
+     * @return      the poll type
+     */
     protected Poll.pollType getPollType() {
         if (radio_public.isSelected())
             return Poll.pollType.PUBLIC;

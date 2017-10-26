@@ -6,23 +6,19 @@ import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ListManager;
-import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
-
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by remi on 24/10/2017.
- */
 public class UpdatePollViewController extends FormPollViewController {
     private Poll poll;
     private List<Integer> removedAnswerChoices;
 
+    /**
+     * Initializes the UpdatePoll window.
+     */
     public void initialize() {
         if (poll != null) {
             super.initialize();
@@ -52,10 +48,22 @@ public class UpdatePollViewController extends FormPollViewController {
         }
     }
 
+    /**
+     * Handles the actions done on the back button.
+     * Switches to the ViewPoll window.
+     *
+     * @param  event  the type of action that was performed
+     */
     public void handleBackButtonClick(ActionEvent event) {
         ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, poll);
     }
 
+    /**
+     * Handles the actions done on the save button.
+     * Updates the current poll.
+     *
+     * @param  event  the type of action that was performed
+     */
     public void handleSaveButtonClick(ActionEvent event) {
         if (!multipleChoice.isSelected() && PollController.getInstance().getMaxCountAnswer(poll.getID()) > 1) {
             AlertManager.AlertBox(Alert.AlertType.ERROR, null, null, "Le sondage ne peut pas être mis à jour car un ou plusieurs utilisateur a sélectionné plus d'une réponse.");
@@ -98,6 +106,12 @@ public class UpdatePollViewController extends FormPollViewController {
         initialize();
     }
 
+    /**
+     * Handles the actions done on the remove date button.
+     * Removes the selected date from the poll's answer choices.
+     *
+     * @param  event  the type of action that was performed
+     */
     public void handleRemoveDateButtonClick(ActionEvent event) {
         int focusedIndex = table_dates.getSelectionModel().getFocusedIndex();
         AnswerChoice focusedItem;

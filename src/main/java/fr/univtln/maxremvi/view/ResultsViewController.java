@@ -2,7 +2,6 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.controller.AnswerChoiceController;
 import fr.univtln.maxremvi.controller.PollController;
-import fr.univtln.maxremvi.model.Answer;
 import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.AlertManager;
@@ -16,10 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.util.*;
 
 public class ResultsViewController implements ViewControllerInterface {
@@ -36,15 +32,17 @@ public class ResultsViewController implements ViewControllerInterface {
     private Poll poll;
     private List<AnswerChoice> answerChoices;
 
+    /**
+     * Initializes the ResultsView window.
+     */
     public void initialize(){
         if(poll != null){
             answerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
 
-            //tri de la liste de la date la plus choisie à la moins choisie
+            //order the list from the most chosen answers to the less chosen one
             Collections.sort(answerChoices, new Comparator<AnswerChoice>() {
                 @Override
                 public int compare(AnswerChoice o1, AnswerChoice o2) {
-                    //pas trouver comment changer le StringProperty du coup obligation de faire ceci.
                     return Integer.parseInt(o2.getTimesChosenProperty().substring(1,o2.getTimesChosenProperty().length()-1)) - Integer.parseInt(o1.getTimesChosenProperty().substring(1,o1.getTimesChosenProperty().length()-1));
                 }
             });
@@ -57,7 +55,7 @@ public class ResultsViewController implements ViewControllerInterface {
                 int timesChosen = Integer.parseInt(answerChoice.getTimesChosenProperty().substring(1,answerChoice.getTimesChosenProperty().length()-1));
                 if(timesChosen>0)
                     data.add(new PieChart.Data(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(answerChoice.getDateChoice()), timesChosen));
-                //ce choix n'a pas été choisi, on le supprime donc de la liste des choix possibles
+                //this answer choice didn't get any votes. It's removed from the possible solution list
                 else
                     i.remove();
             }
@@ -88,10 +86,22 @@ public class ResultsViewController implements ViewControllerInterface {
         initialize();
     }
 
+    /**
+     * Handles the actions done on the return home button.
+     * Switches to the Home window.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleReturnHomeButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView(ViewManager.viewsEnum.HOME);
     }
 
+    /**
+     * Handles the actions done on the notify button.
+     * Notifies all participants of the final date.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleNotifyButtonClick(ActionEvent actionEvent) {
         if(cbbChoixFinal.getSelectionModel().getSelectedIndex()!=-1){
             AnswerChoice choixFinal = cbbChoixFinal.getSelectionModel().getSelectedItem();

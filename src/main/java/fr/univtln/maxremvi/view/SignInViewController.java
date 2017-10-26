@@ -18,7 +18,12 @@ public class SignInViewController implements ViewControllerInterface {
     @FXML
     private PasswordField password;
 
-    @FXML
+    /**
+     * Handles the actions done on sign in button.
+     * Signs the user onto his account.
+     *
+     * @param  event  the type of action that was performed
+     */
     public void handleSignInButtonClick(ActionEvent event) {
         if (login.getText().isEmpty() || password.getText().isEmpty()) {
             AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Veuillez renseigner les champs !");
@@ -33,20 +38,15 @@ public class SignInViewController implements ViewControllerInterface {
         }
     }
 
-    @FXML
+    /**
+     * Handles the actions done on the register button.
+     * Switches to the Register window.
+     *
+     * @param  event  the type of action that was performed
+     */
     public void handleRegisterButtonClick(ActionEvent event) {
         ViewManager.switchView(ViewManager.viewsEnum.REGISTER);
 
-    }
-
-    @FXML
-    public void handleHomeButtonClick(ActionEvent event) {
-        ViewManager.switchView(ViewManager.viewsEnum.HOME);
-    }
-
-    @FXML
-    public void handleCreatePollButtonClick(ActionEvent event) {
-        ViewManager.switchView(ViewManager.viewsEnum.CREATE_POLL);
     }
 
     @Override

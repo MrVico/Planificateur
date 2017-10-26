@@ -13,18 +13,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +33,9 @@ public class HomeViewController implements ViewControllerInterface {
     @FXML
     private Button refreshButton;
 
+    /**
+     * Initializes the HomeView window.
+     */
     public void initialize(){
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -60,6 +59,9 @@ public class HomeViewController implements ViewControllerInterface {
         getPolls();
     }
 
+    /**
+     * Populates the ListView with all the polls the current user has access to.
+     */
     private void getPolls(){
         try {
             listView.getItems().clear();
@@ -138,7 +140,6 @@ public class HomeViewController implements ViewControllerInterface {
                             });
                             hBox.getChildren().add(openButton);
                         }
-
                     }
                     hBoxes.add(hBox);
                 }
@@ -149,24 +150,50 @@ public class HomeViewController implements ViewControllerInterface {
         }
     }
 
+    /**
+     * Populates the ListView.
+     */
     public ObservableList<HBox> getLines() {
         return lines ;
     }
 
-    @FXML
+    /**
+     * Handles the actions done on the creation poll button.
+     * Switches to the CreatePoll window.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleCreatePollButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView(ViewManager.viewsEnum.CREATE_POLL);
     }
 
+    /**
+     * Handles the actions done on the view profil button.
+     * Switches to the ViewProfil window.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleViewProfilButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
     }
 
-    public void handleDeconnectionButtonClick(ActionEvent actionEvent){
+    /**
+     * Handles the actions done on the disconnection button.
+     * Disconnects the user and switches to the Home window.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
+    public void handleDisconnectionButtonClick(ActionEvent actionEvent){
         User.setUser(null);
         ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
     }
 
+    /**
+     * Handles the actions done on the refresh button.
+     * Refreshes the list of polls.
+     *
+     * @param  event  the type of action that was performed
+     */
     public void handleRefreshButtonClick(ActionEvent event) {
         getPolls();
     }

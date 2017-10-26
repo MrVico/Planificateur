@@ -17,7 +17,7 @@ public class ViewManager {
         // account
         HOME("home"),
         REGISTER("register"),
-        SIGNIN("signin"),
+        SIGNIN("signIn"),
         // profile
         UPDATE_PROFIL("updateProfil"),
         VIEW_PROFIL("viewProfil"),

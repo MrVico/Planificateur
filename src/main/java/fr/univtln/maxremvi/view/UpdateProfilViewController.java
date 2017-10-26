@@ -25,6 +25,9 @@ public class UpdateProfilViewController implements ViewControllerInterface {
     @FXML
     private TextField lastname;
 
+    /**
+     * Initializes the UpdateProfil window.
+     */
     public void initialize(){
         Person p = User.getUser();
         login.setText(p.getLogin());
@@ -33,6 +36,12 @@ public class UpdateProfilViewController implements ViewControllerInterface {
         lastname.setText(p.getLastname());
     }
 
+    /**
+     * Handles the actions done on the update profil button.
+     * Updates the user's profil.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleUpdateProfilButtonClick(ActionEvent actionEvent) {
         Person p = User.getUser();
         p.setFirstname(firstname.getText());
@@ -46,6 +55,12 @@ public class UpdateProfilViewController implements ViewControllerInterface {
         }
     }
 
+    /**
+     * Handles the actions done on the change password button.
+     * Changes the user's password.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleChangePasswordButtonClick(ActionEvent actionEvent)
     {
         JPasswordField passwordField=new JPasswordField();
@@ -89,7 +104,13 @@ public class UpdateProfilViewController implements ViewControllerInterface {
         }
     }
 
-    public void handleRetourClick(ActionEvent actionEvent)
+    /**
+     * Handles the actions done on the return button.
+     * Switches to the ViewProfil window.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
+    public void handleReturnButtonClick(ActionEvent actionEvent)
     {
         ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
     }

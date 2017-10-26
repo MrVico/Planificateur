@@ -7,28 +7,18 @@ import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.ListManager;
-import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import jfxtras.scene.control.LocalDateTimeTextField;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
-/**
- * Created by remi on 14/10/2017.
- */
 public class CreatePollViewController extends FormPollViewController {
     private PollController pollController;
     private AnswerChoiceController answerChoiceController;
 
+    /**
+     * Initializes the CreatePoll window.
+     */
     public void initialize() {
         super.initialize();
 
@@ -41,6 +31,12 @@ public class CreatePollViewController extends FormPollViewController {
         description_poll.setWrapText(true);
     }
 
+    /**
+     * Handles the actions done on the create poll button.
+     * Creates the poll if everything is fill in correctly.
+     *
+     * @param  event  the type of action that was performed
+     */
     public void handleCreatePollButtonClick(ActionEvent event) {
         if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || proposedDates.isEmpty()) {
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
@@ -57,12 +53,24 @@ public class CreatePollViewController extends FormPollViewController {
 
     }
 
+    /**
+     * Handles the actions done on the remove date button.
+     * Removes the selected date from the answer choices.
+     *
+     * @param  event  the type of action that was performed
+     */
     public void handleRemoveDateButtonClick(ActionEvent event) {
         int focusedIndex = table_dates.getSelectionModel().getFocusedIndex();
         if (focusedIndex != -1)
             table_dates.getItems().remove(focusedIndex);
     }
 
+    /**
+     * Handles the actions done on the back button.
+     * Switches to the Home window.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleBackButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView(ViewManager.viewsEnum.HOME);
     }

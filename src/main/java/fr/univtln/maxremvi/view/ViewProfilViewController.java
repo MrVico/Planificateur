@@ -1,18 +1,13 @@
 package fr.univtln.maxremvi.view;
 
-import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ViewProfilViewController implements ViewControllerInterface {
     @FXML
@@ -24,6 +19,9 @@ public class ViewProfilViewController implements ViewControllerInterface {
     @FXML
     private Text lastname;
 
+    /**
+     * Initializes the ViewProfil window.
+     */
     public void initialize(){
         Person p = User.getUser();
         fillText(login, p.getLogin());
@@ -32,7 +30,14 @@ public class ViewProfilViewController implements ViewControllerInterface {
         fillText(lastname, p.getLastname());
     }
 
-    public void fillText(Text input, String value){
+    /**
+     * Writes the value into the text input if the value isn't empty.
+     * If it's empty it will write "Non renseigné" instead.
+     *
+     * @param  input  the input into which the value should go
+     * @param  value  the value of the input
+     */
+    private void fillText(Text input, String value){
         if(value == null) {
             input.setText("Non renseigné");
             input.setFont(Font.font(input.getFont().getName(), FontPosture.ITALIC, input.getFont().getSize()));
@@ -41,11 +46,23 @@ public class ViewProfilViewController implements ViewControllerInterface {
             input.setText(value);
     }
 
+    /**
+     * Handles the actions done on the update profil button.
+     * Switches to the UpdateProfil window.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleUpdateProfilButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView(ViewManager.viewsEnum.UPDATE_PROFIL);
     }
 
-    public void handleRetourClick(ActionEvent actionEvent)
+    /**
+     * Handles the actions done on the return button.
+     * Switches to the Home window.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
+    public void handleReturnButtonClick(ActionEvent actionEvent)
     {
         ViewManager.switchView(ViewManager.viewsEnum.HOME);
     }

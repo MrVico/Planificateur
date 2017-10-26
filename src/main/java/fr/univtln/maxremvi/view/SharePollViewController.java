@@ -1,6 +1,5 @@
 package fr.univtln.maxremvi.view;
 
-import fr.univtln.maxremvi.controller.App;
 import fr.univtln.maxremvi.controller.InvitationController;
 import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.controller.PollController;
@@ -16,14 +15,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-    TODO : Insertion dans la table Invitation & Envoi des mails !
- */
 public class SharePollViewController implements ViewControllerInterface{
     private final ObservableList<HBox> lines = FXCollections.observableArrayList();
     private List<Person> personList;
@@ -33,6 +27,9 @@ public class SharePollViewController implements ViewControllerInterface{
     @FXML
     private Button shareButton;
 
+    /**
+     * Initializes the SharePoll window.
+     */
     public void initialize(){
         if(poll != null){
             try {
@@ -59,10 +56,19 @@ public class SharePollViewController implements ViewControllerInterface{
         }
     }
 
+    /**
+     * Populates the ListView.
+     */
     public ObservableList<HBox> getLines() {
         return lines ;
     }
 
+    /**
+     * Handles the actions done on the share button.
+     * Shares the poll among the selected users.
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleShareButtonClick(ActionEvent actionEvent) {
         List<Person> receivers = new ArrayList<>();
         int index = 0;

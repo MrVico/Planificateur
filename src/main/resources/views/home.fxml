@@ -11,7 +11,7 @@
       <Button layoutX="579.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleCreatePollButtonClick" text="Créer un sondage" />
       <Label layoutX="107.0" layoutY="74.0" text="Liste des sondages" />
       <Button layoutX="656.0" mnemonicParsing="false" onAction="#handleViewProfilButtonClick" text="Profil" />
-      <Button mnemonicParsing="false" onAction="#handleDeconnectionButtonClick" text="Deconnexion" />
+      <Button mnemonicParsing="false" onAction="#handleDisconnectionButtonClick" text="Deconnexion" />
       <Button fx:id="refreshButton" layoutX="498.0" layoutY="55.0" mnemonicParsing="false" onAction="#handleRefreshButtonClick" text="Rafraichir la liste des sondages" />
    </children>
 </AnchorPane>
