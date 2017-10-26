@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public class AlertManager {
     /***
-     * Create an AlertBox and return it
+     * Creates an AlertBox and return it
+     *
      * @param type The AlerBox type (
      * @param title The AlertBox title (first line)
      * @param header The AlertBox header (second line)
@@ -24,7 +25,7 @@ public class AlertManager {
     }
 
     /***
-     * Create a sample AlertBox for errors
+     * Creates a sample AlertBox for errors
      */
     public static void printError(){
         AlertBox(AlertType.ERROR, "Erreur", null, "Une erreur est survenue !");

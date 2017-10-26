@@ -47,6 +47,7 @@ public class ViewManager {
 
     /***
      * Gets the view path of the given view name
+     *
      * @param viewName The view name (stored in ViewManager.viewsEnum)
      * @return The view path
      */
@@ -56,6 +57,7 @@ public class ViewManager {
 
     /***
      * Switches to the given view and passes it arguments
+     *
      * @param viewName The view to switch to
      * @param data The arguments to pass to the view
      */
@@ -73,6 +75,7 @@ public class ViewManager {
 
     /***
      * Opens a modal containing the given view and passes it arguments
+     *
      * @param viewName The view to open in modal
      * @param data The arguments to pass to the view
      */
@@ -90,6 +93,7 @@ public class ViewManager {
 
     /***
      * Loads the root node of the view and passes arguments to the controller
+     *
      * @param fxmlLoader The FXMLLoader of the view
      * @param data The data to pass to the view
      * @return The root node of the view

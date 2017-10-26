@@ -10,6 +10,7 @@ import java.util.Date;
 public class TimeManager {
     /***
      * Converts the pattern of a given date to the given pattern and returns it
+     *
      * @param pattern The pattern to use
      * @param time The Date to convert
      * @return The formatted date
@@ -19,7 +20,8 @@ public class TimeManager {
     }
 
     /***
-     * Transform a given Date into a Timestamp one (useful for database storage)
+     * Transforms a given Date into a Timestamp one (useful for database storage)
+     *
      * @param date The date to tranform
      * @return The Timestamp value of the given Date
      */
@@ -28,7 +30,8 @@ public class TimeManager {
     }
 
     /***
-     * Extract the day/month/year value of a given Date and return it
+     * Extracts the day/month/year value of a given Date and return it
+     *
      * @param time The Date to extract values
      * @return The extracted value
      */
@@ -37,7 +40,8 @@ public class TimeManager {
     }
 
     /***
-     * Extract the hour:minute value of a given Date and return it
+     * Extracts the hour:minute value of a given Date and return it
+     *
      * @param time The Date to extract values
      * @return The extracted value
      */
@@ -55,7 +59,8 @@ public class TimeManager {
     }
 
     /***
-     * Transform a given Date into a LocalDateTime one
+     * Transforms a given Date into a LocalDateTime one
+     *
      * @param date The Date to transform
      * @return The transformed Date
      */

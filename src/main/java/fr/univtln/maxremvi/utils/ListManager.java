@@ -11,6 +11,7 @@ import java.util.List;
 public class ListManager {
     /***
      * Transforms a List into an ObservableList
+     *
      * @param list The List to transform
      * @return the ObservableList
      */

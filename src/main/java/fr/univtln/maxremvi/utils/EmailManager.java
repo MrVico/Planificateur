@@ -15,7 +15,8 @@ public class EmailManager {
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     /***
-     * Determine if the email parameter corresponds to a valid email
+     * Determines if the email parameter corresponds to a valid email
+     *
      * @param email The email address to test
      * @return true if the parameter if a valid email address, false if not
      */
@@ -41,7 +42,8 @@ public class EmailManager {
     }
 
     /***
-     * Determine if the email parameter matches a valid email pattern
+     * Determines if the email parameter matches a valid email pattern
+     *
      * @param emailStr The email address to test
      * @return true if the parameter matches the email pattern, false if not
      */
