@@ -9,9 +9,9 @@ public class PasswordManager {
     private static final String salt = "r0a959adz9azd590az";
 
     /***
-     * Encrypt a password with SHA-256 algorithm and returns it
-     * @param password The password to encrypt
-     * @return The crypted password
+     * Hash a password with SHA-256 algorithm and returns it
+     * @param password The password to hash
+     * @return The hashed password
      */
     public static String encrypt(String password){
         try{
