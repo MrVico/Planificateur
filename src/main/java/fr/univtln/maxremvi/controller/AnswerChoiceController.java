@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by remi on 17/10/2017.
- */
 public class AnswerChoiceController {
     private AnswerChoiceDao answerChoiceDao = null;
     private static AnswerChoiceController answerChoiceController = null;

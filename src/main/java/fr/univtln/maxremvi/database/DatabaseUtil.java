@@ -8,6 +8,7 @@ public class DatabaseUtil {
 
     /***
      * If connection variable isn't set, creates it; after that, returns it
+     *
      * @return The database connection
      * @throws SQLException If a connection timeout happens
      */
@@ -18,7 +19,8 @@ public class DatabaseUtil {
     }
 
     /***
-     * Close the connection and erase the variable
+     * Closes the connection and erase the variable
+     *
      * @throws SQLException If the driver could not access to the database
      */
     public static void closeConnection() throws SQLException {
@@ -27,10 +29,11 @@ public class DatabaseUtil {
     }
 
     /***
+     * Create and return a prepared statement with its string query and its parameters values
      *
-     * @param query
-     * @param parameters
-     * @return
+     * @param query The string query
+     * @param parameters The list of parameter values
+     * @return The prepared statement object
      * @throws SQLException If the statement can't be created
      */
     private static PreparedStatement createStatement(String query, Object... parameters) throws SQLException {
@@ -44,6 +47,14 @@ public class DatabaseUtil {
         return stmt;
     }
 
+    /***
+     * Executes the given insert query with its given parameters and returns the id of the inserted line
+     *
+     * @param query The insert query to execute
+     * @param parameters The parameters for the query
+     * @return The id of the inserted line
+     * @throws SQLException If the statement can't be created of if an error accessing the database happens
+     */
     public static int executeInsert(String query, Object... parameters) throws SQLException {
         PreparedStatement stmt = createStatement(query, parameters);
         stmt.executeUpdate();
@@ -53,11 +64,26 @@ public class DatabaseUtil {
         return generatedKeys.getInt(1);
     }
 
+    /***
+     * Executes the given update query
+     *
+     * @param query The update query to execute
+     * @param parameters The parameters for the query
+     * @throws SQLException If the statement can't be created of if an error accessing the database happens
+     */
     public static void executeUpdate(String query, Object... parameters) throws SQLException {
         PreparedStatement stmt = createStatement(query, parameters);
         stmt.executeUpdate();
     }
 
+    /***
+     * Execute the given select query with its given parameters
+     *
+     * @param query The select query to execute
+     * @param parameters The parameters for the query
+     * @return The rows of the result
+     * @throws SQLException If the statement can't be created of if an error accessing the database happens
+     */
     public static ResultSet executeQuery(String query, Object... parameters) throws SQLException {
         PreparedStatement stmt = createStatement(query, parameters);
         ResultSet rs = stmt.executeQuery();

@@ -16,9 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
 
-/**
- * Created by remi on 24/10/2017.
- */
 public abstract class FormPollViewController implements ViewControllerInterface {
     @FXML
     protected TextField title;

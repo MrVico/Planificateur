@@ -5,9 +5,6 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-/**
- * Created by remi on 16/10/2017.
- */
 public class ListManager {
     /***
      * Transforms a List into an ObservableList

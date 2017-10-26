@@ -26,6 +26,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
 
     /***
      * Query the database in order to retrieve the AnswerChoice with the given id
+     *
      * @param id The AnswerChoice id
      * @return The recreated AnswerChoice
      */
@@ -46,6 +47,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
 
     /***
      * Query the database in order to retrieve all the AnswerChoices for the given poll
+     *
      * @param idPoll The poll id
      * @return The List of recreated AnswerChoices
      */
@@ -69,6 +71,7 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
 
     /***
      * Query the database in order to retrieve all the AnswerChoices for the given person and the given poll
+     *
      * @param idPoll The id of the poll
      * @param idPerson The id of the person
      * @return The List of recreated AnswerChoices
@@ -94,7 +97,8 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     }
 
     /***
-     * Store the given AnswerChoice into the database
+     * Stores the given AnswerChoice into the database
+     *
      * @param object The AnswerChoice to store
      * @return The stored AnswerChoice (with his id)
      */
@@ -111,7 +115,8 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     }
 
     /***
-     * Store a List of AnswerChoices into the database
+     * Stores a List of AnswerChoices into the database
+     *
      * @param objects The List of AnswerChoices to store
      * @return The List of inserted AnswerChoices (with ids)
      */
@@ -129,7 +134,8 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     }
 
     /***
-     * Store and AnswerChoice and store the Answer in the database
+     * Stores and AnswerChoice and store the Answer in the database
+     *
      * @param personID The person id to link the selected AnswerChoice
      * @param answerChoice The AnswerChoice to store
      * @return true if everything was stored, false if not
@@ -150,7 +156,8 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     }
 
     /***
-     * Remove the AnswerChoice with the given id
+     * Removes the AnswerChoice with the given id
+     *
      * @param id The AnswerChoice id
      * @return true if the delete happened successfully, false if not
      */
@@ -167,7 +174,8 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     }
 
     /***
-     * Remove the given AnswerChoice from the database
+     * Removes the given AnswerChoice from the database
+     *
      * @param object The AnswerChoice to remove
      * @return true if the delete happened successfully, false if not
      */

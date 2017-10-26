@@ -4,9 +4,6 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 
-/**
- * Created by remi on 15/10/2017.
- */
 public class TimeManager {
     /***
      * Converts the pattern of a given date to the given pattern and returns it
