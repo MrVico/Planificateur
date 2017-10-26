@@ -1,7 +1,5 @@
 package fr.univtln.maxremvi.view;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import fr.univtln.maxremvi.controller.*;
 import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.AlertManager;
@@ -12,26 +10,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import jfxtras.scene.control.LocalDateTimeTextField;
-
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -71,10 +62,11 @@ public class ViewPollViewController implements ViewControllerInterface {
     private List<AnswerChoice> initialAnswerChoices;
 
     private Poll poll;
-    //stocke l'état des réponses du sondage pour un utilisateur pour y accèder lors de la validation
     private Map<Integer, List<Integer>> onLoad = new HashMap<>();
 
-
+    /**
+     * Initializes the ViewPoll window
+     */
     public void initialize() {
         if (poll != null) {
             pollInvitationSeen();
@@ -181,14 +173,16 @@ public class ViewPollViewController implements ViewControllerInterface {
             });
 
             message.setWrapText(true);
-            //limitation à 255 caractères pour un message
+            //limit of 255 chars for a message
             message.setTextFormatter(new TextFormatter<String>(change -> change.getControlNewText().length() <= 255 ? change : null));
 
          getChat();
         }
     }
 
-    //populates the chat!
+    /**
+     * Populates the chat.
+     */
     public void getChat() {
         chat.getItems().clear();
         messages = MessageController.getInstance().getPollMessages(poll.getID());
@@ -198,8 +192,11 @@ public class ViewPollViewController implements ViewControllerInterface {
             HBox hBox = new HBox();
             Text info = new Text();
             Person sender = PersonController.getInstance().getPerson(mess.getSenderID());
-            if(sender == null)
+            if(sender == null) {
                 AlertManager.printError();
+                ViewManager.switchView(ViewManager.viewsEnum.HOME);
+                return;
+            }
             else{
                 String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(mess.getCreationDate());
                 info.setText(date + " " + sender.getFirstname() + " " + sender.getLastname() + " : ");
@@ -225,10 +222,14 @@ public class ViewPollViewController implements ViewControllerInterface {
                             if (index != -1) {
                                 Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Suppression du message", null, "Voulez-vous vraiment supprimer ce message ?");
                                 if (result.get() == ButtonType.OK) {
-                                    if(!MessageController.getInstance().delete(messages.get(index).getID()))
+                                    if(!MessageController.getInstance().delete(messages.get(index).getID())) {
                                         AlertManager.printError();
-                                    else
+                                        ViewManager.switchView(ViewManager.viewsEnum.HOME);
+                                        return;
+                                    }
+                                    else {
                                         messages.remove(messages.get(index));
+                                    }
                                     getChat();
                                 }
                             }
@@ -253,6 +254,11 @@ public class ViewPollViewController implements ViewControllerInterface {
         return lines;
     }
 
+    /**
+     * Handles the actions done on the validate answer button
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     @FXML
     public void handleValidateAnswerButtonClick(ActionEvent actionEvent) {
         List<Integer> previousAnswersIDs = onLoad.get(User.getUser().getID());
@@ -260,7 +266,7 @@ public class ViewPollViewController implements ViewControllerInterface {
 
         initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
 
-        //récupération des nouveaux choix de réponses ajoutés par l'utilisateur
+        //all the new answer choices added by the user
         List<AnswerChoice> newAnswerChoices = new ArrayList<>();
         for (AnswerChoice answerChoice : proposedDates) {
             if (!initialAnswerChoices.contains(answerChoice)) {
@@ -268,28 +274,39 @@ public class ViewPollViewController implements ViewControllerInterface {
             }
         }
 
-        //récupèration des réponses sélectionnées par l'utilisateur
+        //all the new answers selected by the user
         List<Answer> answers = new ArrayList<>();
         if (!poll.isMultipleChoice()) {
             AnswerChoice answerChoice = (AnswerChoice) table_dates.getSelectionModel().getSelectedItem();
-            handleAnswers(newAnswerChoices, answerChoice, newAnswersIDs, answers);
+            if(!handleAnswers(newAnswerChoices, answerChoice, newAnswersIDs, answers)){
+                AlertManager.printError();
+                ViewManager.switchView(ViewManager.viewsEnum.HOME);
+                return;
+            }
         } else {
             for (Object obj : table_dates.getItems()) {
                 AnswerChoice answerChoice = null;
                 if (obj instanceof AnswerChoice) {
                     answerChoice = (AnswerChoice) obj;
                     if (answerChoice.isCheckProperty()) {
-                        handleAnswers(newAnswerChoices, answerChoice, newAnswersIDs, answers);
+                        if(!handleAnswers(newAnswerChoices, answerChoice, newAnswersIDs, answers)){
+                            AlertManager.printError();
+                            ViewManager.switchView(ViewManager.viewsEnum.HOME);
+                            return;
+                        }
                     }
                 }
             }
         }
 
-        //ajout des nouveaux choix de réponses non sélectionnés
-        if(AnswerChoiceController.getInstance().addAll(newAnswerChoices) == null)
+        //insert of the new answer choices added but not selected by the user
+        if(AnswerChoiceController.getInstance().addAll(newAnswerChoices) == null) {
             AlertManager.printError();
+            ViewManager.switchView(ViewManager.viewsEnum.HOME);
+            return;
+        }
 
-        //récupèration des réponses désélectionnées par l'utilisateur
+        //all the answers deselected by the user
         List<Integer> unselectedAnswers = new ArrayList<>();
         for (Integer id : previousAnswersIDs) {
             if (!newAnswersIDs.contains(id)) {
@@ -297,31 +314,43 @@ public class ViewPollViewController implements ViewControllerInterface {
             }
         }
 
-        //suppression de toutes les réponses désélectionnées par l'utilisateur
+        //deletion of the deselected answers
         if(!AnswerController.getInstance().deleteAll(poll.getID(), User.getUser().getID(), unselectedAnswers) ||
             AnswerController.getInstance().addAll(answers) == null ||
-            !PollController.getInstance().updatePoll(poll))
+            !PollController.getInstance().updatePoll(poll)) {
             AlertManager.printError();
+            return;
+        }
         else{
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
             ViewManager.switchView(ViewManager.viewsEnum.HOME);
         }
     }
 
-    public void handleAnswers(List<AnswerChoice> newAnswerChoices, AnswerChoice answerChoice, List<Integer> newAnswersIDs, List<Answer> answers){
-        //si le choix de réponse vient juste d'être créé on l'ajoute également
+    /**
+     * Handles the insertions of new answers and their answer choices if necessary
+     *
+     * @param  newAnswerChoices  the list of answer choices that were added by the user
+     * @param  answerChoice  the answer choice that we are currently processing
+     * @param  newAnswersIDs  the list of new answer choices IDs
+     * @param  answers the list of the user's answers
+     * @return      true or false depending on the success of the insertions
+     */
+    public boolean handleAnswers(List<AnswerChoice> newAnswerChoices, AnswerChoice answerChoice, List<Integer> newAnswersIDs, List<Answer> answers){
+        //if the answer choice was just created, we first need to add it into the database before inserting the answer
         if (newAnswerChoices.contains(answerChoice)) {
             answerChoice.setPollID(poll.getID());
             if (AnswerChoiceController.getInstance().addAndAnswer(User.getUser().getID(), answerChoice))
                 newAnswerChoices.remove(answerChoice);
             else
-                AlertManager.printError();
+                return false;
         }
-        //sinon on ajoute juste la réponse
+        //if not we just insert the answer into the database
         else {
             newAnswersIDs.add(answerChoice.getID());
             answers.add(new Answer(User.getUser().getID(), poll.getID(), answerChoice.getID()));
         }
+        return true;
     }
 
     @Override
@@ -330,10 +359,20 @@ public class ViewPollViewController implements ViewControllerInterface {
         initialize();
     }
 
+    /**
+     * Handles the actions done on the update poll button
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleUpdatePollButtonClick(ActionEvent actionEvent) {
         ViewManager.switchView(ViewManager.viewsEnum.UPDATE_POLL, poll);
     }
 
+    /**
+     * Handles the actions done on the share poll button
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleSharePollButtonClick(ActionEvent actionEvent) {
         ViewManager.openModal(ViewManager.viewsEnum.SHARE_POLL, poll);
     }
@@ -342,12 +381,20 @@ public class ViewPollViewController implements ViewControllerInterface {
         ViewManager.switchView(ViewManager.viewsEnum.HOME);
     }
 
+    /**
+     * Sets all invitations to this poll as seen by the user
+     */
     public void pollInvitationSeen() {
         if (InvitationController.getInstance().wasInvitedToPoll(poll.getID(), User.getUser().getID()))
             if(!InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID()))
                 AlertManager.printError();
     }
 
+    /**
+     * Handles the actions done on the send message button for chatting
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleSendMessageButtonClick(ActionEvent actionEvent) {
         if (message.getText().length() > 0) {
             Message addedMessage = MessageController.getInstance().add(new Message(null, User.getUser().getID(), poll.getID(), message.getText(), null));
@@ -361,6 +408,11 @@ public class ViewPollViewController implements ViewControllerInterface {
         }
     }
 
+    /**
+     * Handles the actions done on the delete poll button
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleDeletePollButtonClick(ActionEvent actionEvent) {
         Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Suppression du sondage", null, "Êtes vous certain de vouloir supprimer ce sondage ?");
         if (result.get() == ButtonType.OK) {
@@ -374,6 +426,11 @@ public class ViewPollViewController implements ViewControllerInterface {
         }
     }
 
+    /**
+     * Handles the actions done on the close poll button
+     *
+     * @param  actionEvent  the type of action that was performed
+     */
     public void handleClosePollButtonClick(ActionEvent actionEvent) {
         Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Cloturation du sondage", null, "La cloturation du sondage empêchera toutes personnes d'y accéder\n" +
                 "Êtes vous certain de vouloir cloturer ce sondage ?");
