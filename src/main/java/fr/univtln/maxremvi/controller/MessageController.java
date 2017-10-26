@@ -26,15 +26,15 @@ public class MessageController {
             return messageController;
     }
 
-    public Message add(Message message) throws SQLException{
+    public Message add(Message message) {
         return messageDao.add(message);
     }
 
-    public List<Message> getPollMessages(int pollID) throws SQLException {
+    public List<Message> getPollMessages(int pollID) {
         return messageDao.getPollMessages(pollID);
     }
 
-    public boolean delete(int messageID) throws SQLException {
+    public boolean delete(int messageID) {
         return messageDao.remove(messageID);
     }
 }

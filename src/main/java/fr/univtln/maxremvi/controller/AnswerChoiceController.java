@@ -39,19 +39,19 @@ public class AnswerChoiceController {
         return answerChoiceDao.getPollAnswerChoicesForPerson(idPoll, idPerson);
     }
 
-    public AnswerChoice addAnswerChoice(Date creationDate, Date dateChoice, Integer idPoll)  throws SQLException, IOException {
+    public AnswerChoice addAnswerChoice(Date creationDate, Date dateChoice, Integer idPoll) {
         return answerChoiceDao.add(new AnswerChoice(null, creationDate, dateChoice, idPoll));
     }
 
-    public List<AnswerChoice> addAll(List<AnswerChoice> answerChoices) throws SQLException {
+    public List<AnswerChoice> addAll(List<AnswerChoice> answerChoices) {
         return answerChoiceDao.addAll(answerChoices);
     }
 
-    public boolean addAndAnswer(int personID, AnswerChoice answerChoice) throws SQLException{
+    public boolean addAndAnswer(int personID, AnswerChoice answerChoice) {
         return answerChoiceDao.addAndAnswer(personID, answerChoice);
     }
 
-    public boolean delete(int answerChoiceID) throws SQLException {
+    public boolean delete(int answerChoiceID) {
         return answerChoiceDao.remove(answerChoiceID);
     }
 }

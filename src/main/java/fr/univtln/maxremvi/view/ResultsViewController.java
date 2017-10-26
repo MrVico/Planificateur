@@ -95,12 +95,12 @@ public class ResultsViewController implements ViewControllerInterface {
     public void handleNotifyButtonClick(ActionEvent actionEvent) {
         if(cbbChoixFinal.getSelectionModel().getSelectedIndex()!=-1){
             AnswerChoice choixFinal = cbbChoixFinal.getSelectionModel().getSelectedItem();
-            try {
-                PollController.getInstance().setFinalDate(poll.getID(), choixFinal.getDateChoice());
+            if(PollController.getInstance().setFinalDate(poll.getID(), choixFinal.getDateChoice())){
                 AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Tous les participants vont être notifier de votre choix.");
                 ViewManager.switchView(ViewManager.viewsEnum.HOME);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            }
+            else{
+                AlertManager.printError();
             }
         }
         else

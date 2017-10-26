@@ -44,19 +44,15 @@ public class CreatePollViewController extends FormPollViewController {
     public void handleCreatePollButtonClick(ActionEvent event) {
         if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || proposedDates.isEmpty()) {
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
-        } else {
-            try {
-                Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), getPollType());
-
-                if (proposedDates != null) {
-                    proposedDates.forEach(answerChoice -> answerChoice.setPollID(savedPoll.getID()));
-                    answerChoiceController.addAll(proposedDates);
-                }
-
-                ViewManager.switchView(ViewManager.viewsEnum.HOME);
-            } catch (SQLException e) {
-                e.printStackTrace();
+        }
+        else {
+            Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), getPollType());
+            if (proposedDates != null) {
+                proposedDates.forEach(answerChoice -> answerChoice.setPollID(savedPoll.getID()));
+                if(answerChoiceController.addAll(proposedDates) == null)
+                    AlertManager.printError();
             }
+            ViewManager.switchView(ViewManager.viewsEnum.HOME);
         }
 
     }

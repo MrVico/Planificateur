@@ -34,6 +34,8 @@ public class HomeViewController implements ViewControllerInterface {
     private List<Invitation> invitationList;
     @FXML
     private ListView listView;
+    @FXML
+    private Button refreshButton;
 
     public void initialize(){
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -54,6 +56,7 @@ public class HomeViewController implements ViewControllerInterface {
             }
         });
 
+        refreshButton.setGraphic(new ImageView(new Image("/images/update.png")));
         getPolls();
     }
 
@@ -91,12 +94,10 @@ public class HomeViewController implements ViewControllerInterface {
                                 public void handle(ActionEvent event) {
                                     Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Invitation", null, "Marquer comme lue ?");
                                     if (result.get() == ButtonType.OK) {
-                                        try {
-                                            InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID());
+                                        if(InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID()))
                                             getPolls();
-                                        } catch (SQLException e) {
-                                            e.printStackTrace();
-                                        }
+                                        else
+                                            AlertManager.printError();
                                     }
                                 }
                             });
@@ -128,12 +129,10 @@ public class HomeViewController implements ViewControllerInterface {
                                 public void handle(ActionEvent event) {
                                     Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Reouverture", null, "Voulez-vous vraiment réouvrir ce sondage ?");
                                     if (result.get() == ButtonType.OK) {
-                                        try {
-                                            if(PollController.getInstance().closePoll(false, poll.getID()))
-                                                getPolls();
-                                        } catch (SQLException e) {
-                                            e.printStackTrace();
-                                        }
+                                        if(PollController.getInstance().closePoll(false, poll.getID()))
+                                            getPolls();
+                                        else
+                                            AlertManager.printError();
                                     }
                                 }
                             });

@@ -30,7 +30,7 @@ public class AnswerDao extends AbstractDao<Answer>{
             else
                 return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Answer answerExists : "+e.getMessage());
         }
         return false;
     }
@@ -41,21 +41,26 @@ public class AnswerDao extends AbstractDao<Answer>{
     }
 
     @Override
-    public Answer add(Answer object) throws SQLException {
-        if(!answerExists(object)){
-            String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, IDANSWERCHOICE, CREATIONDATE) VALUES(?, ?, ?, ?)";
-            DatabaseUtil.executeUpdate(query, object.getPollID(), object.getPersonID(), object.getAnswerChoiceID(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
+    public Answer add(Answer object) {
+        try {
+            if(!answerExists(object)){
+                String query = "INSERT INTO ANSWER(IDPOLL, IDPERSON, IDANSWERCHOICE, CREATIONDATE) VALUES(?, ?, ?, ?)";
+                DatabaseUtil.executeUpdate(query, object.getPollID(), object.getPersonID(), object.getAnswerChoiceID(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
+                return object;
+            }
+        } catch (SQLException e) {
+            System.out.println("Answer add : "+e.getMessage());
         }
         return null;
     }
 
     @Override
-    public List<Answer> addAll(List<Answer> objects) throws SQLException {
+    public List<Answer> addAll(List<Answer> objects) {
         for(Answer answer : objects){
-            add(answer);
+            if(add(answer)==null)
+                return null;
         }
-        // tous les returns sont inutiles IMO
-        return null;
+        return objects;
     }
 
     public boolean delete(int idPoll, int idPerson, Integer id){
@@ -64,7 +69,7 @@ public class AnswerDao extends AbstractDao<Answer>{
             DatabaseUtil.executeUpdate(query, idPoll, idPerson, id);
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Answer delete : "+e.getMessage());
             return false;
         }
     }
@@ -83,12 +88,12 @@ public class AnswerDao extends AbstractDao<Answer>{
     }
 
     @Override
-    public boolean remove(int id) throws SQLException {
+    public boolean remove(int id) {
         return false;
     }
 
     @Override
-    public boolean remove(Answer object) throws SQLException {
+    public boolean remove(Answer object) {
         return false;
     }
 }

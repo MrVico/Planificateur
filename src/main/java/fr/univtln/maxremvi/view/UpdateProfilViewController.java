@@ -34,16 +34,15 @@ public class UpdateProfilViewController implements ViewControllerInterface {
     }
 
     public void handleUpdateProfilButtonClick(ActionEvent actionEvent) {
-        try {
-            Person p = User.getUser();
-            p.setFirstname(firstname.getText());
-            p.setLastname(lastname.getText());
-            if(PersonController.getInstance().updatePerson(p)) {
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Profil mis à jour avec succès.");
-                ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Person p = User.getUser();
+        p.setFirstname(firstname.getText());
+        p.setLastname(lastname.getText());
+        if(PersonController.getInstance().updatePerson(p)) {
+            AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Profil mis à jour avec succès.");
+            ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
+        }
+        else {
+            AlertManager.printError();
         }
     }
 
@@ -68,27 +67,24 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                     {
                         if(newPassword.compareTo(newPasswordConfirmed)==0)
                         {
-                            try{
-                                Person p = User.getUser();
-                                p.setPassword(newPassword);
-                                if(PersonController.getInstance().changePassword(p)) {
-                                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Profil mis à jour avec succès.");
-                                    ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
-                                }
-                            }catch (SQLException e){
-
+                            Person p = User.getUser();
+                            p.setPassword(newPassword);
+                            if(PersonController.getInstance().changePassword(p)) {
+                                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Mot de passe mis à jour.");
+                                ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
                             }
-
+                            else{
+                                AlertManager.printError();
+                            }
                         }
                         else{
-                            AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Les mots de passes ne sont pas identiques");
+                            AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Les mots de passes ne sont pas identiques.");
                         }
-
                     }
                 }
             }
             else{
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Le mot de passe ne correspond pas à l'utilisateur");
+                AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Le mot de passe ne correspond pas à l'utilisateur.");
             }
         }
     }

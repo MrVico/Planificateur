@@ -26,20 +26,16 @@ public class PersonController {
         return personController;
     }
 
-    public Person addPerson(String login, String password, String email, String firstname, String lastname) throws SQLException, IOException {
+    public Person addPerson(String login, String password, String email, String firstname, String lastname) throws SQLException{
         return personDao.add(new Person(null, login, password, email, firstname, lastname));
     }
 
-    public boolean updatePerson(Person p) throws SQLException {
+    public boolean updatePerson(Person p) {
         return personDao.update(p);
     }
 
-    public boolean changePassword(Person p) throws SQLException{
+    public boolean changePassword(Person p) {
         return personDao.changePassword(p);
-    }
-
-    public List<Person> getPersons(){
-        return personDao.getAll();
     }
 
     public List<Person> getNotInvitedToPoll(int pollID, int personID){
@@ -48,10 +44,6 @@ public class PersonController {
 
     public Person getPerson(int id) {
         return personDao.get(id);
-    }
-
-    public Person getPerson(String login) {
-        return personDao.get(login);
     }
 
     public Person getPerson(String login,String password) {

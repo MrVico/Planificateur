@@ -50,8 +50,6 @@ public class RegisterViewController implements ViewControllerInterface {
                     } catch (SQLException e) {
                         System.out.println(e.getMessage());
                         AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Un compte avec ce login ou cet email existe déjà.");
-                    }catch (IOException e){
-                        e.printStackTrace();
                     }
                 } else {
                     AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Veuillez renseigner un email valide.");

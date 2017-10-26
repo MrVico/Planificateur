@@ -1,6 +1,7 @@
 package fr.univtln.maxremvi.database;
 
 import fr.univtln.maxremvi.controller.AnswerController;
+import fr.univtln.maxremvi.model.Answer;
 import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.utils.TimeManager;
 
@@ -30,9 +31,9 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
             rs.close();
             return answerChoice;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("AnswerChoice get : "+e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public List<AnswerChoice> getPollAnswerChoices(int idPoll){
@@ -48,9 +49,9 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
             }
             return answerChoices;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("AnswerChoice getPollAnswerChoices : "+e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public List<AnswerChoice> getPollAnswerChoicesForPerson(int idPoll, int idPerson){
@@ -63,9 +64,9 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
             }
             return answerChoices;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("AnswerChoice getPollAnswerChoicesForPerson : "+e.getMessage());
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -74,30 +75,39 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     }
 
     @Override
-    public AnswerChoice add(AnswerChoice object) throws SQLException {
-        String query = "INSERT INTO ANSWERCHOICE(DATECHOICE, CREATIONDATE, IDPOLL) VALUES(?, ?, ?)";
-        int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getPollID());
-        return ((AnswerChoiceDao) getInstance()).get(answerChoiceId);
+    public AnswerChoice add(AnswerChoice object) {
+        try{
+            String query = "INSERT INTO ANSWERCHOICE(DATECHOICE, CREATIONDATE, IDPOLL) VALUES(?, ?, ?)";
+            int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getPollID());
+            return ((AnswerChoiceDao) getInstance()).get(answerChoiceId);
+        }
+        catch (SQLException e){
+            System.out.println("AnswerChoice add : "+e.getMessage());
+            return null;
+        }
     }
 
     @Override
-    public List<AnswerChoice> addAll(List<AnswerChoice> objects) throws SQLException {
+    public List<AnswerChoice> addAll(List<AnswerChoice> objects) {
         List<AnswerChoice> insertedAnswerChoices = new ArrayList<>();
         for (AnswerChoice answerChoice : objects) {
-            insertedAnswerChoices.add(add(answerChoice));
+            AnswerChoice newAnswerChoice = add(answerChoice);
+            if(newAnswerChoice==null)
+                return null;
+            else
+                insertedAnswerChoices.add(newAnswerChoice);
         }
         return insertedAnswerChoices;
     }
 
-    public boolean addAndAnswer(int personID, AnswerChoice answerChoice) throws SQLException {
+    public boolean addAndAnswer(int personID, AnswerChoice answerChoice) {
         AnswerChoice insertedAnswerChoice = add(answerChoice);
-        try {
-            AnswerController.getInstance().addAnswer(personID, insertedAnswerChoice.getPollID(), insertedAnswerChoice.getID());
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(insertedAnswerChoice == null)
             return false;
-        }
+        Answer newAnswer = AnswerController.getInstance().addAnswer(personID, insertedAnswerChoice.getPollID(), insertedAnswerChoice.getID());
+        if(newAnswer == null)
+            return false;
+        return true;
     }
 
     @Override
@@ -106,14 +116,20 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
     }
 
     @Override
-    public boolean remove(int id) throws SQLException {
-        String query = "DELETE FROM ANSWERCHOICE WHERE IDANSWERCHOICE = ?";
-        DatabaseUtil.executeUpdate(query, id);
-        return true;
+    public boolean remove(int id) {
+        try{
+            String query = "DELETE FROM ANSWERCHOICE WHERE IDANSWERCHOICE = ?";
+            DatabaseUtil.executeUpdate(query, id);
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println("AnswerChoice remove : "+e.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public boolean remove(AnswerChoice object) throws SQLException {
+    public boolean remove(AnswerChoice object) {
         return remove(object.getID());
     }
 }

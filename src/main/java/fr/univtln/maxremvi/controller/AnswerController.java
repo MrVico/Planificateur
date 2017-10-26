@@ -29,15 +29,15 @@ public class AnswerController {
             return answerController;
     }
 
-    public Answer addAnswer(int idPerson, int idPoll, int idAnswerChoice)  throws SQLException, IOException {
+    public Answer addAnswer(int idPerson, int idPoll, int idAnswerChoice) {
         return answerDao.add(new Answer(idPerson, idPoll, idAnswerChoice));
     }
 
-    public List<Answer> addAll(List<Answer> answers) throws SQLException {
+    public List<Answer> addAll(List<Answer> answers) {
         return answerDao.addAll(answers);
     }
 
-    public boolean deleteAll(int idPoll, int idPerson, List<Integer> answerIDs) throws SQLException{
+    public boolean deleteAll(int idPoll, int idPerson, List<Integer> answerIDs) {
         return answerDao.deleteAll(idPoll, idPerson, answerIDs);
     }
 }

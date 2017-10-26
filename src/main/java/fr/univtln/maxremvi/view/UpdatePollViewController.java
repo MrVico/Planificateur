@@ -72,33 +72,22 @@ public class UpdatePollViewController extends FormPollViewController {
 
             for (AnswerChoice proposedDate : proposedDates) {
                 if (proposedDate.getID() == null) {
-                    try {
-                        AnswerChoiceController.getInstance().addAnswerChoice(proposedDate.getCreationDate(), proposedDate.getDateChoice(), poll.getID());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    if(AnswerChoiceController.getInstance().addAnswerChoice(proposedDate.getCreationDate(), proposedDate.getDateChoice(), poll.getID()) == null)
+                        AlertManager.printError();
                 }
             }
 
             for (Integer answerChoiceId : removedAnswerChoices) {
-                try {
-                    AnswerChoiceController.getInstance().delete(answerChoiceId);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                if(!AnswerChoiceController.getInstance().delete(answerChoiceId))
+                    AlertManager.printError();
             }
 
-            try {
-                if (PollController.getInstance().updatePoll(poll)) {
-                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Sondage mis à jour avec succès.");
-                    ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, poll);
-                } else {
-                    AlertManager.AlertBox(Alert.AlertType.ERROR, null, null, "Erreur lors de la mise à jour.");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (PollController.getInstance().updatePoll(poll)) {
+                AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Sondage mis à jour avec succès.");
+                ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, poll);
+            }
+            else {
+                AlertManager.printError();
             }
         }
     }

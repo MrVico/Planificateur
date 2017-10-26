@@ -14,4 +14,8 @@ public class AlertManager {
         alert.setContentText(content);
         return alert.showAndWait();
     }
+
+    public static void printError(){
+        AlertBox(AlertType.ERROR, "Erreur", null, "Une erreur est survenue !");
+    }
 }

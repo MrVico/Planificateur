@@ -25,35 +25,47 @@ public class MessageDao extends AbstractDao<Message>{
             rs.next();
             return Message.fromResultSet(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Message get : "+e.getMessage());
         }
         return null;
     }
 
     @Override
-    public List<Message> getAll() throws SQLException {
+    public List<Message> getAll() {
         return null;
     }
 
-    public List<Message> getPollMessages(int pollID) throws SQLException {
-        String query = "SELECT * FROM MESSAGE WHERE IDPOLL = ?";
-        ResultSet rs = DatabaseUtil.executeQuery(query, pollID);
-        List<Message> messages = new ArrayList<>();
-        while(rs.next()){
-            messages.add(new Message(rs.getInt("IDMESSAGE"), rs.getInt("IDPERSON"), rs.getInt("IDPOLL"), rs.getString("CONTENT"), rs.getTimestamp("CREATIONDATE")));
+    public List<Message> getPollMessages(int pollID) {
+        try{
+            String query = "SELECT * FROM MESSAGE WHERE IDPOLL = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, pollID);
+            List<Message> messages = new ArrayList<>();
+            while(rs.next()){
+                messages.add(new Message(rs.getInt("IDMESSAGE"), rs.getInt("IDPERSON"), rs.getInt("IDPOLL"), rs.getString("CONTENT"), rs.getTimestamp("CREATIONDATE")));
+            }
+            return messages;
         }
-        return messages;
+        catch (SQLException e){
+            System.out.println("Message getPollMessages : "+e.getMessage());
+            return null;
+        }
     }
 
     @Override
-    public Message add(Message message) throws SQLException {
-        String query = "INSERT INTO MESSAGE(IDPOLL, IDPERSON, CONTENT, CREATIONDATE) VALUES(?, ?, ?, ?)";
-        int messageID = DatabaseUtil.executeInsert(query, message.getPollID(), message.getSenderID(), message.getContent(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
-        return get(messageID);
+    public Message add(Message message) {
+        try{
+            String query = "INSERT INTO MESSAGE(IDPOLL, IDPERSON, CONTENT, CREATIONDATE) VALUES(?, ?, ?, ?)";
+            int messageID = DatabaseUtil.executeInsert(query, message.getPollID(), message.getSenderID(), message.getContent(), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
+            return get(messageID);
+        }
+        catch (SQLException e){
+            System.out.println("Message add : "+e.getMessage());
+            return null;
+        }
     }
 
     @Override
-    public List<Message> addAll(List<Message> objects) throws SQLException {
+    public List<Message> addAll(List<Message> objects) {
         return null;
     }
 
@@ -63,14 +75,20 @@ public class MessageDao extends AbstractDao<Message>{
     }
 
     @Override
-    public boolean remove(int id) throws SQLException {
-        String query = "DELETE FROM MESSAGE WHERE IDMESSAGE = ?";
-        DatabaseUtil.executeUpdate(query, id);
-        return true;
+    public boolean remove(int id) {
+        try{
+            String query = "DELETE FROM MESSAGE WHERE IDMESSAGE = ?";
+            DatabaseUtil.executeUpdate(query, id);
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println("Message remove : "+e.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public boolean remove(Message object) throws SQLException {
+    public boolean remove(Message object) {
         return false;
     }
 }

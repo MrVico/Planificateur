@@ -25,12 +25,16 @@
                 </StackPane>
                 <GridPane hgap="10" vgap="10">
                     <children>
-                        <Text fx:id="title" GridPane.columnIndex="1" />
-                        <Text fx:id="place" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Titre" />
+                        <Text fx:id="title" GridPane.columnIndex="1" />
                         <Label text="Lieu" GridPane.rowIndex="2" />
+                        <Text fx:id="place" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.rowIndex="1" />
                         <Text fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Type" GridPane.rowIndex="3" />
+                        <Text fx:id="type" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Choix" GridPane.rowIndex="4" />
+                        <Text fx:id="choice" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                     </children>
                     <rowConstraints>
                         <RowConstraints />

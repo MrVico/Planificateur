@@ -26,7 +26,7 @@ public class InvitationController {
             return invitationController;
     }
 
-    public boolean addAll(List<Invitation> invitations) throws SQLException{
+    public boolean addAll(List<Invitation> invitations) {
         return invitationDao.addInvitations(invitations);
     }
 
@@ -34,17 +34,16 @@ public class InvitationController {
         return invitationDao.getAll();
     }
 
-    public Invitation getInvitation(int idPoll,int idPerson, int idPersonInviter) throws SQLException
-    {
+    public Invitation getInvitation(int idPoll,int idPerson, int idPersonInviter) {
         Invitation invitation=invitationDao.getInvitation(idPoll,idPerson,idPersonInviter);
         return invitation;
     }
 
-    public boolean wasInvitedToPoll(int pollID, int personID) throws SQLException {
+    public boolean wasInvitedToPoll(int pollID, int personID) {
         return invitationDao.wasInvitedToPoll(pollID, personID);
     }
 
-    public void setInvitationsAsSeen(int pollID, int personID)throws SQLException {
-        invitationDao.setInvitationsAsSeen(pollID, personID);
+    public boolean setInvitationsAsSeen(int pollID, int personID) {
+        return invitationDao.setInvitationsAsSeen(pollID, personID);
     }
 }

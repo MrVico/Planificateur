@@ -12,9 +12,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by remi on 15/10/2017.
- */
 public class PollDao extends AbstractDao<Poll> {
 
     public AbstractDao getInstance() {
@@ -32,7 +29,7 @@ public class PollDao extends AbstractDao<Poll> {
             Poll poll = Poll.fromResultSet(rs);
             return poll;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Poll get : "+e.getMessage());
         }
         return null;
     }
@@ -48,7 +45,7 @@ public class PollDao extends AbstractDao<Poll> {
             }
             return pollList;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Poll getAll : "+e.getMessage());
         }
         return null;
     }
@@ -61,7 +58,7 @@ public class PollDao extends AbstractDao<Poll> {
                 return rs.getInt("IDPERSON");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Poll getPollPromoterID : "+e.getMessage());
         }
         return -1;
     }
@@ -85,7 +82,7 @@ public class PollDao extends AbstractDao<Poll> {
             }
             return pollList;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Poll getVisiblePollsForPerson : "+e.getMessage());
         }
         return null;
     }
@@ -98,41 +95,52 @@ public class PollDao extends AbstractDao<Poll> {
                 return rs.getInt("max");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Poll getMaxCountAnswer : "+e.getMessage());
+            return -1;
         }
         return 0;
     }
 
-    public Poll add(Poll object) throws SQLException {
-        String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::polltype)";
-        int pollId = DatabaseUtil.executeInsert(
-                query,
-                object.getPromoterID(),
-                object.getTitle(),
-                object.getDescription(),
-                object.getLocation(),
-                TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
-                TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
-                object.isClosed(),
-                object.isMultipleChoice(),
-                object.isHideAnswers(),
-                object.isAddDates(),
-                object.getType().toString()
-        );
-        return ((PollDao) getInstance()).get(pollId);
+    public Poll add(Poll object) {
+        try{
+            String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::polltype)";
+            int pollId = DatabaseUtil.executeInsert(
+                    query,
+                    object.getPromoterID(),
+                    object.getTitle(),
+                    object.getDescription(),
+                    object.getLocation(),
+                    TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
+                    TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()),
+                    object.isClosed(),
+                    object.isMultipleChoice(),
+                    object.isHideAnswers(),
+                    object.isAddDates(),
+                    object.getType().toString()
+            );
+            return ((PollDao) getInstance()).get(pollId);
+        }
+        catch (SQLException e){
+            System.out.println("Poll add : "+e.getMessage());
+            return null;
+        }
     }
 
-    public List<Poll> addAll(List<Poll> objects) throws SQLException {
+    public List<Poll> addAll(List<Poll> objects) {
         ArrayList<Poll> insertedPolls = new ArrayList<>();
         for (Poll poll : objects) {
-            insertedPolls.add(this.add(poll));
+            Poll newPoll = this.add(poll);
+            if(newPoll == null)
+                return null;
+            else
+                insertedPolls.add(newPoll);
         }
         return insertedPolls;
     }
 
     public boolean update(Poll object) {
         try {
-            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSED = ?, MULTIPLECHOICE = ?, HIDEANSWERS = ?, ADDDATES = ?, TYPE ID = ?";
+            String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSED = ?, MULTIPLECHOICE = ?, HIDEANSWERS = ?, ADDDATES = ?, TYPE = ?::polltype WHERE ID = ?";
             DatabaseUtil.executeUpdate(
                     query,
                     object.getPromoterID(),
@@ -144,11 +152,12 @@ public class PollDao extends AbstractDao<Poll> {
                     object.isMultipleChoice(),
                     object.isHideAnswers(),
                     object.isAddDates(),
-                    object.getType().toString()
+                    object.getType().toString(),
+                    object.getID()
             );
             return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Poll update : "+e.getMessage());
             return false;
         }
     }
@@ -159,24 +168,36 @@ public class PollDao extends AbstractDao<Poll> {
             DatabaseUtil.executeUpdate(query, bool, pollID);
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Poll close : "+e.getMessage());
             return false;
         }
     }
 
-    public boolean remove(int id) throws SQLException {
-        String query = "DELETE FROM POLL WHERE ID = ?";
-        DatabaseUtil.executeUpdate(query, id);
-        return true;
+    public boolean remove(int id) {
+        try{
+            String query = "DELETE FROM POLL WHERE ID = ?";
+            DatabaseUtil.executeUpdate(query, id);
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println("Poll remove : "+e.getMessage());
+            return false;
+        }
     }
 
-    public boolean remove(Poll object) throws SQLException {
+    public boolean remove(Poll object) {
         return remove(object.getID());
     }
 
-    public boolean setFinalDate(int pollID, Date finalDate) throws SQLException {
-        String query = "UPDATE POLL SET FINALDATE = ? WHERE ID = ?";
-        DatabaseUtil.executeUpdate(query, TimeManager.timeToSqlFormat(finalDate), pollID);
-        return true;
+    public boolean setFinalDate(int pollID, Date finalDate) {
+        try{
+            String query = "UPDATE POLL SET FINALDATE = ? WHERE ID = ?";
+            DatabaseUtil.executeUpdate(query, TimeManager.timeToSqlFormat(finalDate), pollID);
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println("Poll setFinalDate : "+e.getMessage());
+            return false;
+        }
     }
 }

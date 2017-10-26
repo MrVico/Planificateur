@@ -24,20 +24,24 @@ public class InvitationDao extends AbstractDao<Invitation>{
     }
 
     @Override
-    public List<Invitation> getAll()throws SQLException {
-        String query="Select * from Invitation where IDPERSON = ? and SEEN = false";
-        ResultSet rs=DatabaseUtil.executeQuery(query, User.getUser().getID());
-        List<Invitation> invitationList=new ArrayList<>();
-        while (rs.next())
-        {
-            invitationList.add(new Invitation(rs.getInt("IDPOLL"),rs.getInt("IDPERSON"),rs.getInt("IDPERSONINVITER"),rs.getBoolean("SEEN")));
+    public List<Invitation> getAll() {
+        try{
+            String query="Select * from Invitation where IDPERSON = ? and SEEN = false";
+            ResultSet rs=DatabaseUtil.executeQuery(query, User.getUser().getID());
+            List<Invitation> invitationList=new ArrayList<>();
+            while (rs.next())
+            {
+                invitationList.add(new Invitation(rs.getInt("IDPOLL"),rs.getInt("IDPERSON"),rs.getInt("IDPERSONINVITER"),rs.getBoolean("SEEN")));
+            }
+            return invitationList;
         }
-
-
-        return invitationList;
+        catch (SQLException e){
+            System.out.println("Invitation getAll : "+e.getMessage());
+            return null;
+        }
     }
 
-    public boolean addInvitations(List<Invitation> invitations) throws SQLException {
+    public boolean addInvitations(List<Invitation> invitations) {
         for(Invitation invitation : invitations){
             if(!addInvitation(invitation))
                 return false;
@@ -45,42 +49,66 @@ public class InvitationDao extends AbstractDao<Invitation>{
         return true;
     }
 
-    public boolean addInvitation(Invitation invitation) throws SQLException {
-        String query = "INSERT INTO INVITATION VALUES(?, ?, ?, ?, ?)";
-        DatabaseUtil.executeUpdate(query, invitation.getPollID(), invitation.getPersonID(), invitation.getSenderID(), false, TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
-        return true;
-    }
-
-    @Override
-    public Invitation add(Invitation object) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public List<Invitation> addAll(List<Invitation> objects) throws SQLException {
-        return null;
-    }
-
-    public Invitation getInvitation(int idPoll,int idPerson, int idPersonInviter) throws SQLException
-    {
-        String query="SELECT * FROM INVITATION WHERE IDPOLL= ? AND IDPERSON = ? AND IDPERSONINVITER = ?";
-        ResultSet rs=DatabaseUtil.executeQuery(query,idPoll,idPerson,idPersonInviter);
-        rs.next();
-        Invitation invitation=Invitation.fromResultSet(rs);
-        return invitation;
-    }
-
-    public boolean wasInvitedToPoll(int pollID, int personID) throws SQLException {
-        String query = "SELECT * FROM INVITATION WHERE IDPOLL = ? AND IDPERSON = ? AND SEEN=FALSE";
-        ResultSet rs = DatabaseUtil.executeQuery(query, pollID, personID);
-        if(rs.next())
+    public boolean addInvitation(Invitation invitation) {
+        try{
+            String query = "INSERT INTO INVITATION VALUES(?, ?, ?, ?, ?)";
+            DatabaseUtil.executeUpdate(query, invitation.getPollID(), invitation.getPersonID(), invitation.getSenderID(), false, TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()));
             return true;
-        return false;
+        }
+        catch (SQLException e){
+            System.out.println("Invitation addInvitation : "+e.getMessage());
+            return false;
+        }
     }
 
-    public void setInvitationsAsSeen(int pollID, int personID) throws SQLException {
-        String query="UPDATE INVITATION SET SEEN=TRUE WHERE IDPOLL = ? AND IDPERSON = ?";
-        DatabaseUtil.executeUpdate(query, pollID, personID);
+    @Override
+    public Invitation add(Invitation object) {
+        return null;
+    }
+
+    @Override
+    public List<Invitation> addAll(List<Invitation> objects) {
+        return null;
+    }
+
+    public Invitation getInvitation(int idPoll,int idPerson, int idPersonInviter) {
+        try{
+            String query="SELECT * FROM INVITATION WHERE IDPOLL= ? AND IDPERSON = ? AND IDPERSONINVITER = ?";
+            ResultSet rs=DatabaseUtil.executeQuery(query,idPoll,idPerson,idPersonInviter);
+            rs.next();
+            Invitation invitation=Invitation.fromResultSet(rs);
+            return invitation;
+        }
+        catch (SQLException e){
+            System.out.println("Invitation getInvitation : "+e.getMessage());
+            return null;
+        }
+    }
+
+    public boolean wasInvitedToPoll(int pollID, int personID) {
+        try{
+            String query = "SELECT * FROM INVITATION WHERE IDPOLL = ? AND IDPERSON = ? AND SEEN=FALSE";
+            ResultSet rs = DatabaseUtil.executeQuery(query, pollID, personID);
+            if(rs.next())
+                return true;
+            return false;
+        }
+        catch (SQLException e){
+            System.out.println("Invitation wasInvitedToPoll : "+e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean setInvitationsAsSeen(int pollID, int personID) {
+        try{
+            String query="UPDATE INVITATION SET SEEN=TRUE WHERE IDPOLL = ? AND IDPERSON = ?";
+            DatabaseUtil.executeUpdate(query, pollID, personID);
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println("Invitation setInvitationsAsSeen : "+e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -89,12 +117,12 @@ public class InvitationDao extends AbstractDao<Invitation>{
     }
 
     @Override
-    public boolean remove(int id) throws SQLException {
+    public boolean remove(int id) {
         return false;
     }
 
     @Override
-    public boolean remove(Invitation object) throws SQLException {
+    public boolean remove(Invitation object) {
         return false;
     }
 }

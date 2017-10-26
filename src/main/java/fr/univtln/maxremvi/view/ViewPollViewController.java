@@ -1,5 +1,6 @@
 package fr.univtln.maxremvi.view;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import fr.univtln.maxremvi.controller.*;
 import fr.univtln.maxremvi.model.*;
@@ -43,6 +44,10 @@ public class ViewPollViewController implements ViewControllerInterface {
     @FXML
     private Text description;
     @FXML
+    private Text type;
+    @FXML
+    private Text choice;
+    @FXML
     private TableView table_dates;
     @FXML
     private Button updatePoll;
@@ -76,6 +81,16 @@ public class ViewPollViewController implements ViewControllerInterface {
             title.setText(poll.getTitle());
             place.setText(poll.getLocation());
             description.setText(poll.getDescription());
+            if(poll.getType().toString().equals("PUBLIC"))
+                type.setText("Public");
+            else if(poll.getType().toString().equals("PRIVATE"))
+                type.setText("Privée");
+            else
+                type.setText("Privée partageable");
+            if(poll.isMultipleChoice())
+                choice.setText("multiple");
+            else
+                choice.setText("unique");
             initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
             proposedDates = ListManager.observableListFromList(initialAnswerChoices);
             table_dates.setEditable(true);
@@ -101,9 +116,6 @@ public class ViewPollViewController implements ViewControllerInterface {
                 table_dates.getColumns().add(checkCol);
             }
 
-
-            System.out.println(table_dates.getColumns().get(0).getClass());
-
             if (!poll.isHideAnswers()) {
                 TableColumn answerCol = new TableColumn();
                 answerCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("timesChosenProperty"));
@@ -122,7 +134,6 @@ public class ViewPollViewController implements ViewControllerInterface {
 
                 for (AnswerChoice answerChoice : initialAnswerChoices) {
                     if (myAnswer.equals(answerChoice)) {
-                        //TODO : Bizarre de faire des set dans la vue nan ?
                         if (!poll.isMultipleChoice()) {
                             for (Object object : table_dates.getItems()) {
                                 if (myAnswer.equals(object)) {
@@ -179,20 +190,22 @@ public class ViewPollViewController implements ViewControllerInterface {
 
     //populates the chat!
     public void getChat() {
-        try {
-            chat.getItems().clear();
-            messages = MessageController.getInstance().getPollMessages(poll.getID());
-            List<VBox> vBoxes = new ArrayList<>();
-            for (Message mess : messages) {
-                VBox vBox = new VBox();
-                HBox hBox = new HBox();
-                Text info = new Text();
-                Person sender = PersonController.getInstance().getPerson(mess.getSenderID());
+        chat.getItems().clear();
+        messages = MessageController.getInstance().getPollMessages(poll.getID());
+        List<VBox> vBoxes = new ArrayList<>();
+        for (Message mess : messages) {
+            VBox vBox = new VBox();
+            HBox hBox = new HBox();
+            Text info = new Text();
+            Person sender = PersonController.getInstance().getPerson(mess.getSenderID());
+            if(sender == null)
+                AlertManager.printError();
+            else{
                 String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(mess.getCreationDate());
                 info.setText(date + " " + sender.getFirstname() + " " + sender.getLastname() + " : ");
                 hBox.getChildren().add(info);
 
-            
+
 
                 if(poll.getPromoterID()==User.getUser().getID() || mess.getSenderID()==User.getUser().getID()){
                     Button delete = new Button();
@@ -212,13 +225,11 @@ public class ViewPollViewController implements ViewControllerInterface {
                             if (index != -1) {
                                 Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Suppression du message", null, "Voulez-vous vraiment supprimer ce message ?");
                                 if (result.get() == ButtonType.OK) {
-                                    try {
-                                        MessageController.getInstance().delete(messages.get(index).getID());
+                                    if(!MessageController.getInstance().delete(messages.get(index).getID()))
+                                        AlertManager.printError();
+                                    else
                                         messages.remove(messages.get(index));
-                                        getChat();
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
+                                    getChat();
                                 }
                             }
                         }
@@ -233,10 +244,9 @@ public class ViewPollViewController implements ViewControllerInterface {
                 vBox.setSpacing(5);
                 vBoxes.add(vBox);
             }
-            lines.addAll(vBoxes);
-        } catch (SQLException e) {
-            e.printStackTrace();
+
         }
+        lines.addAll(vBoxes);
     }
 
     public ObservableList<VBox> getLines() {
@@ -258,59 +268,26 @@ public class ViewPollViewController implements ViewControllerInterface {
             }
         }
 
-
         //récupèration des réponses sélectionnées par l'utilisateur
         List<Answer> answers = new ArrayList<>();
         if (!poll.isMultipleChoice()) {
-            AnswerChoice answer = (AnswerChoice) table_dates.getSelectionModel().getSelectedItem();
-            if (newAnswerChoices.contains(answer)) {
-                try {
-                    answer.setPollID(poll.getID());
-                    if (AnswerChoiceController.getInstance().addAndAnswer(User.getUser().getID(), answer))
-                        newAnswerChoices.remove(answer);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            //sinon on ajoute juste la réponse
-            else {
-                newAnswersIDs.add(answer.getID());
-                answers.add(new Answer(User.getUser().getID(), poll.getID(), answer.getID()));
-            }
-
-
+            AnswerChoice answerChoice = (AnswerChoice) table_dates.getSelectionModel().getSelectedItem();
+            handleAnswers(newAnswerChoices, answerChoice, newAnswersIDs, answers);
         } else {
             for (Object obj : table_dates.getItems()) {
                 AnswerChoice answerChoice = null;
                 if (obj instanceof AnswerChoice) {
                     answerChoice = (AnswerChoice) obj;
                     if (answerChoice.isCheckProperty()) {
-                        //si l'utilisateur a ajouté le choix de réponse il faut d'abord le créé
-                        if (newAnswerChoices.contains(answerChoice)) {
-                            try {
-                                answerChoice.setPollID(poll.getID());
-                                if (AnswerChoiceController.getInstance().addAndAnswer(User.getUser().getID(), answerChoice))
-                                    newAnswerChoices.remove(answerChoice);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        //sinon on ajoute juste la réponse
-                        else {
-                            newAnswersIDs.add(answerChoice.getID());
-                            answers.add(new Answer(User.getUser().getID(), poll.getID(), answerChoice.getID()));
-                        }
+                        handleAnswers(newAnswerChoices, answerChoice, newAnswersIDs, answers);
                     }
                 }
             }
         }
 
         //ajout des nouveaux choix de réponses non sélectionnés
-        try {
-            AnswerChoiceController.getInstance().addAll(newAnswerChoices);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        if(AnswerChoiceController.getInstance().addAll(newAnswerChoices) == null)
+            AlertManager.printError();
 
         //récupèration des réponses désélectionnées par l'utilisateur
         List<Integer> unselectedAnswers = new ArrayList<>();
@@ -321,14 +298,29 @@ public class ViewPollViewController implements ViewControllerInterface {
         }
 
         //suppression de toutes les réponses désélectionnées par l'utilisateur
-        try {
-            AnswerController.getInstance().deleteAll(poll.getID(), User.getUser().getID(), unselectedAnswers);
-            AnswerController.getInstance().addAll(answers);
-            PollController.getInstance().updatePoll(poll);
+        if(!AnswerController.getInstance().deleteAll(poll.getID(), User.getUser().getID(), unselectedAnswers) ||
+            AnswerController.getInstance().addAll(answers) == null ||
+            !PollController.getInstance().updatePoll(poll))
+            AlertManager.printError();
+        else{
             AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
             ViewManager.switchView(ViewManager.viewsEnum.HOME);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+    }
+
+    public void handleAnswers(List<AnswerChoice> newAnswerChoices, AnswerChoice answerChoice, List<Integer> newAnswersIDs, List<Answer> answers){
+        //si le choix de réponse vient juste d'être créé on l'ajoute également
+        if (newAnswerChoices.contains(answerChoice)) {
+            answerChoice.setPollID(poll.getID());
+            if (AnswerChoiceController.getInstance().addAndAnswer(User.getUser().getID(), answerChoice))
+                newAnswerChoices.remove(answerChoice);
+            else
+                AlertManager.printError();
+        }
+        //sinon on ajoute juste la réponse
+        else {
+            newAnswersIDs.add(answerChoice.getID());
+            answers.add(new Answer(User.getUser().getID(), poll.getID(), answerChoice.getID()));
         }
     }
 
@@ -351,23 +343,20 @@ public class ViewPollViewController implements ViewControllerInterface {
     }
 
     public void pollInvitationSeen() {
-        try {
-            if (InvitationController.getInstance().wasInvitedToPoll(poll.getID(), User.getUser().getID()))
-                InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        if (InvitationController.getInstance().wasInvitedToPoll(poll.getID(), User.getUser().getID()))
+            if(!InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID()))
+                AlertManager.printError();
     }
 
     public void handleSendMessageButtonClick(ActionEvent actionEvent) {
         if (message.getText().length() > 0) {
-            try {
-                Message addedMessage = MessageController.getInstance().add(new Message(null, User.getUser().getID(), poll.getID(), message.getText(), null));
+            Message addedMessage = MessageController.getInstance().add(new Message(null, User.getUser().getID(), poll.getID(), message.getText(), null));
+            if(addedMessage == null)
+                AlertManager.printError();
+            else{
                 message.setText("");
                 messages.add(addedMessage);
                 getChat();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -375,13 +364,12 @@ public class ViewPollViewController implements ViewControllerInterface {
     public void handleDeletePollButtonClick(ActionEvent actionEvent) {
         Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Suppression du sondage", null, "Êtes vous certain de vouloir supprimer ce sondage ?");
         if (result.get() == ButtonType.OK) {
-            try {
-                if (PollController.getInstance().deletePoll(poll.getID())) {
-                    ViewManager.switchView(ViewManager.viewsEnum.HOME);
-                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Sondage supprimé", null, "Suppression effectuée.");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (PollController.getInstance().deletePoll(poll.getID())) {
+                ViewManager.switchView(ViewManager.viewsEnum.HOME);
+                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Sondage supprimé", null, "Suppression effectuée.");
+            }
+            else {
+                AlertManager.printError();
             }
         }
     }
@@ -390,12 +378,10 @@ public class ViewPollViewController implements ViewControllerInterface {
         Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Cloturation du sondage", null, "La cloturation du sondage empêchera toutes personnes d'y accéder\n" +
                 "Êtes vous certain de vouloir cloturer ce sondage ?");
         if (result.get() == ButtonType.OK) {
-            try {
-                if (PollController.getInstance().closePoll(true, poll.getID()))
-                    ViewManager.switchView(ViewManager.viewsEnum.RESULTS, poll);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            if (PollController.getInstance().closePoll(true, poll.getID()))
+                ViewManager.switchView(ViewManager.viewsEnum.RESULTS, poll);
+            else
+                AlertManager.printError();
         }
     }
 
