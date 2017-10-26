@@ -49,13 +49,20 @@ public class RegisterViewController implements ViewControllerInterface {
                 AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Les mots de passe ne sont pas identiques.");
             } else {
                 if (EmailManager.emailValidator(email.getText())) {
-                    try {
-                        PersonController.getInstance().addPerson(login.getText(), PasswordManager.encrypt(password.getText()), email.getText(), firstname.getText(), lastname.getText());
+                    if (PersonController.getInstance().loginTaken(login.getText())) {
+                        AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Ce login n'est pas disponible.");
+                        return;
+                    }
+                    if (PersonController.getInstance().emailTaken(email.getText())) {
+                        AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Cet email n'est pas disponible.");
+                        return;
+                    }
+                    if (PersonController.getInstance().addPerson(login.getText(), PasswordManager.encrypt(password.getText()), email.getText(), firstname.getText(), lastname.getText()) == null){
+                        AlertManager.printError();
+                    }
+                    else {
                         AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Votre compte a bien été créé !");
                         ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
-                    } catch (SQLException e) {
-                        System.out.println(e.getMessage());
-                        AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Un compte avec ce login ou cet email existe déjà.");
                     }
                 } else {
                     AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Veuillez renseigner un email valide.");

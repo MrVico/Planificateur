@@ -22,7 +22,7 @@ public class PersonController {
         return personController;
     }
 
-    public Person addPerson(String login, String password, String email, String firstname, String lastname) throws SQLException {
+    public Person addPerson(String login, String password, String email, String firstname, String lastname) {
         return personDao.add(new Person(null, login, password, email, firstname, lastname));
     }
 
@@ -44,5 +44,13 @@ public class PersonController {
 
     public Person getPerson(String login, String password) {
         return personDao.get(login, password);
+    }
+
+    public boolean loginTaken(String login) {
+        return personDao.loginTaken(login);
+    }
+
+    public boolean emailTaken(String email) {
+        return personDao.emailTaken(email);
     }
 }

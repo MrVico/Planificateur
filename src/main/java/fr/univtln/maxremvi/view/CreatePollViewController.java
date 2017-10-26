@@ -39,7 +39,7 @@ public class CreatePollViewController extends FormPollViewController {
      */
     public void handleCreatePollButtonClick(ActionEvent event) {
         if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || proposedDates.isEmpty()) {
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Les champs en 'IDENTIFICATEUR' doivent obligatoirement être renseignés.");
+            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Tous les champs sont obligatoires.");
         }
         else {
             Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), getPollType());

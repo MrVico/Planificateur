@@ -107,6 +107,30 @@ public class PersonDao extends AbstractDao<Person> {
         }
     }
 
+    public boolean loginTaken(String login) {
+        try {
+            String query = "SELECT * FROM PERSON WHERE LOGIN = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, login);
+            if(rs.next())
+                return true;
+        } catch (SQLException e) {
+            System.out.println("Person loginTaken : " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean emailTaken(String email) {
+        try {
+            String query = "SELECT * FROM PERSON WHERE EMAIL = ?";
+            ResultSet rs = DatabaseUtil.executeQuery(query, email);
+            if(rs.next())
+                return true;
+        } catch (SQLException e) {
+            System.out.println("Person emailTaken : " + e.getMessage());
+        }
+        return false;
+    }
+
     public boolean remove(int id) {
         try {
             String query = "DELETE FROM PERSON WHERE ID = ?";
