@@ -56,17 +56,17 @@
                 </GridPane>
                 <CheckBox fx:id="addDates">
                     <graphic>
-                        <Label text="Possibilité d'ajouter des dates (TODO)" />
+                        <Label text="Possibilité d'ajouter des dates" />
                     </graphic>
                 </CheckBox>
                 <CheckBox fx:id="multipleChoice">
                     <graphic>
-                        <Label text="Autoriser le choix multiple (TODO)" />
+                        <Label text="Autoriser le choix multiple" />
                     </graphic>
                 </CheckBox>
                 <CheckBox fx:id="hideAnswers">
                     <graphic>
-                        <Label text="Cacher les réponses (TODO)" />
+                        <Label text="Cacher les réponses" />
                     </graphic>
                 </CheckBox>
                 <GridPane hgap="10" vgap="10">

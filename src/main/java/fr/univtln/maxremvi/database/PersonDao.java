@@ -24,30 +24,30 @@ public class PersonDao extends AbstractDao<Person> {
             rs.close();
             return person;
         } catch (SQLException e) {
-            System.out.println("Person get(id) : "+e.getMessage());
+            System.out.println("Person get(id) : " + e.getMessage());
         }
         return null;
     }
 
-    public Person get(String login,String password) {
+    public Person get(String login, String password) {
         try {
             String query = "SELECT * FROM PERSON WHERE LOGIN = ? and PASSWORD = ?";
             ResultSet rs = DatabaseUtil.executeQuery(query, login, password);
-            if(rs.next()) {
+            if (rs.next()) {
                 Person person = Person.fromResultSet(rs);
                 rs.close();
                 return person;
             }
         } catch (SQLException e) {
-            System.out.println("Person get(login, password) : "+e.getMessage());
+            System.out.println("Person get(login, password) : " + e.getMessage());
         }
         return null;
     }
 
-    public List<Person> getNotInvitedToPoll(int pollID, int personID){
+    public List<Person> getNotInvitedToPoll(int pollID, int personID) {
         try {
             String query = "SELECT * FROM PERSON WHERE ID NOT IN (SELECT IDPERSON FROM INVITATION WHERE IDPOLL = ?) AND ID != ?" +
-                                                                    "AND ID NOT IN (SELECT IDPERSON FROM POLL WHERE ID = ?)";
+                    "AND ID NOT IN (SELECT IDPERSON FROM POLL WHERE ID = ?)";
             ResultSet rs = DatabaseUtil.executeQuery(query, pollID, personID, pollID);
 
             List<Person> personList = new ArrayList<>();
@@ -57,7 +57,7 @@ public class PersonDao extends AbstractDao<Person> {
             }
             return personList;
         } catch (SQLException e) {
-            System.out.println("Person getNotInvitedToPoll : "+e.getMessage());
+            System.out.println("Person getNotInvitedToPoll : " + e.getMessage());
         }
         return null;
     }
@@ -66,22 +66,21 @@ public class PersonDao extends AbstractDao<Person> {
         return null;
     }
 
-    public Person add(Person object) throws SQLException{
+    public Person add(Person object) {
         String query = "INSERT INTO PERSON(LOGIN, PASSWORD, EMAIL, FIRSTNAME, LASTNAME) VALUES(?, ?, ?, ?, ?)";
-        int personId = DatabaseUtil.executeInsert(query, object.getLogin(), object.getPassword(), object.getEmail(), object.getFirstname(), object.getLastname());
+        int personId = 0;
+        try {
+            personId = DatabaseUtil.executeInsert(query, object.getLogin(), object.getPassword(), object.getEmail(), object.getFirstname(), object.getLastname());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return ((PersonDao) getInstance()).get(personId);
     }
 
     public List<Person> addAll(List<Person> objects) {
         ArrayList<Person> insertedPersons = new ArrayList<>();
         for (Person person : objects) {
-            try{
-                insertedPersons.add(this.add(person));
-            }
-            catch (SQLException e){
-                System.out.println(e.getMessage());
-                return null;
-            }
+            insertedPersons.add(this.add(person));
         }
         return insertedPersons;
     }
@@ -92,30 +91,29 @@ public class PersonDao extends AbstractDao<Person> {
             DatabaseUtil.executeUpdate(query, object.getFirstname(), object.getLastname(), object.getID());
             return true;
         } catch (SQLException e) {
-            System.out.println("Person update : "+e.getMessage());
+            System.out.println("Person update : " + e.getMessage());
             return false;
         }
     }
 
     public boolean changePassword(Person object) {
         try {
-            String query ="UPDATE PERSON SET PASSWORD = ? WHERE ID = ?";
-            DatabaseUtil.executeUpdate(query,object.getPassword(),object.getID());
+            String query = "UPDATE PERSON SET PASSWORD = ? WHERE ID = ?";
+            DatabaseUtil.executeUpdate(query, object.getPassword(), object.getID());
             return true;
-        }catch (SQLException e) {
-            System.out.println("Person changePassword : "+e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Person changePassword : " + e.getMessage());
             return false;
         }
     }
 
     public boolean remove(int id) {
-        try{
+        try {
             String query = "DELETE FROM PERSON WHERE ID = ?";
             DatabaseUtil.executeInsert(query, id);
             return true;
-        }
-        catch (SQLException e){
-            System.out.println("Person remove : "+e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Person remove : " + e.getMessage());
             return false;
         }
     }

@@ -17,21 +17,17 @@ public class AnswerChoiceController {
     private static AnswerChoiceController answerChoiceController = null;
 
     private AnswerChoiceController() {
-        try {
-            this.answerChoiceDao = DatabaseDao.getAnswerChoiceDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.answerChoiceDao = DatabaseDao.getAnswerChoiceDao();
     }
 
-    public static AnswerChoiceController getInstance(){
-        if(answerChoiceController == null)
+    public static AnswerChoiceController getInstance() {
+        if (answerChoiceController == null)
             return new AnswerChoiceController();
         else
             return answerChoiceController;
     }
 
-    public List<AnswerChoice> getPollAnswerChoices(int idPoll){
+    public List<AnswerChoice> getPollAnswerChoices(int idPoll) {
         return answerChoiceDao.getPollAnswerChoices(idPoll);
     }
 

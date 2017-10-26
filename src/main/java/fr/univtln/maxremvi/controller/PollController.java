@@ -14,14 +14,10 @@ public class PollController {
     private static PollController pollController = null;
 
     private PollController() {
-        try {
-            this.pollDao = DatabaseDao.getPollDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.pollDao = DatabaseDao.getPollDao();
     }
 
-    public static PollController getInstance(){
+    public static PollController getInstance() {
         if (pollController == null)
             pollController = new PollController();
         return pollController;
@@ -35,11 +31,13 @@ public class PollController {
         return pollDao.update(p);
     }
 
-    public int getPollPromoterID(int idPoll){
+    public int getPollPromoterID(int idPoll) {
         return pollDao.getPollPromoterID(idPoll);
     }
 
-    public int getMaxCountAnswer(int idPoll) { return pollDao.getMaxCountAnswer(idPoll); }
+    public int getMaxCountAnswer(int idPoll) {
+        return pollDao.getMaxCountAnswer(idPoll);
+    }
 
     public Poll getPoll(int id) {
         return pollDao.get(id);

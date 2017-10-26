@@ -15,15 +15,11 @@ public class AnswerController {
     private static AnswerController answerController = null;
 
     private AnswerController() {
-        try {
-            this.answerDao = DatabaseDao.getAnswerDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.answerDao = DatabaseDao.getAnswerDao();
     }
 
-    public static AnswerController getInstance(){
-        if(answerController == null)
+    public static AnswerController getInstance() {
+        if (answerController == null)
             return new AnswerController();
         else
             return answerController;

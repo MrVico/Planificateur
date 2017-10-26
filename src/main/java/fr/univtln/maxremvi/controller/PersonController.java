@@ -13,20 +13,16 @@ public class PersonController {
     private static PersonController personController = null;
 
     private PersonController() {
-        try {
-            this.personDao = DatabaseDao.getPersonDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.personDao = DatabaseDao.getPersonDao();
     }
 
-    public static PersonController getInstance(){
+    public static PersonController getInstance() {
         if (personController == null)
             personController = new PersonController();
         return personController;
     }
 
-    public Person addPerson(String login, String password, String email, String firstname, String lastname) throws SQLException{
+    public Person addPerson(String login, String password, String email, String firstname, String lastname) throws SQLException {
         return personDao.add(new Person(null, login, password, email, firstname, lastname));
     }
 
@@ -38,7 +34,7 @@ public class PersonController {
         return personDao.changePassword(p);
     }
 
-    public List<Person> getNotInvitedToPoll(int pollID, int personID){
+    public List<Person> getNotInvitedToPoll(int pollID, int personID) {
         return personDao.getNotInvitedToPoll(pollID, personID);
     }
 
@@ -46,7 +42,7 @@ public class PersonController {
         return personDao.get(id);
     }
 
-    public Person getPerson(String login,String password) {
-        return personDao.get(login,password);
+    public Person getPerson(String login, String password) {
+        return personDao.get(login, password);
     }
 }

@@ -5,27 +5,45 @@ import fr.univtln.maxremvi.model.Invitation;
 import java.sql.SQLException;
 
 public class DatabaseDao {
-    public static PersonDao getPersonDao() throws SQLException {
+    /***
+     * @return The PersonDao instance
+     */
+    public static PersonDao getPersonDao() {
         return (PersonDao) new PersonDao().getInstance();
     }
 
-    public static PollDao getPollDao() throws SQLException {
+    /***
+     * @return The PollDao instance
+     */
+    public static PollDao getPollDao() {
         return (PollDao) new PollDao().getInstance();
     }
 
-    public static AnswerChoiceDao getAnswerChoiceDao() throws SQLException {
+    /***
+     * @return The AnswerChoiceDao instance
+     */
+    public static AnswerChoiceDao getAnswerChoiceDao() {
         return (AnswerChoiceDao) new AnswerChoiceDao().getInstance();
     }
 
-    public static AnswerDao getAnswerDao() throws SQLException {
+    /***
+     * @return The AnswerDao instance
+     */
+    public static AnswerDao getAnswerDao() {
         return (AnswerDao) new AnswerDao().getInstance();
     }
 
-    public static InvitationDao getInvitationDao() throws SQLException {
+    /***
+     * @return The InvitationDao instance
+     */
+    public static InvitationDao getInvitationDao() {
         return (InvitationDao) new InvitationDao().getInstance();
     }
 
-    public static MessageDao getMessageDao() throws SQLException {
+    /***
+     * @return The InvitationDao instance
+     */
+    public static MessageDao getMessageDao() {
         return (MessageDao) new MessageDao().getInstance();
     }
 }

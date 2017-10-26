@@ -12,15 +12,11 @@ public class InvitationController {
     private static InvitationController invitationController = null;
 
     private InvitationController() {
-        try {
-            this.invitationDao = DatabaseDao.getInvitationDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.invitationDao = DatabaseDao.getInvitationDao();
     }
 
-    public static InvitationController getInstance(){
-        if(invitationController == null)
+    public static InvitationController getInstance() {
+        if (invitationController == null)
             return new InvitationController();
         else
             return invitationController;
@@ -30,12 +26,12 @@ public class InvitationController {
         return invitationDao.addInvitations(invitations);
     }
 
-    public List<Invitation> getAll()throws SQLException{
+    public List<Invitation> getAll() throws SQLException {
         return invitationDao.getAll();
     }
 
-    public Invitation getInvitation(int idPoll,int idPerson, int idPersonInviter) {
-        Invitation invitation=invitationDao.getInvitation(idPoll,idPerson,idPersonInviter);
+    public Invitation getInvitation(int idPoll, int idPerson, int idPersonInviter) {
+        Invitation invitation = invitationDao.getInvitation(idPoll, idPerson, idPersonInviter);
         return invitation;
     }
 

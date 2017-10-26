@@ -12,15 +12,11 @@ public class MessageController {
     private static MessageController messageController = null;
 
     private MessageController() {
-        try {
-            this.messageDao = DatabaseDao.getMessageDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.messageDao = DatabaseDao.getMessageDao();
     }
 
-    public static MessageController getInstance(){
-        if(messageController == null)
+    public static MessageController getInstance() {
+        if (messageController == null)
             return new MessageController();
         else
             return messageController;
