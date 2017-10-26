@@ -8,26 +8,57 @@ import java.util.Date;
  * Created by remi on 15/10/2017.
  */
 public class TimeManager {
+    /***
+     * Converts the pattern of a given date to the given pattern and returns it
+     * @param pattern The pattern to use
+     * @param time The Date to convert
+     * @return The formatted date
+     */
     private static String format(String pattern, Date time) {
         return new SimpleDateFormat(pattern).format(time);
     }
 
+    /***
+     * Transform a given Date into a Timestamp one (useful for database storage)
+     * @param date The date to tranform
+     * @return The Timestamp value of the given Date
+     */
     public static java.sql.Timestamp timeToSqlFormat(Date date) {
         return (date != null) ? new java.sql.Timestamp(date.getTime()) : null;
     }
 
+    /***
+     * Extract the day/month/year value of a given Date and return it
+     * @param time The Date to extract values
+     * @return The extracted value
+     */
     public static String extractDateString(Date time) {
         return format("dd/MM/yyyy", time);
     }
 
+    /***
+     * Extract the hour:minute value of a given Date and return it
+     * @param time The Date to extract values
+     * @return The extracted value
+     */
     public static String extractHourMinutesString(Date time) {
         return format("HH:mm", time);
     }
 
+    /***
+     * Transform a given LocalDateTime into a Date one
+     * @param localDate The LocalDateTime to transform
+     * @return The transformed LocalDateTime
+     */
     public static Date localDateToDate(LocalDateTime localDate) {
         return Date.from(localDate.toInstant(OffsetDateTime.now().getOffset()));
     }
 
+    /***
+     * Transform a given Date into a LocalDateTime one
+     * @param date The Date to transform
+     * @return The transformed Date
+     */
     public static LocalDateTime dateToLocalDateTime(Date date) {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }

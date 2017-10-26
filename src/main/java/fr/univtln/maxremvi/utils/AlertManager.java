@@ -7,7 +7,15 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 public class AlertManager {
-    public static Optional<ButtonType> AlertBox(AlertType type, String title, String header, String content){
+    /***
+     * Create an AlertBox and return it
+     * @param type The AlerBox type (
+     * @param title The AlertBox title (first line)
+     * @param header The AlertBox header (second line)
+     * @param content The AlertBox content (third line)
+     * @return The AlertBox content
+     */
+    public static Optional<ButtonType> AlertBox(AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
@@ -15,6 +23,9 @@ public class AlertManager {
         return alert.showAndWait();
     }
 
+    /***
+     * Create a sample AlertBox for errors
+     */
     public static void printError(){
         AlertBox(AlertType.ERROR, "Erreur", null, "Une erreur est survenue !");
     }
