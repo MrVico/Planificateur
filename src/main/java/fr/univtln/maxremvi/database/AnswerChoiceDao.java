@@ -107,7 +107,8 @@ public class AnswerChoiceDao extends AbstractDao<AnswerChoice> {
         try {
             String query = "INSERT INTO ANSWERCHOICE(DATECHOICE, CREATIONDATE, IDPOLL) VALUES(?, ?, ?)";
             int answerChoiceId = DatabaseUtil.executeInsert(query, TimeManager.timeToSqlFormat(object.getDateChoice()), TimeManager.timeToSqlFormat(Calendar.getInstance().getTime()), object.getPollID());
-            return ((AnswerChoiceDao) getInstance()).get(answerChoiceId);
+            object.setID(answerChoiceId);
+            return object;
         } catch (SQLException e) {
             System.out.println("AnswerChoice add : " + e.getMessage());
             return null;

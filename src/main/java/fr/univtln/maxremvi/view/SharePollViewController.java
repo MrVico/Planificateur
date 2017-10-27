@@ -87,7 +87,7 @@ public class SharePollViewController implements ViewControllerInterface{
 
         if(invitations.size()>0) {
             if(InvitationController.getInstance().addAll(invitations) && PollController.getInstance().updatePoll(poll)){
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Partage effectué.");
+                AlertManager.alertBox(Alert.AlertType.INFORMATION, "Information", null, "Partage effectué.");
                 ((Stage) shareButton.getScene().getWindow()).close();
             }
             else{

@@ -3,7 +3,6 @@ package fr.univtln.maxremvi.view;
 import fr.univtln.maxremvi.controller.PersonController;
 import fr.univtln.maxremvi.utils.AlertManager;
 import fr.univtln.maxremvi.utils.EmailManager;
-import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.utils.PasswordManager;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.event.ActionEvent;
@@ -11,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.*;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import java.sql.SQLException;
 
 public class RegisterViewController implements ViewControllerInterface {
     @FXML
@@ -42,30 +40,30 @@ public class RegisterViewController implements ViewControllerInterface {
      */
     private void signUp(){
         if(login.getText().isEmpty() || password.getText().isEmpty() || conf_password.getText().isEmpty() || email.getText().isEmpty() || firstname.getText().isEmpty() || lastname.getText().isEmpty()){
-            AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Tous les champs sont obligatoires");
+            AlertManager.alertBox(AlertType.INFORMATION, "Information", null, "Tous les champs sont obligatoires");
         }
         else {
             if (!password.getText().equals(conf_password.getText())) {
-                AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Les mots de passe ne sont pas identiques.");
+                AlertManager.alertBox(AlertType.INFORMATION, "Information", null, "Les mots de passe ne sont pas identiques.");
             } else {
                 if (EmailManager.emailValidator(email.getText())) {
                     if (PersonController.getInstance().loginTaken(login.getText())) {
-                        AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Ce login n'est pas disponible.");
+                        AlertManager.alertBox(AlertType.INFORMATION, "Information", null, "Ce login n'est pas disponible.");
                         return;
                     }
                     if (PersonController.getInstance().emailTaken(email.getText())) {
-                        AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Cet email n'est pas disponible.");
+                        AlertManager.alertBox(AlertType.INFORMATION, "Information", null, "Cet email n'est pas disponible.");
                         return;
                     }
                     if (PersonController.getInstance().addPerson(login.getText(), PasswordManager.encrypt(password.getText()), email.getText(), firstname.getText(), lastname.getText()) == null){
                         AlertManager.printError();
                     }
                     else {
-                        AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Votre compte a bien été créé !");
+                        AlertManager.alertBox(AlertType.INFORMATION, "Information", null, "Votre compte a bien été créé !");
                         ViewManager.switchView(ViewManager.viewsEnum.SIGNIN);
                     }
                 } else {
-                    AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Veuillez renseigner un email valide.");
+                    AlertManager.alertBox(AlertType.INFORMATION, "Information", null, "Veuillez renseigner un email valide.");
                 }
             }
         }

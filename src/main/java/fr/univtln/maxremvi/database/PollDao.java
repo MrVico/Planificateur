@@ -13,13 +13,21 @@ import java.util.Date;
 import java.util.List;
 
 public class PollDao extends AbstractDao<Poll> {
-
+    /***
+     * @return The instance of the current implementation of this PollDao
+     */
     public AbstractDao getInstance() {
         if (instance == null)
             instance = new PollDao();
         return instance;
     }
 
+    /***
+     * Query the database in order to retrieve the Poll with the given id
+     *
+     * @param id The Poll id
+     * @return The recreated Poll
+     */
     public Poll get(int id) {
         try {
             String query = "SELECT * FROM POLL WHERE ID = ?";
@@ -34,6 +42,11 @@ public class PollDao extends AbstractDao<Poll> {
         return null;
     }
 
+    /***
+     * Query the database in order to retrieve a List containing all the Polls of the database
+     *
+     * @return The List of all recreated Polls of the database
+     */
     public List<Poll> getAll() {
         try {
             String query = "SELECT * FROM POLL";
@@ -50,6 +63,12 @@ public class PollDao extends AbstractDao<Poll> {
         return null;
     }
 
+    /***
+     * Query the database in order to retrieve the promoter id of the given Poll
+     *
+     * @param idPoll The id of the Poll to retrieve the promoter
+     * @return The id of the promoter, -1 if an error accessing the database happened
+     */
     public int getPollPromoterID(int idPoll) {
         try {
             String query = "SELECT IDPERSON FROM POLL WHERE ID = ?";
@@ -63,6 +82,12 @@ public class PollDao extends AbstractDao<Poll> {
         return -1;
     }
 
+    /***
+     * Query the database in order to retrieve a List of Polls that the Person can see
+     *
+     * @param person The Person to check the visible Polls
+     * @return The List of visible Polls for a specific Person, null if an error accessing the database happened
+     */
     public List<Poll> getVisiblePollsForPerson(Person person) {
         int personId = person.getID();
         try {
@@ -87,6 +112,12 @@ public class PollDao extends AbstractDao<Poll> {
         return null;
     }
 
+    /***
+     * Query the database in order to get the maximum number of answers given by one person
+     *
+     * @param idPoll The id of the Poll
+     * @return The maximum number of Answers for a specific Poll, -1 if an error ac
+     */
     public int getMaxCountAnswer(int idPoll) {
         try {
             String query = "select MAX(c) FROM(select COUNT(*) AS c from answer where idpoll = ? GROUP BY idperson) AS max;";
@@ -101,6 +132,12 @@ public class PollDao extends AbstractDao<Poll> {
         return 0;
     }
 
+    /***
+     * Stores the given Poll into the database
+     *
+     * @param object The Poll to store
+     * @return The inserted Poll (with his id), null if an error accessing the database happened
+     */
     public Poll add(Poll object) {
         try{
             String query = "INSERT INTO POLL(IDPERSON, TITLE, DESCRIPTION, LOCATION, CREATIONDATE, UPDATEDATE, CLOSED, MULTIPLECHOICE, HIDEANSWERS, ADDDATES, TYPE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::polltype)";
@@ -126,6 +163,12 @@ public class PollDao extends AbstractDao<Poll> {
         }
     }
 
+    /***
+     *  Store a List of Polls into the database
+     *
+     * @param objects The List of Polls to store
+     * @return A List of the inserted Polls (with their ids), null if an error accessing the database happened
+     */
     public List<Poll> addAll(List<Poll> objects) {
         ArrayList<Poll> insertedPolls = new ArrayList<>();
         for (Poll poll : objects) {
@@ -138,6 +181,12 @@ public class PollDao extends AbstractDao<Poll> {
         return insertedPolls;
     }
 
+    /***
+     * Update rows of the specific Poll
+     *
+     * @param object The Poll to update
+     * @return true if the update happened successfully, false if not
+     */
     public boolean update(Poll object) {
         try {
             String query = "UPDATE POLL SET IDPERSON = ?, TITLE = ?, DESCRIPTION = ?, LOCATION = ?, UPDATEDATE = ?, CLOSED = ?, MULTIPLECHOICE = ?, HIDEANSWERS = ?, ADDDATES = ?, TYPE = ?::polltype WHERE ID = ?";
@@ -162,6 +211,13 @@ public class PollDao extends AbstractDao<Poll> {
         }
     }
 
+    /***
+     * Change the state of the Poll
+     *
+     * @param bool true if the Poll if closed, false if not
+     * @param pollID The id of the Poll we want to update
+     * @return true if the update happened successfully, false if not
+     */
     public boolean close(boolean bool, int pollID) {
         try {
             String query = "UPDATE POLL SET CLOSED = ? WHERE ID = ?";
@@ -173,6 +229,12 @@ public class PollDao extends AbstractDao<Poll> {
         }
     }
 
+    /***
+     * Delete the Poll with the specific id from the database
+     *
+     * @param id The Poll id
+     * @return true if the delete happened successfully, false if not
+     */
     public boolean remove(int id) {
         try{
             String query = "DELETE FROM POLL WHERE ID = ?";
@@ -185,10 +247,23 @@ public class PollDao extends AbstractDao<Poll> {
         }
     }
 
+    /***
+     * Delete the specific Poll from the database
+     *
+     * @param object The Poll to remove
+     * @return true if the delete happened successfully, false if not
+     */
     public boolean remove(Poll object) {
         return remove(object.getID());
     }
 
+    /***
+     * Update the final date of the Poll
+     *
+     * @param pollID The Poll id
+     * @param finalDate The new final date
+     * @return true if the update happened successfully, false if not
+     */
     public boolean setFinalDate(int pollID, Date finalDate) {
         try{
             String query = "UPDATE POLL SET FINALDATE = ? WHERE ID = ?";

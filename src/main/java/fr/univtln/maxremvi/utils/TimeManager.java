@@ -12,7 +12,7 @@ public class TimeManager {
      * @param time The Date to convert
      * @return The formatted date
      */
-    private static String format(String pattern, Date time) {
+    public static String format(String pattern, Date time) {
         return new SimpleDateFormat(pattern).format(time);
     }
 
@@ -53,15 +53,5 @@ public class TimeManager {
      */
     public static Date localDateToDate(LocalDateTime localDate) {
         return Date.from(localDate.toInstant(OffsetDateTime.now().getOffset()));
-    }
-
-    /***
-     * Transforms a given Date into a LocalDateTime one
-     *
-     * @param date The Date to transform
-     * @return The transformed Date
-     */
-    public static LocalDateTime dateToLocalDateTime(Date date) {
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 }

@@ -6,8 +6,8 @@ import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.AlertManager;
-import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.ViewManager;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class CreatePollViewController extends FormPollViewController {
     public void initialize() {
         super.initialize();
 
-        proposedDates = ListManager.observableListFromList(new ArrayList<AnswerChoice>());
+        proposedDates = FXCollections.observableList(new ArrayList<AnswerChoice>());
         table_dates.setItems(proposedDates);
 
         pollController = PollController.getInstance();
@@ -39,7 +39,7 @@ public class CreatePollViewController extends FormPollViewController {
      */
     public void handleCreatePollButtonClick(ActionEvent event) {
         if (title.getText().isEmpty() || location_poll.getText().isEmpty() || description_poll.getText().isEmpty() || proposedDates.isEmpty()) {
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Tous les champs sont obligatoires.");
+            AlertManager.alertBox(Alert.AlertType.INFORMATION, "Information", null, "Tous les champs sont obligatoires.");
         }
         else {
             Poll savedPoll = pollController.addPoll(title.getText(), description_poll.getText(), location_poll.getText(), false, User.getUser().getID(), multipleChoice.isSelected(), hideAnswers.isSelected(), addDates.isSelected(), getPollType());

@@ -61,7 +61,7 @@
                 </CheckBox>
                 <CheckBox fx:id="multipleChoice" selected="true">
                     <graphic>
-                        <Label text="Autoriser le choix multiple (TODO)" />
+                        <Label text="Autoriser le choix multiple" />
                     </graphic>
                 </CheckBox>
                 <CheckBox fx:id="hideAnswers">

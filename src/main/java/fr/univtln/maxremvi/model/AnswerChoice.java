@@ -36,7 +36,7 @@ public class AnswerChoice {
         this.dateProperty = new SimpleStringProperty(TimeManager.extractDateString(dateChoice));
         this.hourProperty = new SimpleStringProperty(TimeManager.extractHourMinutesString(dateChoice));
         this.checkProperty = new SimpleBooleanProperty(false);
-        this.timesChosenProperty = new SimpleStringProperty("("+timesChosen+")");
+        this.timesChosenProperty = new SimpleStringProperty("(" + timesChosen + ")");
         this.pollID = pollID;
     }
 
@@ -141,6 +141,6 @@ public class AnswerChoice {
 
     @Override
     public String toString() {
-        return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(dateChoice)+" "+timesChosenProperty.get();
+        return TimeManager.format("dd/MM/yyyy HH:mm", dateChoice) + " " + timesChosenProperty.get();
     }
 }

@@ -5,8 +5,8 @@ import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.AlertManager;
-import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.ViewManager;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class UpdatePollViewController extends FormPollViewController {
                     break;
             }
 
-            proposedDates = ListManager.observableListFromList(AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID()));
+            proposedDates = FXCollections.observableList(AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID()));
             table_dates.setItems(proposedDates);
         }
     }
@@ -66,7 +66,7 @@ public class UpdatePollViewController extends FormPollViewController {
      */
     public void handleSaveButtonClick(ActionEvent event) {
         if (!multipleChoice.isSelected() && PollController.getInstance().getMaxCountAnswer(poll.getID()) > 1) {
-            AlertManager.AlertBox(Alert.AlertType.ERROR, null, null, "Le sondage ne peut pas être mis à jour car un ou plusieurs utilisateur a sélectionné plus d'une réponse.");
+            AlertManager.alertBox(Alert.AlertType.ERROR, null, null, "Le sondage ne peut pas être mis à jour car un ou plusieurs utilisateur a sélectionné plus d'une réponse.");
             multipleChoice.setSelected(true);
         }
         else {
@@ -91,7 +91,7 @@ public class UpdatePollViewController extends FormPollViewController {
             }
 
             if (PollController.getInstance().updatePoll(poll)) {
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Sondage mis à jour avec succès.");
+                AlertManager.alertBox(Alert.AlertType.INFORMATION, null, null, "Sondage mis à jour avec succès.");
                 ViewManager.switchView(ViewManager.viewsEnum.VIEW_POLL, poll);
             }
             else {

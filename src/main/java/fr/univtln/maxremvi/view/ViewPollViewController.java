@@ -3,7 +3,6 @@ package fr.univtln.maxremvi.view;
 import fr.univtln.maxremvi.controller.*;
 import fr.univtln.maxremvi.model.*;
 import fr.univtln.maxremvi.utils.AlertManager;
-import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.FXCollections;
@@ -84,7 +83,7 @@ public class ViewPollViewController implements ViewControllerInterface {
             else
                 choice.setText("unique");
             initialAnswerChoices = AnswerChoiceController.getInstance().getPollAnswerChoices(poll.getID());
-            proposedDates = ListManager.observableListFromList(initialAnswerChoices);
+            proposedDates = FXCollections.observableList(initialAnswerChoices);
             table_dates.setEditable(true);
             TableColumn dateCol = new TableColumn("Date");
             dateCol.setCellValueFactory(new PropertyValueFactory<AnswerChoice, String>("dateProperty"));
@@ -198,7 +197,7 @@ public class ViewPollViewController implements ViewControllerInterface {
                 return;
             }
             else{
-                String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(mess.getCreationDate());
+                String date = TimeManager.format("dd/MM/yyyy HH:mm:ss", mess.getCreationDate());
                 info.setText(date + " " + sender.getFirstname() + " " + sender.getLastname() + " : ");
                 hBox.getChildren().add(info);
 
@@ -208,30 +207,27 @@ public class ViewPollViewController implements ViewControllerInterface {
                     Button delete = new Button();
                     delete.setGraphic(new ImageView(new Image("/images/delete.png")));
 
-                    delete.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            int index = -1;
-                            for (int i = 0; i < lines.size(); i++) {
-                                HBox currentHBox = (HBox) lines.get(i).getChildren().get(0);
-                                if (currentHBox.getChildren().size() > 1 && currentHBox.getChildren().get(1).equals(delete)) {
-                                    index = i;
-                                    i = lines.size();
-                                }
+                    delete.setOnAction(event -> {
+                        int index = -1;
+                        for (int i = 0; i < lines.size(); i++) {
+                            HBox currentHBox = (HBox) lines.get(i).getChildren().get(0);
+                            if (currentHBox.getChildren().size() > 1 && currentHBox.getChildren().get(1).equals(delete)) {
+                                index = i;
+                                i = lines.size();
                             }
-                            if (index != -1) {
-                                Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Suppression du message", null, "Voulez-vous vraiment supprimer ce message ?");
-                                if (result.get() == ButtonType.OK) {
-                                    if(!MessageController.getInstance().delete(messages.get(index).getID())) {
-                                        AlertManager.printError();
-                                        ViewManager.switchView(ViewManager.viewsEnum.HOME);
-                                        return;
-                                    }
-                                    else {
-                                        messages.remove(messages.get(index));
-                                    }
-                                    getChat();
+                        }
+                        if (index != -1) {
+                            Optional<ButtonType> result = AlertManager.alertBox(Alert.AlertType.CONFIRMATION, "Suppression du message", null, "Voulez-vous vraiment supprimer ce message ?");
+                            if (result.get() == ButtonType.OK) {
+                                if(!MessageController.getInstance().delete(messages.get(index).getID())) {
+                                    AlertManager.printError();
+                                    ViewManager.switchView(ViewManager.viewsEnum.HOME);
+                                    return;
                                 }
+                                else {
+                                    messages.remove(messages.get(index));
+                                }
+                                getChat();
                             }
                         }
                     });
@@ -325,7 +321,7 @@ public class ViewPollViewController implements ViewControllerInterface {
             return;
         }
         else{
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
+            AlertManager.alertBox(Alert.AlertType.INFORMATION, "Information", null, "Merci de votre participation.");
             ViewManager.switchView(ViewManager.viewsEnum.HOME);
         }
     }
@@ -421,11 +417,11 @@ public class ViewPollViewController implements ViewControllerInterface {
      * @param  actionEvent  the type of action that was performed
      */
     public void handleDeletePollButtonClick(ActionEvent actionEvent) {
-        Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Suppression du sondage", null, "Êtes vous certain de vouloir supprimer ce sondage ?");
+        Optional<ButtonType> result = AlertManager.alertBox(Alert.AlertType.CONFIRMATION, "Suppression du sondage", null, "Êtes vous certain de vouloir supprimer ce sondage ?");
         if (result.get() == ButtonType.OK) {
             if (PollController.getInstance().deletePoll(poll.getID())) {
                 ViewManager.switchView(ViewManager.viewsEnum.HOME);
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Sondage supprimé", null, "Suppression effectuée.");
+                AlertManager.alertBox(Alert.AlertType.INFORMATION, "Sondage supprimé", null, "Suppression effectuée.");
             }
             else {
                 AlertManager.printError();
@@ -440,7 +436,7 @@ public class ViewPollViewController implements ViewControllerInterface {
      * @param  actionEvent  the type of action that was performed
      */
     public void handleClosePollButtonClick(ActionEvent actionEvent) {
-        Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Cloturation du sondage", null, "La cloturation du sondage empêchera toutes personnes d'y accéder\n" +
+        Optional<ButtonType> result = AlertManager.alertBox(Alert.AlertType.CONFIRMATION, "Cloturation du sondage", null, "La cloturation du sondage empêchera toutes personnes d'y accéder\n" +
                 "Êtes vous certain de vouloir cloturer ce sondage ?");
         if (result.get() == ButtonType.OK) {
             if (PollController.getInstance().closePoll(true, poll.getID()))

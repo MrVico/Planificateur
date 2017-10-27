@@ -8,6 +8,7 @@ import fr.univtln.maxremvi.model.Person;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.model.User;
 import fr.univtln.maxremvi.utils.AlertManager;
+import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,8 +49,8 @@ public class HomeViewController implements ViewControllerInterface {
                         if(selectedPoll.getPromoterID()==User.getUser().getID())
                             ViewManager.switchView(ViewManager.viewsEnum.RESULTS, selectedPoll);
                         else
-                            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Résultat", null, "La réunion se déroulera le "+
-                                    new SimpleDateFormat("dd/MM/yyyy HH:mm").format(selectedPoll.getFinalDate())+".");
+                            AlertManager.alertBox(Alert.AlertType.INFORMATION, "Résultat", null, "La réunion se déroulera le "+
+                                    TimeManager.format("dd/MM/yyyy HH:mm", selectedPoll.getFinalDate())+".");
                     }
                 }
             }
@@ -78,7 +79,7 @@ public class HomeViewController implements ViewControllerInterface {
                     Person promoter = PersonController.getInstance().getPerson(poll.getPromoterID());
                     Label labelB = new Label(promoter.getFirstname()+" "+promoter.getLastname());
                     labelB.setPrefWidth(160);
-                    labelC = new Label(new SimpleDateFormat("dd/MM/yyyy").format(poll.getCreationDate()));
+                    labelC = new Label(TimeManager.extractDateString(poll.getCreationDate()));
                     labelC.setPrefWidth(85);
                     hBox.getChildren().addAll(labelA, labelB, labelC);
                     if(!poll.isClosed()) {
@@ -94,7 +95,7 @@ public class HomeViewController implements ViewControllerInterface {
                             invitationButton.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Invitation", null, "Marquer comme lue ?");
+                                    Optional<ButtonType> result = AlertManager.alertBox(Alert.AlertType.CONFIRMATION, "Invitation", null, "Marquer comme lue ?");
                                     if (result.get() == ButtonType.OK) {
                                         if(InvitationController.getInstance().setInvitationsAsSeen(poll.getID(), User.getUser().getID()))
                                             getPolls();
@@ -116,8 +117,8 @@ public class HomeViewController implements ViewControllerInterface {
                                 if(poll.getPromoterID()==User.getUser().getID())
                                     ViewManager.switchView(ViewManager.viewsEnum.RESULTS, poll);
                                 else
-                                    AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Résultat", null, "La réunion se déroulera le "+
-                                            new SimpleDateFormat("dd/MM/yyyy HH:mm").format(poll.getFinalDate())+".");
+                                    AlertManager.alertBox(Alert.AlertType.INFORMATION, "Résultat", null, "La réunion se déroulera le "+
+                                            TimeManager.format("dd/MM/yyyy HH:mm", poll.getFinalDate())+".");
                             }
                         });
                         hBox.getChildren().add(viewResultsButton);
@@ -129,7 +130,7 @@ public class HomeViewController implements ViewControllerInterface {
                             openButton.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    Optional<ButtonType> result = AlertManager.AlertBox(Alert.AlertType.CONFIRMATION, "Reouverture", null, "Voulez-vous vraiment réouvrir ce sondage ?");
+                                    Optional<ButtonType> result = AlertManager.alertBox(Alert.AlertType.CONFIRMATION, "Reouverture", null, "Voulez-vous vraiment réouvrir ce sondage ?");
                                     if (result.get() == ButtonType.OK) {
                                         if(PollController.getInstance().closePoll(false, poll.getID()))
                                             getPolls();

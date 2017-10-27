@@ -26,14 +26,14 @@ public class SignInViewController implements ViewControllerInterface {
      */
     public void handleSignInButtonClick(ActionEvent event) {
         if (login.getText().isEmpty() || password.getText().isEmpty()) {
-            AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Veuillez renseigner les champs !");
+            AlertManager.alertBox(AlertType.INFORMATION, "Information", null, "Veuillez renseigner les champs !");
         } else {
             Person person = PersonController.getInstance().getPerson(login.getText(), PasswordManager.encrypt(password.getText().toString()));
             if (person != null) {
                 User.setUser(person);
                 ViewManager.switchView(ViewManager.viewsEnum.HOME);
             } else {
-                AlertManager.AlertBox(AlertType.INFORMATION, "Information", null, "Mauvais identifiants");
+                AlertManager.alertBox(AlertType.INFORMATION, "Information", null, "Mauvais identifiants");
             }
         }
     }

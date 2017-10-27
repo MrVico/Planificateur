@@ -5,6 +5,7 @@ import fr.univtln.maxremvi.controller.PollController;
 import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Poll;
 import fr.univtln.maxremvi.utils.AlertManager;
+import fr.univtln.maxremvi.utils.TimeManager;
 import fr.univtln.maxremvi.utils.ViewManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,7 +55,7 @@ public class ResultsViewController implements ViewControllerInterface {
                 AnswerChoice answerChoice = i.next();
                 int timesChosen = Integer.parseInt(answerChoice.getTimesChosenProperty().substring(1,answerChoice.getTimesChosenProperty().length()-1));
                 if(timesChosen>0)
-                    data.add(new PieChart.Data(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(answerChoice.getDateChoice()), timesChosen));
+                    data.add(new PieChart.Data(TimeManager.format("dd/MM/yyyy HH:mm", answerChoice.getDateChoice()), timesChosen));
                 //this answer choice didn't get any votes. It's removed from the possible solution list
                 else
                     i.remove();
@@ -106,7 +107,7 @@ public class ResultsViewController implements ViewControllerInterface {
         if(cbbChoixFinal.getSelectionModel().getSelectedIndex()!=-1){
             AnswerChoice choixFinal = cbbChoixFinal.getSelectionModel().getSelectedItem();
             if(PollController.getInstance().setFinalDate(poll.getID(), choixFinal.getDateChoice())){
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Tous les participants vont être notifier de votre choix.");
+                AlertManager.alertBox(Alert.AlertType.INFORMATION, "Information", null, "Tous les participants vont être notifier de votre choix.");
                 ViewManager.switchView(ViewManager.viewsEnum.HOME);
             }
             else{
@@ -114,6 +115,6 @@ public class ResultsViewController implements ViewControllerInterface {
             }
         }
         else
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information",null, "Veuillez choisir une date de réunion.");
+            AlertManager.alertBox(Alert.AlertType.INFORMATION, "Information",null, "Veuillez choisir une date de réunion.");
     }
 }

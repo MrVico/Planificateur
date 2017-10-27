@@ -2,19 +2,14 @@ package fr.univtln.maxremvi.view;
 
 import fr.univtln.maxremvi.model.AnswerChoice;
 import fr.univtln.maxremvi.model.Poll;
-import fr.univtln.maxremvi.utils.ListManager;
 import fr.univtln.maxremvi.utils.TimeManager;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import jfxtras.scene.control.LocalDateTimeTextField;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Observable;
 
 public abstract class FormPollViewController implements ViewControllerInterface {
     @FXML

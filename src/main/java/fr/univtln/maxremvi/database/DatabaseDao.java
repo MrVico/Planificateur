@@ -1,9 +1,5 @@
 package fr.univtln.maxremvi.database;
 
-import fr.univtln.maxremvi.model.Invitation;
-
-import java.sql.SQLException;
-
 public class DatabaseDao {
     /***
      * @return The PersonDao instance

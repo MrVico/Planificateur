@@ -13,7 +13,6 @@ import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;
-import java.sql.SQLException;
 
 public class UpdateProfilViewController implements ViewControllerInterface {
     @FXML
@@ -47,7 +46,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
         p.setFirstname(firstname.getText());
         p.setLastname(lastname.getText());
         if(PersonController.getInstance().updatePerson(p)) {
-            AlertManager.AlertBox(Alert.AlertType.INFORMATION, null, null, "Profil mis à jour avec succès.");
+            AlertManager.alertBox(Alert.AlertType.INFORMATION, null, null, "Profil mis à jour avec succès.");
             ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
         }
         else {
@@ -85,7 +84,7 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                             Person p = User.getUser();
                             p.setPassword(newPassword);
                             if(PersonController.getInstance().changePassword(p)) {
-                                AlertManager.AlertBox(Alert.AlertType.INFORMATION, "Information", null, "Mot de passe mis à jour.");
+                                AlertManager.alertBox(Alert.AlertType.INFORMATION, "Information", null, "Mot de passe mis à jour.");
                                 ViewManager.switchView(ViewManager.viewsEnum.VIEW_PROFIL);
                             }
                             else{
@@ -93,13 +92,13 @@ public class UpdateProfilViewController implements ViewControllerInterface {
                             }
                         }
                         else{
-                            AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Les mots de passes ne sont pas identiques.");
+                            AlertManager.alertBox(Alert.AlertType.INFORMATION,null,null,"Les mots de passes ne sont pas identiques.");
                         }
                     }
                 }
             }
             else{
-                AlertManager.AlertBox(Alert.AlertType.INFORMATION,null,null,"Le mot de passe ne correspond pas à l'utilisateur.");
+                AlertManager.alertBox(Alert.AlertType.INFORMATION,null,null,"Le mot de passe ne correspond pas à l'utilisateur.");
             }
         }
     }
